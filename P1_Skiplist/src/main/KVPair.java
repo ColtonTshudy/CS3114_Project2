@@ -20,7 +20,7 @@ public class KVPair<K extends Comparable<K>, E>
     /**
      * Compare KV Pairs
      *
-     * @return -1 if lower, 0 if exact, 1 if higher
+     * @return -difference if this is lower, 0 if exact, +difference if higher 
      */
     public int compareTo(KVPair<K, E> it) {
         return theKey.compareTo(it.key());
@@ -30,7 +30,7 @@ public class KVPair<K extends Comparable<K>, E>
     /**
      * Compare Key to the key of this KV Pair
      *
-     * @return -1 if lower, 0 if exact, 1 if higher
+     * @return -difference if this is lower, 0 if exact, +difference if higher
      */
     public int compareTo(K it) {
         return theKey.compareTo(it);

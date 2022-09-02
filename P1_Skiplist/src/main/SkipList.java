@@ -53,12 +53,17 @@ class SkipList<K extends Comparable<K>, E> {
     }
 
 
+    /**
+     * Uses geometric distribution to randomly generate an int from 0 to level
+     * Similar to a coin flip
+     *
+     * @return random int representing level
+     */
     // Pick a level using a geometric distribution
-    int randomLevel() {
+    private int randomLevel() {
         int lev;
-        for (lev = 0; Math.abs(ran.nextInt()) % 2 == 0; lev++) {
+        for (lev = 0; Math.abs(ran.nextInt()) % 2 == 0; lev++)
             ; // Do nothing
-        }
         return lev;
     }
 
@@ -68,6 +73,7 @@ class SkipList<K extends Comparable<K>, E> {
      *
      * @return size of SkipList
      */
+    @SuppressWarnings("unchecked")
     public void insert(K key, E elem) {
         int newLevel = randomLevel(); // New node's level
         if (newLevel > level) // If new node is deeper
