@@ -1,8 +1,14 @@
 package main;
 
+/**
+ * Nodes used to comprise the SkipLists
+ * 
+ * @author Open DSA
+ * @version 9/1/2022
+ */
 class SkipNode<K extends Comparable<K>, E> {
     private KVPair<K, E> rec;
-    private SkipNode<K, E>[] forward;
+    protected SkipNode<K, E>[] forward;
 
     public E element() {
         return rec.value();
@@ -26,17 +32,4 @@ class SkipNode<K extends Comparable<K>, E> {
     public String toString() {
         return rec.toString();
     }
-
-
-    /**
-     * Getter method for connected nodes
-     * 
-     * @param i
-     *            level index of connected nodes
-     * @return connected nodes
-     */
-    public SkipNode<K, E> getForward(int i) {
-        return forward[i];
-    }
-
 }
