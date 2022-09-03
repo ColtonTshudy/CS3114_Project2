@@ -54,10 +54,10 @@ class SkipList<K extends Comparable<K>, E> {
 
 
     /**
-     * Uses geometric distribution to randomly generate an int from 0 to level
-     * Similar to a coin flip
+     * Uses geometric distribution to randomly generate an int from 0 to infinity
+     * 50% chance of added each successive level from 0
      *
-     * @return random int representing level
+     * @return randomly generated node depth
      */
     // Pick a level using a geometric distribution
     private int randomLevel() {
@@ -71,7 +71,10 @@ class SkipList<K extends Comparable<K>, E> {
     /**
      * Insert a key, element pair into the skip list
      *
-     * @return size of SkipList
+     * @param key
+     *            key of new KV pair
+     * @param elem
+     *            element of new KV pair
      */
     @SuppressWarnings("unchecked")
     public void insert(K key, E elem) {

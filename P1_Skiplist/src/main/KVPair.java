@@ -11,7 +11,7 @@ public class KVPair<K extends Comparable<K>, E>
     K theKey;
     E theVal;
 
-    KVPair(K k, E v) {
+    public KVPair(K k, E v) {
         theKey = k;
         theVal = v;
     }
@@ -60,7 +60,7 @@ public class KVPair<K extends Comparable<K>, E>
     /**
      * ToString method
      *
-     * @return string representation of KV Pair, "key, element.toString()"
+     * @return string representation of KV Pair, "{key}, {element.toString()}"
      */
     public String toString() {
         return theKey.toString() + ", " + theVal.toString();
