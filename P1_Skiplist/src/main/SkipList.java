@@ -1,18 +1,19 @@
 package main;
 
 /**
- * SkipList data structure Class
+ * SkipList data structure class
  * 
  * @author Open DSA
- * @version 9/2/2022
+ * @version 9/1/2022
  */
-import java.util.Random;
+import student.TestableRandom;
 
 class SkipList<K extends Comparable<K>, E> {
     private SkipNode<K, E> head;
     private int level;
-    private int size;
-    static private Random ran = new Random(); // Hold the Random class object
+    private int size; // length of the skiplist at the lowest level, excluding
+                      // head
+    TestableRandom ran = new TestableRandom(); // Hold the Random class object
 
     public SkipList() {
         head = new SkipNode<K, E>(null, null, 0);
@@ -22,7 +23,7 @@ class SkipList<K extends Comparable<K>, E> {
 
 
     /**
-     * Returns the (first) matching matching element if one exists, null
+     * Returns the (first) matching element (by key) if one exists, null
      * otherwise
      *
      * @param key
@@ -30,16 +31,36 @@ class SkipList<K extends Comparable<K>, E> {
      * @return <E>
      */
     public E find(K key) {
-        SkipNode<K, E> x = head; // Dummy header node
+        SkipNode<K, E> cur = head; // cursor pointer
         for (int i = level; i >= 0; i--) // For each level...
-            while ((x.forward[i] != null) && (x.forward[i].key().compareTo(
+            while ((cur.forward[i] != null) && (cur.forward[i].key().compareTo(
                 key) < 0)) // go forward
-                x = x.forward[i]; // Go one last step
-        x = x.forward[0]; // Move to actual record, if it exists
-        if ((x != null) && (x.key().compareTo(key) == 0))
-            return x.element(); // Got it
+                cur = cur.forward[i]; // Go one last step
+        cur = cur.forward[0]; // Move to actual record, if it exists
+
+        if ((cur != null) && (cur.key().compareTo(key) == 0))
+            return cur.element(); // Got it
         else
             return null; // Its not there
+    }
+
+
+    /**
+     * Returns the (first) matching element (by element) if one exists, null
+     * otherwise
+     *
+     * @param element
+     *            element matching the given object
+     * @return <E>
+     */
+    public E find(E element) {
+        SkipNode<K, E> cur = head.forward[0]; // cursor pointer
+        while (cur != null) {
+            if (cur.element().equals(element))
+                return cur.element();
+            cur = cur.forward[0];
+        }
+        return null;
     }
 
 
@@ -54,8 +75,8 @@ class SkipList<K extends Comparable<K>, E> {
 
 
     /**
-     * Uses geometric distribution to randomly generate an int from 0 to infinity
-     * 50% chance of added each successive level from 0
+     * Uses geometric distribution to randomly generate an int from 0 to
+     * infinity. 50% chance of adding each successive level from 0
      *
      * @return randomly generated node depth
      */
@@ -95,7 +116,52 @@ class SkipList<K extends Comparable<K>, E> {
             x.forward[i] = update[i].forward[i]; // Who x points to
             update[i].forward[i] = x; // Who points to x
         }
-        size++; // Increment dictionary size
+        size++; // Increment size
+    }
+
+
+    /**
+     * Remove a key, element pair from the skiplist by key
+     *
+     * @param key
+     *            key of KV pair to remove
+     * @return removed key, element pair
+     */
+    @SuppressWarnings("unchecked")
+    public SkipNode<K, E> remove(K key) {
+        SkipNode<K, E> cur = head; // cursor to find removal node
+        // nodes pointing to removal node
+        SkipNode<K, E>[] rearNodes = new SkipNode[level + 1];
+
+        // search for node
+        for (int i = level; i >= 0; i--) {
+            while ((cur.forward[i] != null) && (cur.forward[i].key().compareTo(
+                key) < 0))
+                cur = cur.forward[i];
+            rearNodes[i] = cur; // Track end at level i
+        }
+
+        if ((cur != null) && (cur.key().compareTo(key) == 0)) {
+            // re-link the nodes behind the removed node
+            for (int i = cur.forward.length; i <= 0; i--)
+                rearNodes[i] = cur.forward[i];
+            return cur; // Return the removed node
+        }
+        else
+            return null; // Its not there
+    }
+
+
+    /**
+     * Remove a key, element pair from the skiplist by element
+     *
+     * @param element
+     *            element of KV pair to remove
+     * @return removed key, element pair
+     */
+    @SuppressWarnings("unchecked")
+    public void remove(E element) {
+
     }
 
 
@@ -108,8 +174,40 @@ class SkipList<K extends Comparable<K>, E> {
     private void adjustHead(int newLevel) {
         SkipNode<K, E> temp = head;
         head = new SkipNode<K, E>(null, null, newLevel);
+
+        // Re-link nodes to followers
         for (int i = 0; i <= level; i++)
             head.forward[i] = temp.forward[i];
         level = newLevel;
+    }
+
+
+    /**
+     * Generates a string for the skiplist
+     * 
+     * @return string representing the skiplist structure
+     */
+    public String toString() {
+        SkipNode<K, E> cur = head; // node cursor
+        StringBuilder stb = new StringBuilder(); // builds output
+
+        // for each node in the skiplist
+        while (cur != null) {
+            stb.append("Node has depth ");
+            stb.append(cur.forward.length);
+            stb.append(", Value (");
+            stb.append(cur.key());
+            stb.append(", ");
+            stb.append(cur.element());
+            stb.append(")");
+
+            // newline if there is another node
+            if (cur.forward[0] != null)
+                stb.append(System.lineSeparator());
+
+            cur = cur.forward[0]; // advance cursor
+        }
+
+        return stb.toString();
     }
 }
