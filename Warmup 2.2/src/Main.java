@@ -23,7 +23,7 @@ public class Main {
             break;
             case "-f"://This is an example to show you how to handle when you have a parameter that takes info
                String fileName = args[count+1];//We are getting the filename so set it to the string after -f
-               System.out.println("Input file is "+fileName);//Print out info
+               System.out.println("Input file is "+fileName);//Print out info q
                count = count+2;//Increment counter to next item (skipping filename).
                //Note this provides no bounds checking so if you pass the parameter without file info it may bomb if at the end
                //You may also surround it in a try/catch for safety.

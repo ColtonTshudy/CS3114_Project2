@@ -1,4 +1,4 @@
-package main;
+
 
 /**
  * Represents a rectangle on a positive 2D plane, where 0,0 is the top left
