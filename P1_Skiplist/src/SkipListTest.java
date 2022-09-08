@@ -136,36 +136,37 @@ public class SkipListTest extends TestCase {
         String node2 = "Node has depth 0, Value (C, object 3)";
         String node3 = "Node has depth 3, Value (E, object 4)";
         String size = "SkipList size is: 3";
+        String nl = System.lineSeparator();
 
         // Removing at the beginning of the list
         assertTrue(sl2.removeByKey("A").equals("object 1"));
-        assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + node3 + "\r\n" + size));
+        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2
+            + nl + node3 + nl + size));
 
         // Invalid removal at beginning of list
         assertNull(sl2.removeByKey("A"));
-        assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + node3 + "\r\n" + size)); // check nothing was removed
+        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2
+            + nl + node3 + nl + size)); // check nothing was removed
         assertEquals(sl2.size(), 3); // check that size was not edited
 
         // Invalid removal in between keys
         assertNull(sl2.removeByKey("D"));
-        assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + node3 + "\r\n" + size)); // check nothing was // removed
+        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2
+            + nl + node3 + nl + size)); // check nothing was // removed
         assertEquals(sl2.size(), 3); // check that size was not edited
 
         // Invalid removal at end of list
         assertNull(sl2.removeByKey("F"));
-        assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + node3 + "\r\n" + size)); // check nothing was removed
+        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2
+            + nl + node3 + nl + size)); // check nothing was removed
         assertEquals(sl2.size(), 3); // check that size was not edited
 
         size = "SkipList size is: 2";
 
         // Removing at the end of the list
         assertTrue(sl2.removeByKey("E").equals("object 4"));
-        assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + size));
+        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2
+            + nl + size));
 
         // Test adding and removing a lot of entries, and removing from an empty
         // list
@@ -182,7 +183,7 @@ public class SkipListTest extends TestCase {
         size = "SkipList size is: 0";
 
         // check if the skip list only has 1 node (head)
-        assertTrue(sl1.toString().equals(head + "\r\n" + size));
+        assertTrue(sl1.toString().equals(head + nl + size));
     }
 
 
@@ -196,16 +197,17 @@ public class SkipListTest extends TestCase {
         String node2 = "Node has depth 0, Value (C, object 3)";
         String node3 = "Node has depth 3, Value (E, object 4)";
         String size = "SkipList size is: 3";
+        String nl = System.lineSeparator();
 
         // Removing at the beginning of the list
         assertTrue(sl2.removeByElement("object 1").equals("object 1"));
-        assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + node3 + "\r\n" + size));
+        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2
+            + nl + node3 + nl + size));
 
         // Invalid removal
         assertNull(sl2.removeByElement("object 5"));
-        assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + node3 + "\r\n" + size)); // check that nothing was
+        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2
+            + nl + node3 + nl + size)); // check that nothing was
                                                 // removed
         assertEquals(sl2.size(), 3); // check that size was not edited
     }
