@@ -12,9 +12,9 @@ import student.TestCase;
 
 public class KVPairTest extends TestCase {
     // Declare any necessary objects or final variables
-    KVPair<String, String> kv1;
-    KVPair<String, String> kv2;
-    KVPair<String, String> kv3;
+    private KVPair<String, String> kv1;
+    private KVPair<String, String> kv2;
+    private KVPair<String, String> kv3;
 
     /**
      * sets up each test method before it runs

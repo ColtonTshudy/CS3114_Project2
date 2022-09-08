@@ -1,5 +1,4 @@
 
-
 /**
  * Represents a rectangle on a positive 2D plane, where 0,0 is the top left
  * corner. Rectangles are represented as the top left coordinate x,y with
@@ -30,78 +29,139 @@ public class Rectangle implements Comparable<Rectangle> {
     /**
      * Constructs a rectangle at (x,y) with width w and height h
      * 
-     * @param name
+     * @param title
      *            name of rectangle
      * 
-     * @param x
-     *            x coordinate
-     * @param y
-     *            y coordinate
+     * @param xi
+     *            top left x coordinate
+     * @param yi
+     *            top left y coordinate
      * @param width
      *            width of rectangle
      * @param height
      *            height of rectangle
      */
-    public Rectangle(String name, int x, int y, int width, int height) {
-        this.name = name;
-        this.x = x;
-        this.y = y;
+    public Rectangle(String title, int xl, int yl, int width, int height) {
+        name = title;
+        x = xl;
+        y = yl;
         w = width;
         h = height;
     }
 
 
+    /**
+     * Getter for name
+     * 
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
 
-    public void setName(String name) {
-        this.name = name;
+    /**
+     * Setter for name
+     * 
+     * @param title
+     *            new name
+     */
+    public void setName(String title) {
+        name = title;
     }
 
 
+    /**
+     * Getter for x
+     * 
+     * @return
+     */
     public int getX1() {
         return x;
     }
 
 
+    /**
+     * Getter for y
+     * 
+     * @return
+     */
     public int getY1() {
         return y;
     }
 
 
-    public void setCoords(int x, int y) {
-        this.x = x;
-        this.y = y;
+    /**
+     * Setter for top left coordinate of rectangle
+     * 
+     * @param x
+     *            top left x coordinate
+     * @param y
+     *            top left y coordinate
+     */
+    public void setCoords(int xl, int yl) {
+        x = xl;
+        y = yl;
     }
 
 
+    /**
+     * Getter for width
+     * 
+     * @return width
+     */
     public int getWidth() {
         return w;
     }
 
 
+    /**
+     * Setter for width
+     * 
+     * @param w
+     *            width of rectangle
+     */
     public void setWidth(int w) {
         this.w = w;
     }
 
 
+    /**
+     * Getter for height
+     * 
+     * @return height of rectangle
+     */
     public int getHeight() {
         return h;
     }
 
 
+    /**
+     * Setter for height
+     * 
+     * @param h
+     *            height of rectangle
+     */
     public void setHeight(int h) {
         this.h = h;
     }
 
 
+    /**
+     * Getter for bottom right x coordinate of rectangle
+     * 
+     * @return bottom right x coordinate
+     */
     public int getX2() {
         return x + w;
     }
 
 
+    /**
+     * Getter for bottom right y coordinate of rectangle
+     * 
+     * @return bottom right y coordinate
+     */
     public int getY2() {
         return y + h;
     }

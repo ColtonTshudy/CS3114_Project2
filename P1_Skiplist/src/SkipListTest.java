@@ -13,8 +13,8 @@ import student.TestableRandom;
 
 public class SkipListTest extends TestCase {
     // Declare any necessary objects or final variables
-    SkipList<String, String> sl1;
-    SkipList<String, String> sl2;
+    private SkipList<String, String> sl1;
+    private SkipList<String, String> sl2;
 
     /**
      * sets up each test method before it runs

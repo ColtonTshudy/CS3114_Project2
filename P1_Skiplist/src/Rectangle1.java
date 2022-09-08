@@ -38,6 +38,7 @@ public class Rectangle1 {
      * @throws FileNotFoundException
      * @throws ParseException
      */
+    @SuppressWarnings("unused")
     public static void main(String[] args)
         throws FileNotFoundException,
         ParseException {

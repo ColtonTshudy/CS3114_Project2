@@ -12,18 +12,18 @@ import student.TestCase;
 
 public class RectangleTest extends TestCase {
     // Declare any necessary objects or final variables
-    Rectangle recC;
-    Rectangle recT;
-    Rectangle recB;
-    Rectangle recL;
-    Rectangle recR;
-    Rectangle recWide;
-    Rectangle recTall;
-    Rectangle recNoW;
-    Rectangle recNoH;
-    Rectangle recNeg1;
-    Rectangle recNeg2;
-    Rectangle recNull;
+    private Rectangle recC;
+    private Rectangle recT;
+    private Rectangle recB;
+    private Rectangle recL;
+    private Rectangle recR;
+    private Rectangle recWide;
+    private Rectangle recTall;
+    private Rectangle recNoW;
+    private Rectangle recNoH;
+    private Rectangle recNeg1;
+    private Rectangle recNeg2;
+    private Rectangle recNull;
 
     /**
      * sets up each test method before it runs

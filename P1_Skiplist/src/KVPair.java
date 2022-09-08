@@ -7,8 +7,8 @@
  * @version 9/1/2022
  */
 public class KVPair<K extends Comparable<K>, E> {
-    K theKey;
-    E theVal;
+    private K theKey;
+    private E theVal;
 
     public KVPair(K k, E v) {
         theKey = k;

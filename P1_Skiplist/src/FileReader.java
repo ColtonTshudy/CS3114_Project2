@@ -32,7 +32,7 @@ public class FileReader {
     /**
      * Skip List data structure for holding rectangles
      */
-    SkipList<String, Rectangle> rectangles;
+    private SkipList<String, Rectangle> rectangles;
 
     /**
      * Default constructor, effectively does nothing

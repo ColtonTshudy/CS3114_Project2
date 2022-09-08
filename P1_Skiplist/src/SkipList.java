@@ -12,7 +12,7 @@ class SkipList<K extends Comparable<K>, E> {
     private SkipNode<K, E> head;
     private int level;
     private int size; // number of KV pairs in the data structure
-    TestableRandom ran = new TestableRandom(); // Hold the Random class object
+    private TestableRandom ran = new TestableRandom(); // Hold the Random class object
 
     public SkipList() {
         head = new SkipNode<K, E>(null, null, 0);
