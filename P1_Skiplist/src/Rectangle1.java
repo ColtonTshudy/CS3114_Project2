@@ -1,31 +1,15 @@
-
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Colton Tshudy (coltont)
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 
 /**
  * This program maintains a SkipList of Rectangle objects.
- * 
- * COMMANDS
- * Insert: adds a rectangle with a name, positive x and y, and positive w and h.
- * insert {name} {x} {y} {w} {h}
- * 
- * Dump: returns dump of internal skiplist.
- * dump
- * 
- * Remove: removes the first rectangle of the given name or coordinate, returns
- * the rectangle removed.
- * remove {name}
- * remove {x} {y} {w} {h}
- * 
- * Region Search: returns all rectangles within the region given.
- * regionsearch {x} {y} {w} {h}
- * 
- * Intersections: returns all intersecting rectangle pairs.
- * intersections
- * 
- * Search: returns the rectangle of the given name.
- * search {name}
  * 
  * @author Colton Tshudy
  * @version 9/5/2022

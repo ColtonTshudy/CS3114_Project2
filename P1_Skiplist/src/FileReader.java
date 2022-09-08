@@ -1,4 +1,9 @@
-
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Colton Tshudy (coltont)
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
@@ -11,10 +16,6 @@ import java.io.File;
  * 
  * @author Colton Tshudy (coltont)
  * @version 09/07/2022
- */
-/**
- * @author Tshud
- *
  */
 public class FileReader {
     /**
@@ -46,6 +47,7 @@ public class FileReader {
      * Constructor for CommandReader, passes the file to readTokens
      * 
      * @param commandFile
+     *            plain text file containing commands with their arguments
      * @throws FileNotFoundException
      * @throws ParseException
      */
@@ -61,6 +63,7 @@ public class FileReader {
      * Extracts tokens from the text file
      * 
      * @param commandFile
+     *            plain text file containing commands with their arguments
      * @throws FileNotFoundException
      * @throws ParseException
      */
@@ -71,69 +74,65 @@ public class FileReader {
 
         // Scan each line of the command file for valid tokens
         while (scan.hasNextLine()) {
-            int line_i = 0;
-            line_i++; // increment line index
+            int lineIndex = 0;
+            lineIndex++; // increment line index (which line of file is read)
             String[] tokens = new String[6]; // maximum number of tokens
 
-            int tok_i = 0; // token index
+            int tokenIndex = 0; // token index
             Scanner lineScan = new Scanner(scan.nextLine()); // scans this line
 
-            // seperates line into tokens
+            // separates line into tokens
             while (lineScan.hasNext()) {
-                if (tok_i > 5) { // too many arguments (max possible = 6)
+                if (tokenIndex > 5) { // too many arguments (max possible = 6)
                     lineScan.close();
                     scan.close();
-                    throw new ParseException("Too many arguments", line_i);
+                    throw new ParseException("Too many arguments", lineIndex);
                 }
-                tokens[tok_i] = lineScan.next();
-                tok_i++;
+                tokens[tokenIndex] = lineScan.next();
+                tokenIndex++;
             }
 
-            int[] intArg = new int[6]; // represents integer arguments,
-                                       // converted from tokens
-            if (tokens[0] != null) {
-                switch (tokens[0]) {
-                    case "insert":
-                        for (int i = 2; i < 6; i++)
-                            intArg[i] = Integer.parseInt(tokens[i]);
-                        insert(tokens[1], intArg[2], intArg[3], intArg[4],
-                            intArg[5]);
-                        break;
+            if (tokens[0] != null)
+                executeTokens(tokens, lineIndex);
+        }
+    }
 
-                    case "dump":
-                        dump();
-                        break;
 
-                    case "remove":
-                        if (tokens[2] == null) // remove by name
-                            remove(tokens[1]);
-                        else { // remove by element
-                            for (int i = 1; i < 5; i++)
-                                intArg[i] = Integer.parseInt(tokens[i]);
-                            remove(intArg[1], intArg[2], intArg[3], intArg[4]);
-                        }
-                        break;
-
-                    case "regionsearch":
-                        for (int i = 1; i < 5; i++)
-                            intArg[i] = Integer.parseInt(tokens[i]);
-                        regionsearch(intArg[1], intArg[2], intArg[3],
-                            intArg[4]);
-                        break;
-
-                    case "intersections":
-                        intersections();
-                        break;
-
-                    case "search":
-                        search(tokens[1]);
-                        break;
-
-                    default:
-                        System.out.println("Unknown command on line " + line_i);
-                        break;
+    private void executeTokens(String[] tokens, int line) {
+        int[] intArg = new int[6]; // represents integer arguments, converted
+                                   // from tokens
+        switch (tokens[0]) {
+            case "insert":
+                for (int i = 2; i < 6; i++)
+                    intArg[i] = Integer.parseInt(tokens[i]);
+                insert(tokens[1], intArg[2], intArg[3], intArg[4], intArg[5]);
+                break;
+            case "dump":
+                dump();
+                break;
+            case "remove":
+                if (tokens[2] == null) // remove by name
+                    remove(tokens[1]);
+                else { // remove by element
+                    for (int i = 1; i < 5; i++)
+                        intArg[i] = Integer.parseInt(tokens[i]);
+                    remove(intArg[1], intArg[2], intArg[3], intArg[4]);
                 }
-            }
+                break;
+            case "regionsearch":
+                for (int i = 1; i < 5; i++)
+                    intArg[i] = Integer.parseInt(tokens[i]);
+                regionsearch(intArg[1], intArg[2], intArg[3], intArg[4]);
+                break;
+            case "intersections":
+                intersections();
+                break;
+            case "search":
+                search(tokens[1]);
+                break;
+            default:
+                System.out.println("Unknown command on line " + line);
+                break;
         }
     }
 

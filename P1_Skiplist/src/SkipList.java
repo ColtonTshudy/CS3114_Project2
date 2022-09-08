@@ -1,4 +1,9 @@
-
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Colton Tshudy (coltont)
 
 /**
  * SkipList data structure class
@@ -8,12 +13,27 @@
  */
 import student.TestableRandom;
 
+/**
+ * SkipList data structure class
+ * 
+ * @author Colton Tshudy (coltont)
+ * @version 9/8/2022
+ *
+ * @param <K>
+ *            type for key, must be comparable
+ * @param <E>
+ *            type for value (element)
+ */
 class SkipList<K extends Comparable<K>, E> {
     private SkipNode<K, E> head;
     private int level;
     private int size; // number of KV pairs in the data structure
-    private TestableRandom ran = new TestableRandom(); // Hold the Random class object
+    private TestableRandom ran = new TestableRandom(); // Hold the Random class
+                                                       // object
 
+    /**
+     * Constructs a new Skip List with a placeholder level value and size of 0
+     */
     public SkipList() {
         head = new SkipNode<K, E>(null, null, 0);
         level = -1;
@@ -110,8 +130,8 @@ class SkipList<K extends Comparable<K>, E> {
     // Pick a level using a geometric distribution
     private int randomLevel() {
         int lev;
-        for (lev = 0; ran.nextBoolean(); lev++)
-            ; // advance level
+        for (lev = 0; ran.nextBoolean(); lev++) {
+        } // advance level
         return lev;
     }
 
@@ -247,9 +267,10 @@ class SkipList<K extends Comparable<K>, E> {
 
 
     /**
-     * Generates a string for the skiplist
+     * Returns a string representation of the SkipList displaying the depth of
+     * each node, each node's key and value, and the size of the SkipList
      * 
-     * @return string representing the skiplist structure
+     * @return a string representing the SkipList structure
      */
     public String toString() {
         SkipNode<K, E> cur = head; // node cursor
@@ -258,7 +279,7 @@ class SkipList<K extends Comparable<K>, E> {
         // for each node in the skiplist, minus head
         while (cur != null) {
             stb.append("Node has depth ");
-            stb.append(cur.forward.length-1);
+            stb.append(cur.forward.length - 1);
             stb.append(", Value (");
             if (cur.key() != null) {
                 stb.append(cur.key());
@@ -272,7 +293,7 @@ class SkipList<K extends Comparable<K>, E> {
 
             cur = cur.forward[0]; // advance cursor
         }
-        
+
         stb.append("SkipList size is: ");
         stb.append(size);
 

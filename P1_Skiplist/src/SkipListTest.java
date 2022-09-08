@@ -1,4 +1,9 @@
-
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Colton Tshudy (coltont)
 
 import student.TestCase;
 import student.TestableRandom;
@@ -140,27 +145,27 @@ public class SkipListTest extends TestCase {
         // Invalid removal at beginning of list
         assertNull(sl2.removeByKey("A"));
         assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + node3 + "\r\n" + size)); // check that nothing was removed
+            + "\r\n" + node3 + "\r\n" + size)); // check nothing was removed
         assertEquals(sl2.size(), 3); // check that size was not edited
 
         // Invalid removal in between keys
         assertNull(sl2.removeByKey("D"));
         assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + node3 + "\r\n" + size)); // check that nothing was removed
+            + "\r\n" + node3 + "\r\n" + size)); // check nothing was // removed
         assertEquals(sl2.size(), 3); // check that size was not edited
 
         // Invalid removal at end of list
         assertNull(sl2.removeByKey("F"));
         assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + node3 + "\r\n" + size)); // check that nothing was removed
+            + "\r\n" + node3 + "\r\n" + size)); // check nothing was removed
         assertEquals(sl2.size(), 3); // check that size was not edited
 
         size = "SkipList size is: 2";
-        
+
         // Removing at the end of the list
         assertTrue(sl2.removeByKey("E").equals("object 4"));
-        assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n"
-            + node2 + "\r\n" + size));
+        assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
+            + "\r\n" + size));
 
         // Test adding and removing a lot of entries, and removing from an empty
         // list
@@ -171,11 +176,11 @@ public class SkipListTest extends TestCase {
             sl1.removeByKey("A");
 
         // get the depth of the head node to create expected string dump
-        int depth = sl1.getHead().forward.length-1;
+        int depth = sl1.getHead().forward.length - 1;
         head = "Node has depth " + depth + ", Value (null)";
 
         size = "SkipList size is: 0";
-        
+
         // check if the skip list only has 1 node (head)
         assertTrue(sl1.toString().equals(head + "\r\n" + size));
     }
@@ -195,12 +200,13 @@ public class SkipListTest extends TestCase {
         // Removing at the beginning of the list
         assertTrue(sl2.removeByElement("object 1").equals("object 1"));
         assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + node3 + "\r\n" + size ));
+            + "\r\n" + node3 + "\r\n" + size));
 
         // Invalid removal
         assertNull(sl2.removeByElement("object 5"));
         assertTrue(sl2.toString().equals(head + "\r\n" + node1 + "\r\n" + node2
-            + "\r\n" + node3 + "\r\n" + size )); // check that nothing was removed
+            + "\r\n" + node3 + "\r\n" + size)); // check that nothing was
+                                                // removed
         assertEquals(sl2.size(), 3); // check that size was not edited
     }
 

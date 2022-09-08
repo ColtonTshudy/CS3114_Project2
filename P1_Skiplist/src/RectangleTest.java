@@ -1,4 +1,9 @@
-
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Colton Tshudy (coltont)
 
 import student.TestCase;
 
@@ -9,7 +14,6 @@ import student.TestCase;
  * @author Colton Tshudy (coltont)
  * @version 9/3/2022
  */
-
 public class RectangleTest extends TestCase {
     // Declare any necessary objects or final variables
     private Rectangle recC;

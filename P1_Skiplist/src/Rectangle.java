@@ -1,3 +1,9 @@
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Colton Tshudy (coltont)
 
 /**
  * Represents a rectangle on a positive 2D plane, where 0,0 is the top left
@@ -32,9 +38,9 @@ public class Rectangle implements Comparable<Rectangle> {
      * @param title
      *            name of rectangle
      * 
-     * @param xi
+     * @param xl
      *            top left x coordinate
-     * @param yi
+     * @param yl
      *            top left y coordinate
      * @param width
      *            width of rectangle
@@ -74,7 +80,7 @@ public class Rectangle implements Comparable<Rectangle> {
     /**
      * Getter for x
      * 
-     * @return
+     * @return top left x coordinate
      */
     public int getX1() {
         return x;
@@ -84,7 +90,7 @@ public class Rectangle implements Comparable<Rectangle> {
     /**
      * Getter for y
      * 
-     * @return
+     * @return top left y coordinate
      */
     public int getY1() {
         return y;
@@ -94,9 +100,9 @@ public class Rectangle implements Comparable<Rectangle> {
     /**
      * Setter for top left coordinate of rectangle
      * 
-     * @param x
+     * @param xl
      *            top left x coordinate
-     * @param y
+     * @param yl
      *            top left y coordinate
      */
     public void setCoords(int xl, int yl) {
@@ -118,11 +124,11 @@ public class Rectangle implements Comparable<Rectangle> {
     /**
      * Setter for width
      * 
-     * @param w
+     * @param width
      *            width of rectangle
      */
-    public void setWidth(int w) {
-        this.w = w;
+    public void setWidth(int width) {
+        w = width;
     }
 
 
@@ -139,11 +145,11 @@ public class Rectangle implements Comparable<Rectangle> {
     /**
      * Setter for height
      * 
-     * @param h
+     * @param height
      *            height of rectangle
      */
-    public void setHeight(int h) {
-        this.h = h;
+    public void setHeight(int height) {
+        h = height;
     }
 
 
@@ -192,9 +198,10 @@ public class Rectangle implements Comparable<Rectangle> {
 
 
     /**
-     * Generates a string for the rectangle
+     * Returns a string representation of the Rectangle displaying the top left
+     * coordinates x and y, and the width a height of the rectangle
      * 
-     * @return string representing rectangle
+     * @return a string representing rectangle
      */
     public String toString() {
         return x + ", " + y + ", " + w + ", " + h;
@@ -204,22 +211,23 @@ public class Rectangle implements Comparable<Rectangle> {
     /**
      * Checks if the given rectangle intersects this rectangle
      * 
-     * @param R
+     * @param rec
      *            given rectangle
      * @return 1 if rectangles intersect, -1 if they do not
      */
     @Override
-    public int compareTo(Rectangle R) {
+    public int compareTo(Rectangle rec) {
         int intersect = 1;
         // checks if given rectangle's coords are outside a given rectangle
         // rectangle is below (y1 > y2)
-        if (this.getY1() >= R.getY2() || R.getY1() >= this.getY2())
+        if (this.getY1() >= rec.getY2() || rec.getY1() >= this.getY2())
             intersect = -1;
         // rectangle is right (x1 > x2)
-        else if (this.getX1() >= R.getX2() || R.getX1() >= this.getX2())
+        else if (this.getX1() >= rec.getX2() || rec.getX1() >= this.getX2())
             intersect = -1;
         // rectangle has no area
-        else if (w <= 0 || h <= 0 || R.getHeight() <= 0 || R.getWidth() <= 0)
+        else if (w <= 0 || h <= 0 || rec.getHeight() <= 0 || rec
+            .getWidth() <= 0)
             intersect = -1;
         return intersect;
     }
