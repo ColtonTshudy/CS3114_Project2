@@ -25,26 +25,6 @@ class SkipNode<K extends Comparable<K>, E> {
     protected SkipNode<K, E>[] forward; // holds forward pointers
 
     /**
-     * Getter for node's kvpair element
-     * 
-     * @return value of the internal record
-     */
-    public E element() {
-        return rec.value();
-    }
-
-
-    /**
-     * Getter for node's kvpair key
-     * 
-     * @return key of the internal record
-     */
-    public K key() {
-        return rec.key();
-    }
-
-
-    /**
      * Constructs a SkipNode with a KVPair containing key K and element E, with
      * a depth of level
      * 
@@ -61,6 +41,26 @@ class SkipNode<K extends Comparable<K>, E> {
         forward = new SkipNode[level + 1]; // depth of node
         for (int i = 0; i < level; i++) // set all forward points to null
             forward[i] = null;
+    }
+
+
+    /**
+     * Getter for node's kvpair element
+     * 
+     * @return value of the internal record
+     */
+    public E element() {
+        return rec.value();
+    }
+
+
+    /**
+     * Getter for node's kvpair key
+     * 
+     * @return key of the internal record
+     */
+    public K key() {
+        return rec.key();
     }
 
 

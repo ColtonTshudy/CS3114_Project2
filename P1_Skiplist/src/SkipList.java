@@ -187,17 +187,17 @@ class SkipList<K extends Comparable<K>, E> {
             while ((cur.forward[i] != null) && (cur.forward[i].key().compareTo(
                 key) < 0))
                 cur = cur.forward[i];
-            rearNodes[i] = cur; // Track end at level i
+            rearNodes[i] = cur; // Track rear nodes at level i
         }
 
-        SkipNode<K, E> target = cur.forward[0]; // node to remove
+        cur = cur.forward[0]; // Move to node to remove
 
-        if ((target != null) && (target.key().compareTo(key) == 0)) {
+        if ((cur != null) && (cur.key().compareTo(key) == 0)) {
             // re-link the nodes behind the removed node
-            for (int i = target.forward.length - 1; i >= 0; i--)
-                rearNodes[i].forward[i] = target.forward[i];
+            for (int i = cur.forward.length - 1; i >= 0; i--)
+                rearNodes[i].forward[i] = cur.forward[i];
             size--;
-            return target.element(); // Return the removed node
+            return cur.element(); // Return the removed node
         }
         else
             return null; // Its not there
@@ -211,13 +211,29 @@ class SkipList<K extends Comparable<K>, E> {
      *            element of KV pair to remove
      * @return removed key, element pair
      */
+    @SuppressWarnings("unchecked")
     public E removeByElement(E element) {
-        SkipNode<K, E> cur = findNode(element); // find a matching node
-        if (cur == null)
+        SkipNode<K, E> rem = findNode(element); // find a matching node
+        if (rem == null)
             return null; // It's not there
 
-        K key = cur.key(); // key of found node
-        return removeByKey(key); // removes and returns the node
+        SkipNode<K, E> back = head; // one step behind cursor on that level
+        SkipNode<K, E> cur = back.forward[0]; // cursor to find rear nodes
+        SkipNode<K, E>[] rearNodes = new SkipNode[level + 1]; // nodes pointing
+                                                              // to removal node
+        for (int i = cur.forward.length - 1; i >= 0; i--) {
+            while (cur != rem) {
+                back = cur;
+                cur = cur.forward[i];
+            }
+            rearNodes[i] = back; // Track rear nodes at level i
+        }
+
+        // re-link the nodes behind the removed node
+        for (int i = cur.forward.length - 1; i >= 0; i--)
+            rearNodes[i].forward[i] = cur.forward[i];
+        size--;
+        return cur.element(); // Return the removed node
     }
 
 
@@ -279,7 +295,7 @@ class SkipList<K extends Comparable<K>, E> {
         // for each node in the skiplist, minus head
         while (cur != null) {
             stb.append("Node has depth ");
-            stb.append(cur.forward.length - 1);
+            stb.append(cur.forward.length);
             stb.append(", Value (");
             if (cur.key() != null) {
                 stb.append(cur.key());

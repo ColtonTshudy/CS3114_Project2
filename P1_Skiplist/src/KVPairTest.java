@@ -8,7 +8,7 @@
 import student.TestCase;
 
 /**
- * KVPairTest will test all public methods in SkipList to ensure that they run
+ * KVPairTest will test all public methods in KVPair to ensure that they run
  * and perform as expected
  *
  * @author Colton Tshudy (coltont)
@@ -17,24 +17,36 @@ import student.TestCase;
 public class KVPairTest extends TestCase {
     // Declare any necessary objects or final variables
     private KVPair<String, String> kv1;
-    private KVPair<String, String> kv2;
-    private KVPair<String, String> kv3;
 
     /**
      * sets up each test method before it runs
      */
     public void setUp() {
         kv1 = new KVPair<String, String>("A", "element 1");
-        kv2 = new KVPair<String, String>("B", "element 2");
-        kv3 = new KVPair<String, String>("C", "element 1");
     }
 
 
     /**
-     * This method will test the method
+     * This method will test the getters
      */
-    public void testNotIntersectsWith() {
-
+    public void testGetters() {
+        assertEquals(kv1.key(), "A");
+        assertEquals(kv1.value(), "element 1");
+    }
+    
+    /**
+     * This method will test the getters
+     */
+    public void testSetters() {
+        assertEquals(kv1.key(), "A");
+        assertEquals(kv1.value(), "element 1");
+    }
+    
+    /**
+     * This method will test the toString() method
+     */
+    public void testToString() {
+        assertEquals(kv1.toString(), "A, element 1");
     }
 
 }

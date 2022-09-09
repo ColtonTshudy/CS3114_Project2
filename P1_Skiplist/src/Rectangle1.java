@@ -26,12 +26,6 @@ public class Rectangle1 {
     public static void main(String[] args)
         throws FileNotFoundException,
         ParseException {
-        FileReader reader;
-
-        reader = args.length == 1 ? new FileReader(args[0]) : new FileReader();
-
-        if (args.length > 1)
-            System.out.println(
-                "Too many arguments. Please specify 1 file name.");
+        FileReader reader = new FileReader(args[0]);
     }
 }

@@ -31,6 +31,10 @@ public class FileReader {
      */
     public static final int MIN_WH = 1;
     /**
+     * Maximum length of commands
+     */
+    public static final int MAX_CMD_LEN = 6;
+    /**
      * Skip List data structure for holding rectangles
      */
     private SkipList<String, Rectangle> rectangles;
@@ -39,7 +43,8 @@ public class FileReader {
      * Default constructor, effectively does nothing
      */
     public FileReader() {
-        System.out.println("Please provide a file name");
+        rectangles = new SkipList<String, Rectangle>();
+        System.out.println("Please provide a file name.");
     }
 
 
@@ -60,6 +65,20 @@ public class FileReader {
 
 
     /**
+     * Executes a single given command, entered as a string on a single line,
+     * with no more than 6 tokens
+     * 
+     * @param command
+     *            Any valid SkipList command in string format
+     * @throws ParseException
+     */
+    public void enterCommand(String command) throws ParseException {
+        parseAndExecute(command, 1); // parses command for tokens, then attempts
+                                     // to execute the command
+    }
+
+
+    /**
      * Extracts tokens from the text file
      * 
      * @param commandFile
@@ -67,38 +86,69 @@ public class FileReader {
      * @throws FileNotFoundException
      * @throws ParseException
      */
-    void readTokens(String commandFile)
+    private void readTokens(String commandFile)
         throws FileNotFoundException,
         ParseException {
         Scanner scan = new Scanner(new File(commandFile));
 
+        int lineIndex = 0; // keeps track of which line the first scanner is on
+                           // in the commands file
+
         // Scan each line of the command file for valid tokens
         while (scan.hasNextLine()) {
-            int lineIndex = 0;
             lineIndex++; // increment line index (which line of file is read)
-            String[] tokens = new String[6]; // maximum number of tokens
-
-            int tokenIndex = 0; // token index
-            Scanner lineScan = new Scanner(scan.nextLine()); // scans this line
-
-            // separates line into tokens
-            while (lineScan.hasNext()) {
-                if (tokenIndex > 5) { // too many arguments (max possible = 6)
-                    lineScan.close();
-                    scan.close();
-                    throw new ParseException("Too many arguments", lineIndex);
-                }
-                tokens[tokenIndex] = lineScan.next();
-                tokenIndex++;
-            }
-
-            if (tokens[0] != null)
-                executeTokens(tokens, lineIndex);
+            parseAndExecute(scan.nextLine(), lineIndex); // Separates line into
+                                                         // tokens
         }
     }
 
 
-    private void executeTokens(String[] tokens, int line) {
+    /**
+     * Turns the given string into an array of strings, called tokens, and then
+     * attempts to execute the command
+     * 
+     * @param command
+     *            single command all on one line
+     * @param lineIndex
+     *            index of the command on the text file
+     * 
+     * @throws ParseException
+     */
+    private void parseAndExecute(String command, int lineIndex)
+        throws ParseException {
+
+        String[] tokens = new String[MAX_CMD_LEN]; // Array for holding tokens
+        int tokenIndex = 0; // Token index counter
+
+        Scanner lineScan = new Scanner(command); // Scans the single line string
+
+        while (lineScan.hasNext()) {
+            if (tokenIndex > MAX_CMD_LEN - 1) { // too many arguments (max
+                                                // possible = 6)
+                lineScan.close();
+                throw new ParseException("Too many arguments", lineIndex);
+            }
+            tokens[tokenIndex] = lineScan.next();
+            tokenIndex++;
+        }
+        lineScan.close(); // Close the scanner
+
+        if (tokens[0] != null)
+            executeTokens(tokens, lineIndex);
+    }
+
+
+    /**
+     * Executes command based on tokens. If not valid command is found, prints
+     * a default message to the console.
+     * 
+     * @param tokens
+     *            String array of up to 6 tokens, pertaining to a command
+     * @param lineIndex
+     *            Index of the command in the text file
+     * 
+     */
+    private void executeTokens(String[] tokens, int lineIndex) {
         int[] intArg = new int[6]; // represents integer arguments, converted
                                    // from tokens
         switch (tokens[0]) {
@@ -131,7 +181,7 @@ public class FileReader {
                 search(tokens[1]);
                 break;
             default:
-                System.out.println("Unknown command on line " + line);
+                System.out.println("Unknown command on line " + lineIndex);
                 break;
         }
     }
@@ -161,11 +211,8 @@ public class FileReader {
         StringBuilder stb = new StringBuilder();
         stb.append("Rectangle ");
 
-        char fc = name.toLowerCase().charAt(0); // first character of string
-
         // Check if the rectangle is legal, if yes, then insert
-        if (x < MIN_XY || y < MIN_XY || w < MIN_WH || h < MIN_WH || (x
-            + w) > MAX_XY || (y + h) > MAX_XY || (fc - 'a' > 25))
+        if (checkValidRec(rec))
             stb.append("rejected: (");
         else {
             stb.append("inserted: (");
@@ -203,13 +250,13 @@ public class FileReader {
         StringBuilder stb = new StringBuilder();
         stb.append("Rectangle ");
 
-        // Check if the rectangle is legal, if yes, then insert
+        // Check if the rectangle exists, if so then return it
         if (rec == null) {
             stb.append("not removed: (");
             stb.append(name);
             stb.append(")");
         }
-        else {
+        else { // If rectangle did not exist, notify user
             stb.append("removed: (");
             stb.append(rec.getName());
             stb.append(", ");
@@ -236,16 +283,16 @@ public class FileReader {
      */
     private void remove(int x, int y, int w, int h) {
         // Attempt to remove rectangle
-        Rectangle rem = new Rectangle("Removal Tool", x, y, w, h);
-        Rectangle rec = rectangles.removeByElement(rem);
+        Rectangle tool = new Rectangle("Removal Tool", x, y, w, h);
+        Rectangle rec = rectangles.removeByElement(tool);
 
         // String building for generating output string
         StringBuilder stb = new StringBuilder();
 
         // Check if the region meets the required w, h > 0
-        if (w < MIN_WH || h < MIN_WH) {
+        if (checkValidRec(tool)) {
             stb.append("Rectangle rejected: (");
-            stb.append(rem);
+            stb.append(tool);
             stb.append(")");
             System.out.println(stb.toString());
             return; // End the function early
@@ -253,19 +300,19 @@ public class FileReader {
 
         stb.append("Rectangle ");
 
-        // Check if the rectangle is legal, if yes, then insert
-        if (rec == null) {
+        // Check if a rectangle has been removed
+        if (rec == null) { // No, so notify user that it failed to remove
             stb.append("not removed: ");
             stb.append("(");
-            stb.append(rem);
+            stb.append(tool);
             stb.append(")");
         }
-        else {
+        else { // Yes, so add the removed rectangle to the output
             stb.append("removed: ");
             stb.append("(");
-            stb.append(rem.getName());
+            stb.append(rec.getName());
             stb.append(", ");
-            stb.append(rem);
+            stb.append(rec);
             stb.append(")");
         }
 
@@ -289,7 +336,7 @@ public class FileReader {
      */
     private void regionsearch(int x, int y, int w, int h) {
         // Rectangle for testing intersection
-        Rectangle regs = new Rectangle("Region Tool", x, y, w, h);
+        Rectangle tool = new Rectangle("Region Tool", x, y, w, h);
 
         // String building for generating output string
         StringBuilder stb = new StringBuilder();
@@ -297,7 +344,7 @@ public class FileReader {
         // Check if the region meets the required w, h > 0
         if (w < MIN_WH || h < MIN_WH) {
             stb.append("Rectangle rejected: (");
-            stb.append(regs);
+            stb.append(tool);
             stb.append(")");
             System.out.println(stb.toString());
             return; // End the function early
@@ -305,7 +352,7 @@ public class FileReader {
 
         stb.append("Rectangles intersecting region ");
         stb.append("(");
-        stb.append(regs);
+        stb.append(tool);
         stb.append("): ");
 
         // Cursor pointer for checking each rectangle
@@ -315,7 +362,7 @@ public class FileReader {
         // Iterates through all nodes
         while (cur != null) {
             Rectangle rec = cur.element(); // rectangle in question
-            if (rec.compareTo(regs) > 0) {
+            if (rec.compareTo(tool) > 0) {
                 stb.append("\n"); // found intersecting rec
                 stb.append("(");
                 stb.append(rec.getName());
@@ -352,17 +399,15 @@ public class FileReader {
         cur2 = cur2.forward[0]; // Go to second list item
 
         // Iterates cur1 through all nodes
-        while (cur1 != null && cur2 != null) {
+        while (cur1 != null) {
             Rectangle rec1 = cur1.element();
 
             // Iterates cur2 through all nodes
-            boolean foundPair = false;
-            while (cur2 != null && !foundPair) {
+            while (cur2 != null) {
                 Rectangle rec2 = cur2.element();
                 if (rec1.compareTo(rec2) > 0 && cur1 != cur2) {
                     stb.append(System.lineSeparator());
                     stb.append(intersectStr(rec1, rec2));
-                    foundPair = true; // Found a pair, raise end loop flag
                 }
                 cur2 = cur2.forward[0];
             }
@@ -395,6 +440,7 @@ public class FileReader {
         while (cur != null) {
             Rectangle rec = cur.element();
             if (rec.getName().equals(name)) {
+                stb.append(System.lineSeparator());
                 stb.append("("); // found a match
                 stb.append(name);
                 stb.append(", ");
@@ -406,7 +452,7 @@ public class FileReader {
         }
 
         if (foundFlag)
-            stb.insert(0, "Rectangles found:\n");
+            stb.insert(0, "Rectangles found:");
         else {
             stb.append("Rectangle not found: (");
             stb.append(name);
@@ -414,6 +460,30 @@ public class FileReader {
         }
 
         System.out.println(stb.toString());
+    }
+
+
+    /**
+     * Returns true if the rectangle given is valid. Rectangle must have
+     * coordinates within (inclusive) 0,0 to 1024, 1024, width and height of >0,
+     * and the name must start with a letter
+     * 
+     * @param rec
+     *            Rectangle in question
+     * 
+     * @return true if the rectangle is valid
+     * 
+     */
+    private boolean checkValidRec(Rectangle rec) {
+        char fc = rec.getName().charAt(0); // first character of name
+        int x = rec.getX1();
+        int y = rec.getY1();
+        int w = rec.getWidth();
+        int h = rec.getHeight();
+
+        // Check if the rectangle is legal, if yes, then insert
+        return (x < MIN_XY || y < MIN_XY || w < MIN_WH || h < MIN_WH || (x
+            + w) > MAX_XY || (y + h) > MAX_XY || !Character.isAlphabetic(fc));
     }
 
 
