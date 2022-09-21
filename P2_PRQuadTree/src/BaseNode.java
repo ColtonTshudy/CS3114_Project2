@@ -3,7 +3,6 @@
  * 
  * @author Colton Tshudy
  * @version 9/21/2022
- *
  */
 public interface BaseNode {
     /**
