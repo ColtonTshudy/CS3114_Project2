@@ -35,7 +35,6 @@ public class Point2 {
                 if (line.isBlank()) {
                     continue;
                 }
-                database.doCommand(line);
                 // TODO: call theDatabase.doCommand(line).
                 // it will parse the line and attempt to
                 // The database will have methods that execute certain

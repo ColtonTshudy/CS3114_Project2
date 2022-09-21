@@ -8,6 +8,9 @@ public class DataBase {
     
     public void doCommand(String line) {
         String[] commands = line.split("\\s+");
-        
+        if(commands[0] == "") {
+            
+        }
+            
     }
 }
