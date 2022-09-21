@@ -4,8 +4,7 @@
  * corner of the plane.
  * 
  * @author Colton Tshudy (coltont
- * 
- * @version 9/5/2022
+ * @version 9/21/2022
  *
  */
 public class Point {
@@ -24,6 +23,48 @@ public class Point {
      */
     public Point(int newX, int newY) {
         x = newX;
+        y = newY;
+    }
+
+
+    /**
+     * Getter for x coordinate
+     * 
+     * @return x coordinate of this point
+     */
+    public int getX() {
+        return x;
+    }
+
+
+    /**
+     * Getter for y coordinate
+     * 
+     * @return x coordinate of this point
+     */
+    public int getY() {
+        return y;
+    }
+
+
+    /**
+     * Setter for x coordinate
+     * 
+     * @param x
+     *            new x coordinate of this point
+     */
+    public void setX(int newX) {
+        x = newX;
+    }
+
+
+    /**
+     * Setter for y coordinate
+     * 
+     * @param y
+     *            new x coordinate of this point
+     */
+    public void setY(int newY) {
         y = newY;
     }
 
@@ -49,28 +90,63 @@ public class Point {
         return x + ", " + y;
     }
 
+
     /**
-     * Checks if the given rectangle intersects this rectangle
+     * Gives this point's location relative to the location of the given point,
+     * as a direction.
+     * Direction 1 = E, 2 = NE, 3 = N, 4 = NW, 5 = W, 6 = SW, 7 = S, 8 = SE.
+     * 0 = the points share the same coordinates
      * 
-     * @param rec
-     *            given rectangle
-     * @return 1 if rectangles intersect, -1 if they do not
+     * @param other
+     *            point to compare against
+     * 
+     * @return relative direction to given point
      */
-    @Override
-    public int compareTo(Rectangle rec) {
-        int intersect = 1;
-        // checks if given rectangle's coords are outside a given rectangle
-        // rectangle is below (y1 > y2)
-        if (this.getY1() >= rec.getY2() || rec.getY1() >= this.getY2())
-            intersect = -1;
-        // rectangle is right (x1 > x2)
-        else if (this.getX1() >= rec.getX2() || rec.getX1() >= this.getX2())
-            intersect = -1;
-        // rectangle has no area
-        else if (w <= 0 || h <= 0 || rec.getHeight() <= 0 || rec
-            .getWidth() <= 0)
-            intersect = -1;
-        return intersect;
+    public int relativeDirection(Point other) {
+        int delX = x - other.getX();
+        int delY = y - other.getY();
+        if (delX == 0 && delY == 0) // Same coordinates
+            return 0;
+        if (delX > 0 && delY == 0) // East
+            return 1;
+        if (delX > 0 && delY < 0) // North East
+            return 2;
+        if (delX == 0 && delY < 0) // North
+            return 3;
+        if (delX < 0 && delY < 0) // North West
+            return 4;
+        if (delX < 0 && delY == 0) // West
+            return 5;
+        if (delX < 0 && delY > 0) // South West
+            return 6;
+        if (delX == 0 && delY > 0) // South
+            return 5;
+        if (delX > 0 && delY > 0) // South East
+            return 8;
+        return -1; // No valid direction found
+    }
+
+
+    /**
+     * Returns true if both rectangles are equal
+     * 
+     * @param other
+     *            Rectangle to check against
+     * 
+     * @return true if both of their x, y, w, h are the equal
+     */
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        if (this.getClass().equals(other.getClass())) {
+            Point pt = (Point)other;
+            return x == pt.getX() && y == pt.getY();
+        }
+        return false;
     }
 
 }
