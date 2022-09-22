@@ -43,9 +43,22 @@ public class SkipNode<K extends Comparable<K>, V> {
     public SkipNode<K, V> getSkip(int level) {
         return skips[level];
     }
-    
+
+
     public int getLevel() {
         return skips.length - 1;
+    }
+
+
+    /**
+     * Returns a string representation of the SkipNode displaying the key and
+     * value
+     * 
+     * @return a string representation of the SkipNode
+     */
+    public String toString() {
+        return "Node has depth " + skips.length + ", Value (" + pair.toString()
+            + ")";
     }
 
 }
