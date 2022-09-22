@@ -92,28 +92,57 @@ public class Point {
 
 
     /**
-     * Gives this point's location relative to the location of the given point,
-     * as a direction.
-     * Direction Node 0 = NE, 1 = NW, 2 = SW, 3 = SE
+     * Gives this point's quadrant relative to the given square's origin
+     * Quadrant 0 = NE, 1 = NW, 2 = SW, 3 = SE
      * 0 = the points share the same coordinates
      * 
      * @param other
      *            point to compare against
      * 
-     * @return relative direction to given point
+     * @return the number index of the point within the quadrant
      */
-    public int relativeDirection(Point other) {
-        int delX = x - other.getX();
-        int delY = y - other.getY();
-        if (delX >= 0 && delY < 0) // North East
+    public int findQuadrant(Point topLeft, int size) {
+        if (!inSquare(topLeft, size)) // Not within this square
+            return -1;
+
+        // Get origin point of square and delta with respect to point
+        int centerX = topLeft.getX() + size / 2;
+        int centerY = topLeft.getY() + size / 2;
+        int delX = x - centerX;
+        int delY = y - centerY;
+
+        if (delX > 0 && delY <= 0) // North East and +x axis
             return 0;
-        if (delX < 0 && delY < 0) // North West
+        if (delX <= 0 && delY < 0) // North West and -y axis
             return 1;
-        if (delX < 0 && delY >= 0) // South West
+        if (delX < 0 && delY >= 0) // South West and -x axis
             return 2;
-        if (delX >= 0 && delY >= 0) // South East
-            return 3;
-        return -1; // No valid direction found
+        // (delX >= 0 && delY > 0 || delX == delY)
+        // South East and +y axis and origin
+        return 3;
+    }
+
+
+    /**
+     * Checks if this point within a given square, denoted by a top left corner
+     * and side length
+     * 
+     * @param topLeft
+     *            top left point of the square
+     * @param size
+     *            side length of the square
+     * @return true if this point is within the square, false otherwise
+     */
+    public boolean inSquare(Point topLeft, int size) {
+        if (x < topLeft.getX()) // point is to the left
+            return false;
+        if (x > topLeft.getX() + size) // point is to the right
+            return false;
+        if (y < topLeft.getY()) // point above
+            return false;
+        if (y > topLeft.getY() + size) // point is below
+            return false;
+        return true; // point is within or on the bounds of the square
     }
 
 
