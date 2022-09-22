@@ -166,15 +166,13 @@ public class DataBase {
      *            Name of the node
      */
     private void search(String name) {
-        SkipNode<String, Point>[] results = skipList.find(name);
+        String results = skipList.printAllMatching(name);
         StringBuilder str = new StringBuilder();
         if (results == null) {
             str.append("Point not found: " + name + "\n");
         }
         else {
-            for (int i = 0; i < results.length; i++) {
-                str.append("Found (" + results[i].toString() + ")\n");
-            }
+                str.append(results);
         }
         System.out.print(str.toString());
     }

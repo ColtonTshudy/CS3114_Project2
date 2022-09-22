@@ -6,40 +6,79 @@
  * @version 9/21/2022
  */
 public class FlyweightNode implements BaseNode {
+    private Point corner;
+    private int length;
+
+    /**
+     * Flyweight node constructor
+     * 
+     * @param corner
+     *            The corner of the rectangle
+     * @param length
+     *            The length of the sides of the rectangle
+     */
+    public FlyweightNode(Point corner, int length) {
+        this.corner = corner;
+        this.length = length;
+    }
+
 
     @Override
     public boolean insert(KVPair<String, Point> newPoint) {
         return false;
     }
 
+
     @Override
     public KVPair<String, Point> remove(String key) {
         return null;
     }
+
 
     @Override
     public KVPair<String, Point> remove(Point point) {
         return null;
     }
 
+
     @Override
     public KVPair<String, Point>[] search(String key) {
         return null;
     }
+
 
     @Override
     public KVPair<String, Point>[] search(Point point) {
         return null;
     }
 
+
     @Override
     public Boolean isLeaf() {
         return false;
     }
+
 
     @Override
     public Boolean isFlyweight() {
         return false;
     }
 
+
+    @Override
+    public String toString() {
+        return null;
+    }
+
+
+    @Override
+    public Point getCorner() {
+        return corner;
+    }
+
+
+    @Override
+    public int getLength() {
+        return length;
+    }
 }

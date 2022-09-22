@@ -11,30 +11,25 @@ public class InternalNode implements BaseNode {
      * Node 0 = NE, 1 = NW, 2 = SW, 3 = SE
      */
     public BaseNode[] children = new LeafNode[4];
-
-    private Point center;
+    private int length;
+    private Point corner;
 
     /**
      * Internal Node constructor
+     * 
+     * @param center
+     *            The center point of the internal node
+     * @param length
+     *            The length of the internal node area's size
      */
-    public InternalNode(Point center) {
-        this.center = center;
+    public InternalNode(Point corner, int length) {
+        this.corner = corner;
+        this.length = length;
         children[0] = new FlyweightNode();
         children[1] = new FlyweightNode();
         children[2] = new FlyweightNode();
         children[3] = new FlyweightNode();
     }
-
-
-    /**
-     * Finds center of the internal node
-     * 
-     * @return center point
-     */
-    public Point center() {
-        return center;
-    }
-
 
     @Override
     public boolean insert(KVPair<String, Point> newPoint) {
@@ -75,6 +70,27 @@ public class InternalNode implements BaseNode {
     @Override
     public Boolean isFlyweight() {
         return false;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("Node at " + corner.toString() + ", " + length
+            + ": Internal");
+        return str.toString();
+    }
+
+
+    @Override
+    public Point getCorner() {
+        return corner;
+    }
+
+
+    @Override
+    public int getLength() {
+        return length;
     }
 
 }

@@ -176,7 +176,7 @@ public class SkipList<K extends Comparable<K>, E> {
         StringBuilder stb = new StringBuilder(); // builds output
 
         if (curr == null) { // No nodes were found matching k
-            return "No matching nodes.";
+            return null;
         }
 
         stb.append("Nodes matching key \"");
@@ -272,8 +272,26 @@ public class SkipList<K extends Comparable<K>, E> {
 
 
     /**
+     * Returns a KVPair for the found element
+     * 
+     * @param key
+     *            Key for the node being found
+     * @return the first KVPair matching the key, null if not found
+     */
+    public KVPair<K, E> find(K key) {
+        SkipNode<K, E> curr = findNode(key);
+        if (curr == null)
+            return null;
+        else
+            return curr.getPair();
+    }
+
+
+    /**
      * Finds the first node of a given key
      * 
+     * @param key
+     *            The key being found
      * @return the first node matching the key, null if not found
      */
     private SkipNode<K, E> findNode(K key) {

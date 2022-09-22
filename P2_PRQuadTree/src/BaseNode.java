@@ -6,6 +6,23 @@
  * @version 9/21/2022
  */
 public interface BaseNode {
+
+    /**
+     * Finds the corner of the node
+     * 
+     * @return the corner point
+     */
+    public Point getCorner();
+
+
+    /**
+     * Finds the length of the node's rectangle
+     * 
+     * @return the length integer
+     */
+    public int getLength();
+
+
     /**
      * Inserts a KVPair into the internal array
      * 
@@ -68,7 +85,8 @@ public interface BaseNode {
      *         True if a leaf
      */
     public Boolean isLeaf();
-    
+
+
     /**
      * Checks if the node is a flyweight
      * 
@@ -76,4 +94,12 @@ public interface BaseNode {
      *         True if a flyweight
      */
     public Boolean isFlyweight();
+
+
+    /**
+     * Converts the node to a string format
+     * 
+     * @return the node as a string
+     */
+    public String toString();
 }

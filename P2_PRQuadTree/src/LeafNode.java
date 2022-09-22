@@ -11,7 +11,22 @@ import java.lang.reflect.Array;
 public class LeafNode implements BaseNode {
     private int arrayLength = 0;
     private int uniqueItems = 0;
-    
+    private Point corner;
+    private int length;
+
+    /**
+     * LeafNode constructor
+     * 
+     * @param corner
+     *            The corner of the leaf node area
+     * @param length
+     *            The length of the sides of the leaf node
+     */
+    public LeafNode(Point corner, int length) {
+        this.corner = corner;
+        this.length = length;
+    }
+
     /**
      * Data array for the leaf node
      */
@@ -105,6 +120,25 @@ public class LeafNode implements BaseNode {
 
 
     /**
+     * Finds duplicates in the node
+     * 
+     * @return
+     *         An array of KVPair for duplicates
+     */
+    public Point[] findDupe() {
+        int dupeFound = 0;
+        Point[] found = (Point[])Array.newInstance(Point.class, arrayLength);
+        for (int i = 0; i < arrayLength; i++) {
+            if (isDupe(dataArray[i].value())) {
+                found[dupeFound] = dataArray[i].value();
+                dupeFound++;
+            }
+        }
+        return found;
+    }
+
+
+    /**
      * Checks if the point is a duplicate point
      * 
      * @param newPoint
@@ -112,9 +146,10 @@ public class LeafNode implements BaseNode {
      * @return
      *         true if a duplicate
      */
-    public boolean isDupe(Point point) {
+    private boolean isDupe(Point point) {
         for (int i = 0; i < arrayLength; i++) {
-            if (point.equals(dataArray[i].value()))
+            if (point != dataArray[i].value() && point.equals(dataArray[i]
+                .value()))
                 return true;
         }
         return false;
@@ -141,6 +176,25 @@ public class LeafNode implements BaseNode {
     @Override
     public Boolean isFlyweight() {
         return false;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        return str.toString();
+    }
+
+
+    @Override
+    public Point getCorner() {
+        return corner;
+    }
+
+
+    @Override
+    public int getLength() {
+        return length;
     }
 
 }

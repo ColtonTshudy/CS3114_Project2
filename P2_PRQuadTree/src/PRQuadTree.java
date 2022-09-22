@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+
 /**
  * PR Quad Tree functoin
  * 
@@ -7,12 +9,14 @@
  */
 public class PRQuadTree {
     private BaseNode head;
+    private int size;
 
     /**
      * PR Quad Tree constructor
      */
     public PRQuadTree() {
-        head = new LeafNode();
+        head = new FlyweightNode();
+        size = 0;
     }
 
 
@@ -25,6 +29,7 @@ public class PRQuadTree {
     public void insert(KVPair<String, Point> pair) {
         BaseNode node = head;
         insertRecursive(pair, node, null, 511);
+        size++;
     }
 
 
@@ -38,7 +43,11 @@ public class PRQuadTree {
      */
     public KVPair<String, Point> remove(Point point) {
         BaseNode node = head;
-        return removeRecursive(point, node);
+        KVPair<String, Point> result = removeRecursive(point, node);
+        if (result != null) {
+            size--;
+        }
+        return result;
     }
 
 
@@ -72,7 +81,9 @@ public class PRQuadTree {
      */
     public String regionSearch(int x, int y, int w, int h) {
         StringBuilder str = new StringBuilder();
-        str.append(regionRecursive(str, head, x, y, w, h));
+        String[] result = regionRecursive(str, head, x, y, w, h, 0);
+        str.append(result[0]);
+        str.append(result[1] + " quadtree nodes visited\n");
         return str.toString();
     }
 
@@ -84,7 +95,14 @@ public class PRQuadTree {
      *         Returns a formatted string of duplicate points
      */
     public String duplicates() {
+        Point[] result = (Point[])Array.newInstance(Point.class, size);
+        
+        result = dupeRecursive(result, head);
         StringBuilder str = new StringBuilder();
+        str.append("Duplicate Points:\n");
+        for(int i = 0; i < result.length; i++) {
+            str.append("(" + result[i].toString() + ")\n");
+        }
         return str.toString();
     }
 
@@ -122,9 +140,9 @@ public class PRQuadTree {
         int direction = pair.value().relativeDirection(parent.center());
         if (node.isLeaf()) {
             if (!node.insert(pair)) {
-                Point newCenter = findNewCenter(direction, shift, parent
+                Point newCenter = findNewCenter(direction, parent.length(), parent
                     .center());
-                InternalNode newNode = new InternalNode(newCenter);
+                InternalNode newNode = new InternalNode(newCenter, parent.length()/2);
                 parent.children[direction] = newNode;
                 LeafNode oldNode = (LeafNode)node;
                 for (int i = 0; i < oldNode.getSize(); i++) {
@@ -135,7 +153,8 @@ public class PRQuadTree {
             return true;
         }
         if (node.isFlyweight()) {
-            LeafNode newNode = new LeafNode();
+            Point corner = findCorner(direction, parent.center());
+            LeafNode newNode = new LeafNode(corner, parent.length()/2);
             parent.children[direction] = newNode;
             newNode.insert(pair);
         }
@@ -245,10 +264,12 @@ public class PRQuadTree {
      *            Width of region
      * @param h
      *            Height of region
+     * @param nodesVisited
+     *            Number of nodes visited
      * @return
-     *         The string built for the region search
+     *         an array of strings built for the region search and nodes visited
      */
-    private String regionRecursive(
+    private String[] regionRecursive(
         StringBuilder str,
         BaseNode node,
         int x,
@@ -256,7 +277,7 @@ public class PRQuadTree {
         int w,
         int h,
         int nodesVisited) {
-
+        String[] result = new String[2];
         if (node.isLeaf()) {
             LeafNode checkNode = (LeafNode)node;
             for (int i = 0; i < checkNode.getSize(); i++) {
@@ -266,24 +287,47 @@ public class PRQuadTree {
                     nodesVisited++;
                 }
             }
-            return str.toString();
+            result[0] = str.toString();
+            result[1] = Integer.toString(nodesVisited);
+            return result;
         }
         if (node.isFlyweight()) {
-            return str.toString();
             nodesVisited++;
+            result[0] = str.toString();
+            result[1] = Integer.toString(nodesVisited);
+            return result;
         }
         InternalNode internal = (InternalNode)node;
+        nodesVisited++;
         int cenX = internal.center().getX();
         int cenY = internal.center().getY();
-        if (cenX <= x + w && cenY >= y)
-            str.append(regionRecursive(str, internal.children[0], x, y, w, h));
-        if (cenX >= x && cenY >= y)
-            str.append(regionRecursive(str, internal.children[1], x, y, w, h));
-        if (cenX >= x && cenY <= y + h)
-            str.append(regionRecursive(str, internal.children[2], x, y, w, h));
-        if (cenX <= x + w && cenY <= y + h)
-            str.append(regionRecursive(str, internal.children[3], x, y, w, h));
-        return str.toString();
+        if (cenX <= x + w && cenY >= y) {
+            String[] child = regionRecursive(str, internal.children[0], x, y, w,
+                h, nodesVisited);
+            str.append(child[0]);
+            nodesVisited = Integer.valueOf(child[1]);
+        }
+        if (cenX >= x && cenY >= y) {
+            String[] child = regionRecursive(str, internal.children[1], x, y, w,
+                h, nodesVisited);
+            str.append(child[0]);
+            nodesVisited = Integer.valueOf(child[1]);
+        }
+        if (cenX >= x && cenY <= y + h) {
+            String[] child = regionRecursive(str, internal.children[2], x, y, w,
+                h, nodesVisited);
+            str.append(child[0]);
+            nodesVisited = Integer.valueOf(child[1]);
+        }
+        if (cenX <= x + w && cenY <= y + h) {
+            String[] child = regionRecursive(str, internal.children[3], x, y, w,
+                h, nodesVisited);
+            str.append(child[0]);
+            nodesVisited = Integer.valueOf(child[1]);
+        }
+        result[0] = str.toString();
+        result[1] = Integer.toString(nodesVisited);
+        return result;
     }
 
 
@@ -306,5 +350,40 @@ public class PRQuadTree {
     private boolean inRect(Point point, int x, int y, int w, int h) {
         return point.getX() >= x && point.getX() <= x + w && point.getY() >= y
             && point.getY() <= y + h;
+    }
+
+
+    /**
+     * Finds all duplicates in the tree
+     * 
+     * @param array
+     *            THe array of duplicates
+     * @param node
+     *            The current node being checked
+     * @return
+     *         An array of duplicates
+     */
+    private Point[] dupeRecursive(
+        Point[] array,
+        BaseNode node) {
+
+        if (node.isLeaf()) {
+            LeafNode curr = (LeafNode)node;
+            Point[] data = curr.findDupe();
+            for (int i = 0; i < data.length; i++) {
+                array[array.length] = data[i];
+            }
+            return array;
+        }
+
+        if (node.isFlyweight()) {
+            return array;
+        }
+        InternalNode curr = (InternalNode)node;
+        array = dupeRecursive(array, curr.children[0]);
+        array = dupeRecursive(array, curr.children[1]);
+        array = dupeRecursive(array, curr.children[2]);
+        array = dupeRecursive(array, curr.children[3]);
+        return array;
     }
 }
