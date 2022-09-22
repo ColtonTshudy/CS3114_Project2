@@ -1,7 +1,7 @@
 import java.lang.reflect.Array;
 
 /**
- * PR Quad Tree functoin
+ * PR Quad Tree function
  * 
  * @author Colton Tshudy
  * @author Benjamin Gallini
@@ -137,11 +137,13 @@ public class PRQuadTree {
         KVPair<String, Point> pair,
         BaseNode node,
         InternalNode parent) {
-        
-        int direction = pair.value().findQuadrant(node.getCorner(), node.getLength());
+
+        int direction = pair.value().findQuadrant(node.getCorner(), node
+            .getLength());
         if (node.isLeaf()) {
             if (!node.insert(pair)) {
-                InternalNode newNode = new InternalNode(node.getCorner(), node.getLength());
+                InternalNode newNode = new InternalNode(node.getCorner(), node
+                    .getLength());
                 parent.children[direction] = newNode;
                 LeafNode oldNode = (LeafNode)node;
                 for (int i = 0; i < oldNode.getSize(); i++) {
@@ -151,7 +153,7 @@ public class PRQuadTree {
             return true;
         }
         if (node.isFlyweight()) {
-            LeafNode newNode = new LeafNode(node.getCorner(),node.getLength());
+            LeafNode newNode = new LeafNode(node.getCorner(), node.getLength());
             parent.children[direction] = newNode;
             newNode.insert(pair);
         }
@@ -209,6 +211,7 @@ public class PRQuadTree {
         return null;
     }
 
+
     /**
      * Recursive method for region search
      * 
@@ -258,27 +261,29 @@ public class PRQuadTree {
         }
         InternalNode internal = (InternalNode)node;
         nodesVisited++;
-        int cenX = internal.center().getX();
-        int cenY = internal.center().getY();
-        if (cenX <= x + w && cenY >= y) {
+        if (intersect(internal.children[0].getCorner(), internal.children[0]
+            .getLength(), x, y, w, h)) {
             String[] child = regionRecursive(str, internal.children[0], x, y, w,
                 h, nodesVisited);
             str.append(child[0]);
             nodesVisited = Integer.valueOf(child[1]);
         }
-        if (cenX >= x && cenY >= y) {
+        if (intersect(internal.children[1].getCorner(), internal.children[0]
+            .getLength(), x, y, w, h)) {
             String[] child = regionRecursive(str, internal.children[1], x, y, w,
                 h, nodesVisited);
             str.append(child[0]);
             nodesVisited = Integer.valueOf(child[1]);
         }
-        if (cenX >= x && cenY <= y + h) {
+        if (intersect(internal.children[2].getCorner(), internal.children[0]
+            .getLength(), x, y, w, h)) {
             String[] child = regionRecursive(str, internal.children[2], x, y, w,
                 h, nodesVisited);
             str.append(child[0]);
             nodesVisited = Integer.valueOf(child[1]);
         }
-        if (cenX <= x + w && cenY <= y + h) {
+        if (intersect(internal.children[3].getCorner(), internal.children[0]
+            .getLength(), x, y, w, h)) {
             String[] child = regionRecursive(str, internal.children[3], x, y, w,
                 h, nodesVisited);
             str.append(child[0]);
@@ -342,5 +347,35 @@ public class PRQuadTree {
         array = dupeRecursive(array, curr.children[2]);
         array = dupeRecursive(array, curr.children[3]);
         return array;
+    }
+
+
+    /**
+     * Checks if two rectangles are intersecting
+     * 
+     * @param point1
+     *            The corner of the first rectangle
+     * @param length
+     *            The length of the first rectangle
+     * @param x
+     *            X coordinate of region
+     * @param y
+     *            Y coordinate of region
+     * @param w
+     *            Width of region
+     * @param h
+     *            Height of region
+     * @return
+     *         True if intersecting
+     */
+    private boolean intersect(
+        Point point1,
+        int length,
+        int x,
+        int y,
+        int w,
+        int h) {
+        return (point1.x < x + w && x < point1.x + length && point1.y < y + h
+            && y < point1.y + length);
     }
 }
