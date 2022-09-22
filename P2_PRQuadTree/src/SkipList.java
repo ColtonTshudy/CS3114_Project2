@@ -84,6 +84,7 @@ public class SkipList<K extends Comparable<K>, E> {
             // find the insert position
             while (ahead != null && newKey.compareTo(ahead.getKey()) > 0) {
                 curr = ahead;
+                ahead = ahead.getSkip(i);
             }
             update[i] = curr; // save ref for later when updating skips
         }

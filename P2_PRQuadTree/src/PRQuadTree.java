@@ -72,7 +72,7 @@ public class PRQuadTree {
      */
     public String regionSearch(int x, int y, int w, int h) {
         StringBuilder str = new StringBuilder();
-        // :)
+        str.append(regionRecursive(str, head, x, y, w, h));
         return str.toString();
     }
 
@@ -84,7 +84,8 @@ public class PRQuadTree {
      *         Returns a formatted string of duplicate points
      */
     public String duplicates() {
-        return null;
+        StringBuilder str = new StringBuilder();
+        return str.toString();
     }
 
 
@@ -227,6 +228,62 @@ public class PRQuadTree {
             newY = oldCenter.getY() + shift;
         }
         return new Point(newX, newY);
+    }
+
+
+    /**
+     * Recursive method for region search
+     * 
+     * @param str
+     *            String being built for the search
+     *            The point being checked
+     * @param x
+     *            X coordinate of region
+     * @param y
+     *            Y coordinate of region
+     * @param w
+     *            Width of region
+     * @param h
+     *            Height of region
+     * @return
+     *         The string built for the region search
+     */
+    private String regionRecursive(
+        StringBuilder str,
+        BaseNode node,
+        int x,
+        int y,
+        int w,
+        int h,
+        int nodesVisited) {
+
+        if (node.isLeaf()) {
+            LeafNode checkNode = (LeafNode)node;
+            for (int i = 0; i < checkNode.getSize(); i++) {
+                if (inRect(checkNode.dataArray[i].value(), x, y, w, h)) {
+                    str.append("Point found: (" + checkNode.dataArray[i]
+                        .toString() + ")\n");
+                    nodesVisited++;
+                }
+            }
+            return str.toString();
+        }
+        if (node.isFlyweight()) {
+            return str.toString();
+            nodesVisited++;
+        }
+        InternalNode internal = (InternalNode)node;
+        int cenX = internal.center().getX();
+        int cenY = internal.center().getY();
+        if (cenX <= x + w && cenY >= y)
+            str.append(regionRecursive(str, internal.children[0], x, y, w, h));
+        if (cenX >= x && cenY >= y)
+            str.append(regionRecursive(str, internal.children[1], x, y, w, h));
+        if (cenX >= x && cenY <= y + h)
+            str.append(regionRecursive(str, internal.children[2], x, y, w, h));
+        if (cenX <= x + w && cenY <= y + h)
+            str.append(regionRecursive(str, internal.children[3], x, y, w, h));
+        return str.toString();
     }
 
 
