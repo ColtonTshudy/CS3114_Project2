@@ -17,7 +17,7 @@ import java.lang.reflect.Array;
 public class DataBase {
 
     private SkipList<String, Point> skipList = new SkipList<String, Point>();
-    private QuadTree quadTree = new QuadTree();
+    private PRQuadTree quadTree = new PRQuadTree();
 
     /**
      * Database constructor
@@ -68,13 +68,13 @@ public class DataBase {
             KVPair<String, Point> pair = new KVPair<String, Point>(commands[1],
                 point);
             skipList.insert(pair);
-            quadTree.insert(commands[1], point);
+            quadTree.insert(pair);
             str.append("Point inserted: (");
         }
         else {
             str.append("Point rejected: (");
         }
-        str.append(pair.toString() + ")\n");
+        str.append(point.toString() + ")\n");
         System.out.print(str.toString());
     }
 
@@ -114,7 +114,7 @@ public class DataBase {
             str.append("Point not found: (" + point.toString() + ")\n");
 
         else {
-            quadTree.remove(removed.key());
+            skipList.remove(removed.key());
             str.append("Point removed: (" + removed.toString() + ")\n");
         }
         System.out.print(str.toString());

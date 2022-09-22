@@ -94,7 +94,7 @@ public class Point {
     /**
      * Gives this point's location relative to the location of the given point,
      * as a direction.
-     * Direction 1 = E, 2 = NE, 3 = N, 4 = NW, 5 = W, 6 = SW, 7 = S, 8 = SE.
+     * Direction Node 0 = NE, 1 = NW, 2 = SW, 3 = SE
      * 0 = the points share the same coordinates
      * 
      * @param other
@@ -105,24 +105,14 @@ public class Point {
     public int relativeDirection(Point other) {
         int delX = x - other.getX();
         int delY = y - other.getY();
-        if (delX == 0 && delY == 0) // Same coordinates
+        if (delX >= 0 && delY < 0) // North East
             return 0;
-        if (delX > 0 && delY == 0) // East
-            return 1;
-        if (delX > 0 && delY < 0) // North East
-            return 2;
-        if (delX == 0 && delY < 0) // North
-            return 3;
         if (delX < 0 && delY < 0) // North West
-            return 4;
-        if (delX < 0 && delY == 0) // West
-            return 5;
-        if (delX < 0 && delY > 0) // South West
-            return 6;
-        if (delX == 0 && delY > 0) // South
-            return 5;
-        if (delX > 0 && delY > 0) // South East
-            return 8;
+            return 1;
+        if (delX < 0 && delY >= 0) // South West
+            return 2;
+        if (delX >= 0 && delY >= 0) // South East
+            return 3;
         return -1; // No valid direction found
     }
 

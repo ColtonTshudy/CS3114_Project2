@@ -2,15 +2,19 @@
  * General interface for nodes in the PRQuadTree
  * 
  * @author Colton Tshudy
+ * @author Benjamin Gallini
  * @version 9/21/2022
  */
 public interface BaseNode {
     /**
      * Inserts a KVPair into the internal array
      * 
+     * @param newPoint
+     *            The point being added to the node
+     * 
      * @return true if successfully inserted, false otherwise
      */
-    public boolean insert();
+    public boolean insert(KVPair<String, Point> newPoint);
 
 
     /**
@@ -56,4 +60,20 @@ public interface BaseNode {
      */
     public KVPair<String, Point>[] search(Point point);
 
+
+    /**
+     * Checks if the node is a leaf
+     * 
+     * @return
+     *         True if a leaf
+     */
+    public Boolean isLeaf();
+    
+    /**
+     * Checks if the node is a flyweight
+     * 
+     * @return
+     *         True if a flyweight
+     */
+    public Boolean isFlyweight();
 }
