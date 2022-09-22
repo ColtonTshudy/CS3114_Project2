@@ -15,7 +15,8 @@ public class PRQuadTree {
      * PR Quad Tree constructor
      */
     public PRQuadTree() {
-        head = new FlyweightNode();
+        Point headPoint = new Point(0, 0);
+        head = new FlyweightNode(headPoint, 1024);
         size = 0;
     }
 
@@ -28,7 +29,7 @@ public class PRQuadTree {
      */
     public void insert(KVPair<String, Point> pair) {
         BaseNode node = head;
-        insertRecursive(pair, node, null, 511);
+        insertRecursive(pair, node, null);
         size++;
     }
 
@@ -96,11 +97,11 @@ public class PRQuadTree {
      */
     public String duplicates() {
         Point[] result = (Point[])Array.newInstance(Point.class, size);
-        
+
         result = dupeRecursive(result, head);
         StringBuilder str = new StringBuilder();
         str.append("Duplicate Points:\n");
-        for(int i = 0; i < result.length; i++) {
+        for (int i = 0; i < result.length; i++) {
             str.append("(" + result[i].toString() + ")\n");
         }
         return str.toString();
@@ -135,33 +136,27 @@ public class PRQuadTree {
     private boolean insertRecursive(
         KVPair<String, Point> pair,
         BaseNode node,
-        InternalNode parent,
-        int shift) {
-        int direction = pair.value().relativeDirection(parent.center());
+        InternalNode parent) {
+        
+        int direction = pair.value().findQuadrant(node.getCorner(), node.getLength());
         if (node.isLeaf()) {
             if (!node.insert(pair)) {
-                Point newCenter = findNewCenter(direction, parent.length(), parent
-                    .center());
-                InternalNode newNode = new InternalNode(newCenter, parent.length()/2);
+                InternalNode newNode = new InternalNode(node.getCorner(), node.getLength());
                 parent.children[direction] = newNode;
                 LeafNode oldNode = (LeafNode)node;
                 for (int i = 0; i < oldNode.getSize(); i++) {
-                    insertRecursive(oldNode.dataArray[i], newNode, parent,
-                        shift);
+                    insertRecursive(oldNode.dataArray[i], newNode, parent);
                 }
             }
             return true;
         }
         if (node.isFlyweight()) {
-            Point corner = findCorner(direction, parent.center());
-            LeafNode newNode = new LeafNode(corner, parent.length()/2);
+            LeafNode newNode = new LeafNode(node.getCorner(),node.getLength());
             parent.children[direction] = newNode;
             newNode.insert(pair);
         }
         InternalNode newNode = (InternalNode)node;
-        direction = pair.value().relativeDirection(newNode.center());
-        insertRecursive(pair, newNode.children[direction], (InternalNode)node,
-            shift / 2);
+        insertRecursive(pair, newNode.children[direction], newNode);
         return false;
     }
 
@@ -185,7 +180,7 @@ public class PRQuadTree {
             return null;
 
         InternalNode newNode = (InternalNode)node;
-        int direction = point.relativeDirection(newNode.center());
+        int direction = point.findQuadrant(node.getCorner(), node.getLength());
         removeRecursive(point, newNode.children[direction]);
         return null;
     }
@@ -209,46 +204,10 @@ public class PRQuadTree {
             return null;
 
         InternalNode newNode = (InternalNode)node;
-        int direction = point.relativeDirection(newNode.center());
+        int direction = point.findQuadrant(node.getCorner(), node.getLength());
         removeRecursive(point, newNode.children[direction]);
         return null;
     }
-
-
-    /**
-     * Finds a new center for a new internal node
-     * 
-     * @param direction
-     *            Direction represented as an int
-     * @param shift
-     *            Amount to shift the center point by
-     * @param oldCenter
-     *            THe old center point
-     * @return
-     *         The new center point
-     */
-    private Point findNewCenter(int direction, int shift, Point oldCenter) {
-        int newX = 0;
-        int newY = 0;
-        if (direction == 0) {
-            newX = oldCenter.getX() + shift;
-            newY = oldCenter.getY() - shift;
-        }
-        if (direction == 1) {
-            newX = oldCenter.getX() - shift;
-            newY = oldCenter.getY() - shift;
-        }
-        if (direction == 2) {
-            newX = oldCenter.getX() - shift;
-            newY = oldCenter.getY() + shift;
-        }
-        if (direction == 3) {
-            newX = oldCenter.getX() + shift;
-            newY = oldCenter.getY() + shift;
-        }
-        return new Point(newX, newY);
-    }
-
 
     /**
      * Recursive method for region search
@@ -363,9 +322,7 @@ public class PRQuadTree {
      * @return
      *         An array of duplicates
      */
-    private Point[] dupeRecursive(
-        Point[] array,
-        BaseNode node) {
+    private Point[] dupeRecursive(Point[] array, BaseNode node) {
 
         if (node.isLeaf()) {
             LeafNode curr = (LeafNode)node;

@@ -67,7 +67,10 @@ public class FlyweightNode implements BaseNode {
 
     @Override
     public String toString() {
-        return null;
+        StringBuilder str = new StringBuilder();
+        str.append("Node at " + corner.toString() + ", " + length
+            + ": Empty");
+        return str.toString();
     }
 
 

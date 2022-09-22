@@ -182,6 +182,13 @@ public class LeafNode implements BaseNode {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
+        str.append("Node at " + corner.toString() + ", " + length
+            + ":\n");
+        for(int i = 0; i < arrayLength; i++) {
+            str.append("(" + dataArray[i].toString() + ")");
+            if(i != arrayLength-1)
+                str.append("\n");
+        }
         return str.toString();
     }
 

@@ -25,10 +25,14 @@ public class InternalNode implements BaseNode {
     public InternalNode(Point corner, int length) {
         this.corner = corner;
         this.length = length;
-        children[0] = new FlyweightNode();
-        children[1] = new FlyweightNode();
-        children[2] = new FlyweightNode();
-        children[3] = new FlyweightNode();
+        Point child0 = new Point(corner.getX()+length, corner.getY());
+        children[0] = new FlyweightNode(child0, length/2);
+        Point child1 = new Point(corner.getX(), corner.getY());
+        children[1] = new FlyweightNode(child1, length/2);
+        Point child2 = new Point(corner.getX()+length, corner.getY()+length);
+        children[2] = new FlyweightNode(child2, length/2);
+        Point child3 = new Point(corner.getX()+length, corner.getY()+length);
+        children[3] = new FlyweightNode(child3, length/2);
     }
 
     @Override
