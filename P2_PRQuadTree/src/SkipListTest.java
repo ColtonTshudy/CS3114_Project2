@@ -21,13 +21,12 @@ public class SkipListTest extends TestCase {
     // Declare any necessary objects or final variables
     private SkipList<String, String> sl1;
     private SkipList<String, String> sl2;
-    
+
     private KVPair<String, String> a;
     private KVPair<String, String> b;
     private KVPair<String, String> c;
     private KVPair<String, String> e;
     private KVPair<String, String> temp;
-
 
     /**
      * sets up each test method before it runs
@@ -35,7 +34,7 @@ public class SkipListTest extends TestCase {
     public void setUp() {
         sl1 = new SkipList<String, String>();
         sl2 = new SkipList<String, String>();
-        
+
         a = new KVPair<String, String>("A", "object 1");
         b = new KVPair<String, String>("B", "object 2");
         c = new KVPair<String, String>("C", "object 3");
@@ -65,9 +64,10 @@ public class SkipListTest extends TestCase {
 
         assertEquals(sl1.size(), 0);
 
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 1000; i++) {
             temp = new KVPair<String, String>("A", "object 1" + i);
             sl1.insert(temp);
+        }
 
         assertEquals(sl1.size(), 1000);
 
@@ -75,8 +75,6 @@ public class SkipListTest extends TestCase {
             sl1.remove("A");
 
         assertEquals(sl1.size(), 0);
-
-        // System.out.println(sl1);
     }
 
 
@@ -98,8 +96,8 @@ public class SkipListTest extends TestCase {
 
         // Inserting a KVpair that will land between 2 existing nodes
         TestableRandom.setNextBooleans(true, false);
-        
-        KVPair<String, String> d =  new KVPair<String, String>("D", "object 5");
+
+        KVPair<String, String> d = new KVPair<String, String>("D", "object 5");
         sl2.insert(d);
 
         String node5 = "Node has depth 2, Value (D, object 5)";
@@ -114,39 +112,36 @@ public class SkipListTest extends TestCase {
      * This method will test the findByKey method
      */
     public void testFind() {
-        assertTrue(sl2.find("A").equals("object 1"));
-        assertTrue(sl2.find("B").equals("object 2"));
-        assertTrue(sl2.find("C").equals("object 3"));
-        assertTrue(sl2.find("E").equals("object 4"));
+        assertTrue(sl2.find("A").equals(a));
+        assertTrue(sl2.find("B").equals(b));
+        assertTrue(sl2.find("C").equals(c));
+        assertTrue(sl2.find("E").equals(e));
 
         assertNull(sl2.find("nothing"));
         assertNull(sl2.find("D"));
     }
 
+
     public void testPrintAllMatching() {
-        StringBuilder str = new StringBuilder();
-        str.append("Nodes matching key \"");
-        str.append("A");
-        str.append("\":\n");
-        str.append("");
-        
-        assertEquals(sl2.printAllMatching("A"), str.toString());
-        
+        String node1 = "Node has depth 1, Value (A, object 1)";
+
+        assertEquals(sl2.printAllMatching("A"), node1);
+
         assertNull(sl2.printAllMatching("nothing"));
         assertNull(sl2.printAllMatching("D"));
     }
 
-//    /**
-//     * This method will test the findByElement method
-//     */
-//    public void testFindByElement() {
-//        assertTrue(sl2.findByElement("object 1").equals("object 1"));
-//        assertTrue(sl2.findByElement("object 2").equals("object 2"));
-//        assertTrue(sl2.findByElement("object 3").equals("object 3"));
-//        assertTrue(sl2.findByElement("object 4").equals("object 4"));
+// /**
+// * This method will test the findByElement method
+// */
+// public void testFindByElement() {
+// assertTrue(sl2.findByElement("object 1").equals("object 1"));
+// assertTrue(sl2.findByElement("object 2").equals("object 2"));
+// assertTrue(sl2.findByElement("object 3").equals("object 3"));
+// assertTrue(sl2.findByElement("object 4").equals("object 4"));
 //
-//        assertNull(sl2.findByElement("nothing"));
-//    }
+// assertNull(sl2.findByElement("nothing"));
+// }
 
 
     /**
@@ -162,31 +157,29 @@ public class SkipListTest extends TestCase {
         String nl = System.lineSeparator();
 
         // Removing at the beginning of the list
-        assertTrue(sl2.remove("A").equals("object 1"));
-        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2 + nl
-            + node3 + nl + size));
+        String expected = head + nl + node1 + nl + node2 + nl + node3 + nl
+            + size;
+        assertEquals(a, sl2.remove("A"));
+        assertEquals(expected, sl2.toString());
 
         // Invalid removal at beginning of list
         assertNull(sl2.remove("A"));
-        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2 + nl
-            + node3 + nl + size)); // check nothing was removed
+        assertEquals(expected, sl2.toString()); // check nothing was removed
 
         // Invalid removal in between keys
         assertNull(sl2.remove("D"));
-        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2 + nl
-            + node3 + nl + size)); // check nothing was // removed
+        assertEquals(expected, sl2.toString()); // check nothing was removed
 
         // Invalid removal at end of list
         assertNull(sl2.remove("F"));
-        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2 + nl
-            + node3 + nl + size)); // check nothing was removed
+        assertEquals(expected, sl2.toString()); // check nothing was removed
 
         size = "SkipList size is: 2";
 
         // Removing at the end of the list
-        assertTrue(sl2.remove("E").equals("object 4"));
-        assertTrue(sl2.toString().equals(head + nl + node1 + nl + node2 + nl
-            + size));
+        expected = head + nl + node1 + nl + node2 + nl + size;
+        assertEquals(e, sl2.remove("E"));
+        assertEquals(expected, sl2.toString());
 
         // Test adding and removing a lot of entries, and removing from an empty
         // list
@@ -196,14 +189,15 @@ public class SkipListTest extends TestCase {
         for (int i = 0; i < 1500; i++)
             sl1.remove("A");
 
-//        // get the depth of the head node to create expected string dump
-//        int depth = sl1.getHead().forward.length;
-//        head = "Node has depth " + depth + ", Value (null)";
-//
-//        size = "SkipList size is: 0";
-//
-//        // check if the skip list only has 1 node (head)
-//        assertTrue(sl1.toString().equals(head + nl + size));
+        // get the depth of the head node to create expected string dump
+        int depth = sl1.getDeepestLevel();
+        head = "Node has depth " + depth + ", Value (null)";
+
+        size = "SkipList size is: 0";
+
+        // check if the skip list only has 1 node (head)
+        expected = head + nl + size;
+        assertEquals(expected, sl1.toString());
     }
 
 
@@ -212,8 +206,9 @@ public class SkipListTest extends TestCase {
      */
     public void testRemoveByElement() {
         TestableRandom.setNextBooleans(false);
-        
-        KVPair<String, String> dupe =  new KVPair<String, String>("A", "duplicate key");
+
+        KVPair<String, String> dupe = new KVPair<String, String>("A",
+            "duplicate key");
         sl2.insert(dupe);
 
         // Expected string dump segments from skip list 2
@@ -243,13 +238,4 @@ public class SkipListTest extends TestCase {
             + node3 + nl + node4 + nl + size)); // check that nothing was
                                                 // removed
     }
-
-
-//    /**
-//     * This method will test the getHead method
-//     */
-//    public void testGetHead() {
-//        SkipNode<String, String> test = sl2.getHead();
-//        assertTrue(test.forward[0].element().equals("object 1"));
-//    }
 }

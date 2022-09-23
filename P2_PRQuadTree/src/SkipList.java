@@ -38,6 +38,16 @@ public class SkipList<K extends Comparable<K>, E> {
 
 
     /**
+     * Returns the deepest level
+     * 
+     * @returns deepest node of the skiplist
+     */
+    public int getDeepestLevel() {
+        return deepestLevel + 1;
+    }
+
+
+    /**
      * Make the header node deeper
      * 
      * @param newLevel
@@ -119,6 +129,7 @@ public class SkipList<K extends Comparable<K>, E> {
             // find the remove position...
             while (ahead != null && key.compareTo(ahead.getKey()) > 0) {
                 curr = ahead;
+                ahead = ahead.getSkip(i);
             }
             update[i] = curr; // save node for later, it MIGHT need an update
         }
@@ -127,7 +138,7 @@ public class SkipList<K extends Comparable<K>, E> {
         // finally check if key k is in skipList ...
         if (curr != null && key.compareTo(curr.getKey()) == 0) {
             // start removal process, updating any skips
-            for (i = 0; i < curr.getLevel(); i++) {
+            for (i = 0; i <= curr.getLevel(); i++) {
                 update[i].setSkip(i, curr.getSkip(i));
             }
             size--; // don't forget!
@@ -149,7 +160,7 @@ public class SkipList<K extends Comparable<K>, E> {
 
         // for each node in the skiplist, minus head
         while (curr != null) {
-            stb.append(curr.getPair().toString());
+            stb.append(curr.toString());
 
             // newline if there is another node
             stb.append(System.lineSeparator());
@@ -179,14 +190,14 @@ public class SkipList<K extends Comparable<K>, E> {
             return null;
         }
 
-        stb.append("Nodes matching key \"");
-        stb.append(key);
-        stb.append("\":");
-
         // List out all nodes with key K
-        while (!curr.getKey().equals(key)) {
-            stb.append(System.lineSeparator());
+        while (curr != null && curr.getKey().equals(key)) {
             stb.append(curr.toString());
+            curr = curr.getSkip(0);
+
+            // Check if we need to add a line separator
+            if (curr != null && curr.getKey().equals(key))
+                stb.append(System.lineSeparator());
         }
 
         return stb.toString();
@@ -282,8 +293,7 @@ public class SkipList<K extends Comparable<K>, E> {
         SkipNode<K, E> curr = findNode(key);
         if (curr == null)
             return null;
-        else
-            return curr.getPair();
+        return curr.getPair();
     }
 
 
@@ -301,11 +311,15 @@ public class SkipList<K extends Comparable<K>, E> {
             // find the matching node position...
             while (ahead != null && key.compareTo(ahead.getKey()) > 0) {
                 curr = ahead;
+                ahead = ahead.getSkip(i); // advance forward a node on this
+                                          // level
             }
         }
         curr = curr.getSkip(0); // Proceed to node with matching key
 
-        return curr;
+        if (curr != null && key.compareTo(curr.getKey()) == 0)
+            return curr; // matching node found
+        return null; // no matching node found
     }
 
 
