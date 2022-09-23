@@ -30,6 +30,16 @@ public class PRQuadTree {
 
 
     /**
+     * Getter method for size
+     * 
+     * @return size
+     */
+    public int getSize() {
+        return size;
+    }
+
+
+    /**
      * Inserts a new point into the tree
      * 
      * @param pair
@@ -126,9 +136,10 @@ public class PRQuadTree {
 
         result = dupeRecursive(result, head);
         StringBuilder str = new StringBuilder();
-        str.append("Duplicate Points:\n");
+        str.append("Duplicate Points:");
         for (int i = 0; i < result.length; i++) {
-            str.append("(" + result[i].toString() + ")\n");
+            str.append("\n");
+            str.append("(" + result[i].toString() + ")");
         }
         return str.toString();
     }
@@ -337,8 +348,7 @@ public class PRQuadTree {
 
         InternalNode newNode = (InternalNode)node;
         int direction = point.findQuadrant(node.getCorner(), node.getLength());
-        removeRecursive(point, newNode.children()[direction]);
-        return null;
+        return findRecursive(point, newNode.children()[direction]);
     }
 
 
