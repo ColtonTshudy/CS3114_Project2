@@ -13,8 +13,15 @@ import student.TestableRandom;
 /**
  * The SkipList class, used for efficient search, insert, remove
  * of KVPairs
+ * 
+ * @author Colton Tshudy (coltont)
+ * @author Benjamin Gallini (bengallini)
+ * @version 9/23/2022
  *
- * @author CS Staff
+ * @param <K>
+ *            Comparable object type for the key
+ * @param <E>
+ *            Object type for the value/element
  */
 public class SkipList<K extends Comparable<K>, E> {
 
@@ -23,11 +30,14 @@ public class SkipList<K extends Comparable<K>, E> {
     private SkipNode<K, E> head; // Header node for the skiplist
     private int size = 0; // The number of records in entire list
 
+    /**
+     * Constructs a new SkipList of depth 0
+     */
     public SkipList() {
         rng = new TestableRandom(); // allows for testing
         deepestLevel = 0;
         head = new SkipNode<K, E>(0, null);
-        // the head node NEVER has data, it only helps us with first skips
+        // the head node NEVER has data, it only helps with first skips
     }
 
 
@@ -72,7 +82,7 @@ public class SkipList<K extends Comparable<K>, E> {
     /**
      * Returns the deepest level
      * 
-     * @returns deepest node of the skiplist
+     * @return deepest node of the skiplist
      */
     public int getDeepestLevel() {
         return deepestLevel + 1;
@@ -159,12 +169,10 @@ public class SkipList<K extends Comparable<K>, E> {
     /**
      * Remove some record with key value "key" AND element value "element".
      *
-     * @param key
-     *            Key value to find and remove
-     * 
-     * @param element
-     *            Element value to find and remove
-     * @return The KVPair of the removed node, or null if no KVPair matches
+     * @param pair
+     *            KVPair to attempt to remove from the SkipList
+     *
+     * @return The KVPair of the removed node, or null if no match was found
      */
     public KVPair<K, E> remove(KVPair<K, E> pair) {
         int i;
@@ -175,29 +183,29 @@ public class SkipList<K extends Comparable<K>, E> {
             SkipNode.class, deepestLevel + 1);
         // 'update' gets all the nodes that need to point around the old node
 
-        SkipNode<K, E> rear = head; // Start at header node
+        SkipNode<K, E> curr = head; // Start at header node
 
         for (i = deepestLevel; i >= 0; i--) { // starting from big skips...
-            SkipNode<K, E> cur = rear.getSkip(i);
+            SkipNode<K, E> ahead = curr.getSkip(i);
             // find the remove position...
-            while (cur != null && key.compareTo(cur.getKey()) >= 0
-                && pair != cur.getPair()) {
-                rear = cur;
-                cur = cur.getSkip(i); // advance to the next node
+            while (ahead != null && key.compareTo(ahead.getKey()) >= 0
+                && pair != ahead.getPair()) {
+                curr = ahead;
+                ahead = ahead.getSkip(i); // advance to the next node
             }
-            rearNodes[i] = rear; // save node for later, it MIGHT need an update
+            rearNodes[i] = curr; // save node for later, it MIGHT need an update
         }
 
-        rear = rear.getSkip(0);
+        curr = curr.getSkip(0);
 
         // finally check if key k is in skipList ...
-        if (rear != null && pair == rear.getPair()) {
+        if (curr != null && pair == curr.getPair()) {
             // start removal process, updating any skips
-            for (i = 0; i <= rear.getLevel(); i++) {
-                rearNodes[i].setSkip(i, rear.getSkip(i));
+            for (i = 0; i <= curr.getLevel(); i++) {
+                rearNodes[i].setSkip(i, curr.getSkip(i));
             }
             size--; // don't forget!
-            return rear.getPair(); // return the pair of the now-removed curr
+            return curr.getPair(); // return the pair of the now-removed curr
         }
         return null; // Key k is not in list, so return null;
     }

@@ -15,7 +15,7 @@ import student.TestableRandom;
  *
  * @author Colton Tshudy (coltont)
  * @author Benjamin Gallini (bengallini)
- * @version 9/3/2022
+ * @version 9/23/2022
  */
 
 public class SkipListTest extends TestCase {

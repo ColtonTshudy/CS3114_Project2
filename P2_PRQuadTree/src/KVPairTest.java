@@ -8,14 +8,6 @@
 
 import student.TestCase;
 
-//Virginia Tech Honor Code Pledge:
-//
-//As a Hokie, I will conduct myself with honor and integrity at all times.
-//I will not lie, cheat, or steal, nor will I accept the actions of those who
-//do.
-//-- Colton Tshudy (coltont)
-//-- Benjamin Gallini (bengallini)
-
 /**
  * KVPair test class
  * 
@@ -32,7 +24,8 @@ public class KVPairTest extends TestCase {
     public void setUp() {
         pair = new KVPair<String, String>("A", "apple");
     }
-    
+
+
     /**
      * Tests compareTo method
      */
@@ -47,6 +40,7 @@ public class KVPairTest extends TestCase {
         assertEquals(pair2.compareTo("B"), 0);
     }
 
+
     /**
      * Tests key method
      */
@@ -54,12 +48,14 @@ public class KVPairTest extends TestCase {
         assertEquals(pair.key(), "A");
     }
 
+
     /**
      * Tests value method
      */
     public void testValue() {
         assertEquals(pair.value(), "apple");
     }
+
 
     /**
      * Tests toString method

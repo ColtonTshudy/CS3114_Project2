@@ -16,10 +16,12 @@
  *
  */
 public class Point {
-    int x;
-    int y;
-    private int MAX_COORD = 1023;
-    private int MIN_COORD = 0;
+    private int x;
+    private int y;
+
+    // these should be constant global vars in the future
+    private int maxCoord = 1023;
+    private int minCoord = 0;
 
     /**
      * Constructs a new point in the x y plane
@@ -58,7 +60,7 @@ public class Point {
     /**
      * Setter for x coordinate
      * 
-     * @param x
+     * @param newX
      *            new x coordinate of this point
      */
     public void setX(int newX) {
@@ -69,8 +71,8 @@ public class Point {
     /**
      * Setter for y coordinate
      * 
-     * @param y
-     *            new x coordinate of this point
+     * @param newY
+     *            new y coordinate of this point
      */
     public void setY(int newY) {
         y = newY;
@@ -84,8 +86,8 @@ public class Point {
      *         MIN_COORD
      */
     public boolean validPoint() {
-        return (x <= MAX_COORD && y <= MAX_COORD) && (x >= MIN_COORD
-            && y >= MIN_COORD);
+        return (x <= maxCoord && y <= maxCoord) && (x >= minCoord
+            && y >= minCoord);
     }
 
 
@@ -104,8 +106,11 @@ public class Point {
      * Quadrant 0 = NE, 1 = NW, 2 = SW, 3 = SE
      * 0 = the points share the same coordinates
      * 
-     * @param other
-     *            point to compare against
+     * @param topLeft
+     *            Upper left point of the square
+     * 
+     * @param size
+     *            Side length of the square
      * 
      * @return the number index of the point within the quadrant
      */
