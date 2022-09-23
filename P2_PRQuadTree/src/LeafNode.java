@@ -228,4 +228,23 @@ public class LeafNode implements BaseNode {
         }
         return true;
     }
+
+
+    @Override
+    public KVPair<String, Point> remove(KVPair<String, Point> pair) {
+        KVPair<String, Point> removed;
+        for (int i = 0; i < arrayLength; i++) {
+            if (dataArray[i].equals(pair)) {
+                removed = dataArray[i];
+                for (int j = i; j < arrayLength; j++) {
+                    dataArray[j] = dataArray[j + 1];
+                }
+                arrayLength--;
+                if (!isDupe(removed))
+                    uniqueItems--;
+                return removed;
+            }
+        }
+        return null;
+    }
 }

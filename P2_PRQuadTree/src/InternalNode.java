@@ -104,4 +104,9 @@ public class InternalNode implements BaseNode {
         return length;
     }
 
+    @Override
+    public KVPair<String, Point> remove(KVPair<String, Point> pair) {
+        return null;
+    }
+
 }

@@ -21,7 +21,6 @@ public class PRQuadTreeTest extends TestCase{
     private Point point;
     private Point point1;
     private Point point2;
-    private Point point3;
     private Point point4;
     private KVPair<String, Point> pair;
     
@@ -76,9 +75,16 @@ public class PRQuadTreeTest extends TestCase{
     }
     
     /**
-     * Tests the remove method
+     * Tests the remove method with a point
      */
     public void testRemove() {
+        
+    }
+    
+    /**
+     * Tests the remove method with a pair
+     */
+    public void testRemovePair() {
         
     }
     

@@ -87,4 +87,10 @@ public class FlyweightNode implements BaseNode {
     public int getLength() {
         return length;
     }
+
+
+    @Override
+    public KVPair<String, Point> remove(KVPair<String, Point> pair) {
+        return null;
+    }
 }

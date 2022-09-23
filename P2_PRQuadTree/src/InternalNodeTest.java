@@ -62,6 +62,7 @@ public class InternalNodeTest extends TestCase{
     public void testRemove() {
         assertNull(node.remove(corner));
         assertNull(node.remove("A"));
+        assertNull(node.remove(pair));
     }
 
 

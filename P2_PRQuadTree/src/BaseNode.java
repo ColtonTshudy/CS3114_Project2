@@ -57,6 +57,15 @@ public interface BaseNode {
 
 
     /**
+     * Removes a KVPair from the internal array by its element
+     * 
+     * @param pair
+     *            pair being removed
+     * 
+     * @return the removed KVPair
+     */
+    public KVPair<String, Point> remove(KVPair<String, Point> pair);
+    /**
      * Searches for all KVPairs with matching key
      * 
      * @param key

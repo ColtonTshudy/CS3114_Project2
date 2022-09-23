@@ -83,6 +83,26 @@ public class LeafNodeTest extends TestCase {
         assertEquals(node.getSize(), 0);
         assertNull(node.remove(point));
     }
+    
+    /**
+     * Tests remove method with key
+     */
+    public void testRemovePair() {
+        assertEquals(node.remove(pair), pair);
+        assertNull(node.remove(pair));
+        
+        node.insert(pair);
+        node.insert(pairDupe);
+        node.insert(pair2);
+        node.insert(pair3);
+        assertEquals(node.remove(pair2), pair2);
+        assertEquals(node.remove(pair3), pair3);
+        assertEquals(node.remove(pair), pair);
+        assertNull(node.remove(pair));
+        assertEquals(node.remove(pairDupe), pairDupe);
+        assertEquals(node.getSize(), 0);
+        assertNull(node.remove(pair));
+    }
 
 
     /**

@@ -51,6 +51,22 @@ public class PRQuadTree {
         return result;
     }
 
+    /**
+     * Removes a point from the tree
+     * 
+     * @param poir
+     *            The pair being removed
+     * @return
+     *         The KVPair for the point removed
+     */
+    public KVPair<String, Point> remove(KVPair<String, Point> pair) {
+        BaseNode node = head;
+        KVPair<String, Point> result = removeRecursive(pair, node);
+        if (result != null) {
+            size--;
+        }
+        return result;
+    }
 
     /**
      * Finds and returns an array with this point
@@ -262,6 +278,30 @@ public class PRQuadTree {
         InternalNode newNode = (InternalNode)node;
         int direction = point.findQuadrant(node.getCorner(), node.getLength());
         removeRecursive(point, newNode.children[direction]);
+        return null;
+    }
+    
+    /**
+     * Recursive function for remove
+     * 
+     * @param point
+     *            The point being removed
+     * @param node
+     *            The current node to find the point
+     * @return
+     *         The KVPair for the point
+     */
+    private KVPair<String, Point> removeRecursive(KVPair<String, Point> pair, BaseNode node) {
+        if (node.isLeaf()) {
+            return node.remove(pair);
+        }
+
+        if (node.isFlyweight())
+            return null;
+
+        InternalNode newNode = (InternalNode)node;
+        int direction = pair.value().findQuadrant(node.getCorner(), node.getLength());
+        removeRecursive(pair, newNode.children[direction]);
         return null;
     }
 

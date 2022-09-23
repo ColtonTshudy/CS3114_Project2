@@ -92,7 +92,7 @@ public class DataBase {
             str.append("Point not found: (" + name + ")\n");
 
         else {
-            quadTree.remove(removed.value());
+            quadTree.remove(removed);
             str.append("Point removed: " + removed.toString() + "\n");
         }
         System.out.print(str.toString());
@@ -114,7 +114,7 @@ public class DataBase {
             str.append("Point not found: (" + point.toString() + ")\n");
 
         else {
-            skipList.remove(removed.key());
+            skipList.remove(removed);
             str.append("Point removed: (" + removed.toString() + ")\n");
         }
         System.out.print(str.toString());
