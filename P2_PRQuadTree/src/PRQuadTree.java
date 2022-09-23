@@ -505,7 +505,7 @@ public class PRQuadTree {
         int y,
         int w,
         int h) {
-        return (point1.getX() < x + w && x < point1.getX() + length && point1.getY() < y + h
-            && y < point1.getY() + length);
+        return (point1.getX() < x + w && x < point1.getX() + length && point1
+            .getY() < y + h && y < point1.getY() + length);
     }
 }

@@ -245,17 +245,17 @@ public class LeafNode implements BaseNode {
      * @param array
      *            The array of points
      * @param point
-     *            The point being checked
+     *            The point being checkedF
      * @param len
      *            The length of the array
      * @return True if not in array
      */
     private boolean notInArray(Point[] array, Point point, int len) {
+        boolean found = false;
         for (int i = 0; i < len; i++) {
-            if (array[i].equals(point))
-                return false;
+            found = array[i].equals(point);
         }
-        return true;
+        return !found;
     }
 
 

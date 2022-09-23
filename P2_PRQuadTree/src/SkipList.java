@@ -74,6 +74,11 @@ public class SkipList<K extends Comparable<K>, E> {
     }
 
 
+    /**
+     * Getter for size
+     * 
+     * @return size of the list
+     */
     public int size() {
         return size;
     }
