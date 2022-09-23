@@ -153,9 +153,7 @@ public class Point {
             return false;
         if (y < topLeft.getY()) // point above
             return false;
-        if (y > topLeft.getY() + size) // point is below
-            return false;
-        return true; // point is within or on the bounds of the square
+        return !(y > topLeft.getY() + size); // point is below
     }
 
 
