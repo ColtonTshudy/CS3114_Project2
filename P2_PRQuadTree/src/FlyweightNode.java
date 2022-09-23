@@ -76,11 +76,10 @@ public class FlyweightNode implements BaseNode {
     @Override
     public String toString(int indent) {
         StringBuilder str = new StringBuilder();
-        for(int i = 0; i < indent; i++) {
+        for (int i = 0; i < indent; i++) {
             str.append("  ");
         }
-        str.append("Node at " + corner.toString() + ", " + length
-            + ": Empty");
+        str.append("Node at " + corner.toString() + ", " + length + ": Empty");
         return str.toString();
     }
 

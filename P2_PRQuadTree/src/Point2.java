@@ -15,9 +15,20 @@ import java.util.Scanner;
  * Usage: java Point2 <command-file>
  *
  * @author CS Staff
+ * @author Benjamin Gallini
+ * @author Colton Tshudy
+ * @version 9/23/22
  */
 public class Point2 {
 
+    /**
+     * Main method
+     * 
+     * @param args
+     *            Argument containing file name
+     * @throws IOException
+     *             When file doesn't exist
+     */
     public static void main(String[] args) throws IOException {
         if (args.length != 1) {
             System.out.println("Usage: java Point2 <command-file>");

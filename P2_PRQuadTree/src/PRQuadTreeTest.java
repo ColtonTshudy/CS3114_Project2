@@ -9,21 +9,26 @@
 import student.TestCase;
 
 /**
- * PRQuadTreeTest will test all public methods in PRQuadTree to ensure that they run
+ * PRQuadTreeTest will test all public methods in PRQuadTree to ensure that they
+ * run
  * and perform as expected
  *
  * @author Colton Tshudy (coltont)
  * @author Benjamin Gallini (bengallini)
  * @version 9/22/2022
  */
-public class PRQuadTreeTest extends TestCase{
+public class PRQuadTreeTest extends TestCase {
     private PRQuadTree tree;
     private Point point;
     private Point point1;
     private Point point2;
-    private Point point4;
+    private Point point3;
     private KVPair<String, Point> pair;
-    
+    private KVPair<String, Point> pair0;
+    private KVPair<String, Point> pair1;
+    private KVPair<String, Point> pair2;
+    private KVPair<String, Point> pair3;
+
     /**
      * sets up each test method before it runs
      */
@@ -32,27 +37,32 @@ public class PRQuadTreeTest extends TestCase{
         point = new Point(0, 0);
         point1 = new Point(0, 1);
         point2 = new Point(1, 0);
-        point4 = new Point(1000, 1000);
+        point3 = new Point(1000, 1000);
         pair = new KVPair<String, Point>("A", point);
+        pair0 = new KVPair<String, Point>("B", point);
+        pair1 = new KVPair<String, Point>("C", point1);
+        pair2 = new KVPair<String, Point>("D", point2);
+        pair3 = new KVPair<String, Point>("F", point3);
     }
-    
+
+
     /**
      * Tests the insert method
      */
     public void testInsert() {
         tree.insert(pair);
-        
+
         StringBuilder str = new StringBuilder("Node at 0, 0, 1024:\n");
         str.append("(A, 0, 0)\n");
         str.append("1 quadtree nodes printed");
         assertEquals(tree.toString(), str.toString());
-        
-        tree.insert(new KVPair<String, Point>("B", point));
-        tree.insert(new KVPair<String, Point>("C", point1));
-        tree.insert(new KVPair<String, Point>("D", point2));
-        tree.insert(new KVPair<String, Point>("F", point4));
+
+        tree.insert(pair0);
+        tree.insert(pair1);
+        tree.insert(pair2);
+        tree.insert(pair3);
         tree.insert(new KVPair<String, Point>("G", new Point(257, 0)));
-        
+
         str = new StringBuilder("Node at 0, 0, 1024: Internal\n");
         str.append("  Node at 512, 0, 512: Empty\n");
         str.append("  Node at 0, 0, 512: Internal\n");
@@ -70,49 +80,62 @@ public class PRQuadTreeTest extends TestCase{
         str.append("  Node at 512, 512, 512:\n");
         str.append("  (F, 1000, 1000)\n");
         str.append("9 quadtree nodes printed");
-        
+
         assertEquals(tree.toString(), str.toString());
     }
-    
+
+
     /**
      * Tests the remove method with a point
      */
     public void testRemove() {
-        
+        tree.insert(new KVPair<String, Point>("B", point));
+        tree.insert(new KVPair<String, Point>("C", point1));
+        tree.insert(new KVPair<String, Point>("D", point2));
+        tree.insert(new KVPair<String, Point>("F", point3));
+        tree.insert(new KVPair<String, Point>("G", new Point(257, 0)));
+        assertEquals(tree.remove(point3).value(), pair3.value());
+        assertNull(tree.remove(point3));
+
     }
-    
+
+
     /**
      * Tests the remove method with a pair
      */
     public void testRemovePair() {
-        
+
     }
-    
+
+
     /**
      * Tests the find method
      */
     public void testFind() {
-        
+
     }
-    
+
+
     /**
      * Tests the regionSearch method
      */
     public void testRegionSearch() {
-        
+
     }
-    
+
+
     /**
      * Tests the duplicates method
      */
     public void testDuplicates() {
-        
+
     }
-    
+
+
     /**
      * Tests the toString method
      */
     public void testToString() {
-        
+
     }
 }

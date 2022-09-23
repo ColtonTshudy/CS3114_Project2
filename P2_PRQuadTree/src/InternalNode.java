@@ -16,19 +16,27 @@
 
 import java.lang.reflect.Array;
 
+/**
+ * InternalNode class
+ * 
+ * @author Benjamin Gallini
+ * @author Colton Tshudy
+ * @version 9/23/22
+ */
 public class InternalNode implements BaseNode {
     /**
      * Leaf nodes of the internal node.
      * Node 0 = NE, 1 = NW, 2 = SW, 3 = SE
      */
-    public BaseNode[] children = (BaseNode[])Array.newInstance(BaseNode.class, 4);
+    private BaseNode[] children = (BaseNode[])Array.newInstance(BaseNode.class,
+        4);
     private int length;
     private Point corner;
 
     /**
      * Internal Node constructor
      * 
-     * @param center
+     * @param corner
      *            The center point of the internal node
      * @param length
      *            The length of the internal node area's size
@@ -36,16 +44,28 @@ public class InternalNode implements BaseNode {
     public InternalNode(Point corner, int length) {
         this.corner = corner;
         this.length = length;
-        int newLength = length/2;
+        int newLength = length / 2;
         Point child0 = new Point(corner.getX() + newLength, corner.getY());
         children[0] = new FlyweightNode(child0, newLength);
         Point child1 = new Point(corner.getX(), corner.getY());
         children[1] = new FlyweightNode(child1, newLength);
-        Point child2 = new Point(corner.getX(), corner.getY()+ newLength);
+        Point child2 = new Point(corner.getX(), corner.getY() + newLength);
         children[2] = new FlyweightNode(child2, newLength);
-        Point child3 = new Point(corner.getX()+ newLength, corner.getY()+ newLength);
+        Point child3 = new Point(corner.getX() + newLength, corner.getY()
+            + newLength);
         children[3] = new FlyweightNode(child3, newLength);
     }
+
+
+    /**
+     * Returns the children for the internal node
+     * 
+     * @return the children array
+     */
+    public BaseNode[] children() {
+        return children;
+    }
+
 
     @Override
     public boolean insert(KVPair<String, Point> newPoint) {
@@ -92,7 +112,7 @@ public class InternalNode implements BaseNode {
     @Override
     public String toString(int indent) {
         StringBuilder str = new StringBuilder();
-        for(int i = 0; i < indent; i++) {
+        for (int i = 0; i < indent; i++) {
             str.append("  ");
         }
         str.append("Node at " + corner.toString() + ", " + length
@@ -111,6 +131,7 @@ public class InternalNode implements BaseNode {
     public int getLength() {
         return length;
     }
+
 
     @Override
     public KVPair<String, Point> remove(KVPair<String, Point> pair) {

@@ -15,6 +15,13 @@
  */
 import java.lang.reflect.Array;
 
+/**
+ * LeafNode class
+ * 
+ * @author Benjamin Gallini
+ * @author Colton Tshudy
+ * @version 9/23/22
+ */
 public class LeafNode implements BaseNode {
     private int arrayLength = 0;
     private int uniqueItems = 0;
@@ -38,8 +45,18 @@ public class LeafNode implements BaseNode {
      * Data array for the leaf node
      */
     @SuppressWarnings("unchecked")
-    public KVPair<String, Point>[] dataArray = (KVPair<String, Point>[])Array
+    private KVPair<String, Point>[] dataArray = (KVPair<String, Point>[])Array
         .newInstance(KVPair.class, 100);
+
+    /**
+     * Getter for dataArray
+     * 
+     * @return array of data points
+     */
+    public KVPair<String, Point>[] dataArray() {
+        return dataArray;
+    }
+
 
     @Override
     public boolean insert(KVPair<String, Point> newPoint) {
@@ -211,12 +228,14 @@ public class LeafNode implements BaseNode {
      *         true if a duplicate
      */
     private boolean isDupe(KVPair<String, Point> pair) {
-        for (int i = 0; i < arrayLength; i++) {
-            if (pair.value().equals(dataArray[i].value()) && !pair.key().equals(
-                dataArray[i].key()))
-                return true;
+        boolean dupeFound = false;
+        int i = 0;
+        while (i < arrayLength && !dupeFound) {
+            dupeFound = pair.value().equals(dataArray[i].value()) && !pair.key()
+                .equals(dataArray[i].key());
+            i++;
         }
-        return false;
+        return dupeFound;
     }
 
 
@@ -227,10 +246,12 @@ public class LeafNode implements BaseNode {
      *            The array of points
      * @param point
      *            The point being checked
+     * @param len
+     *            The length of the array
      * @return True if not in array
      */
-    private boolean notInArray(Point[] array, Point point, int length) {
-        for (int i = 0; i < length; i++) {
+    private boolean notInArray(Point[] array, Point point, int len) {
+        for (int i = 0; i < len; i++) {
             if (array[i].equals(point))
                 return false;
         }

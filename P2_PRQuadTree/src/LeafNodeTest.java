@@ -59,6 +59,7 @@ public class LeafNodeTest extends TestCase {
         assertEquals(node.getSize(), 3);
         assertTrue(node.insert(pairDupe));
         assertEquals(node.getSize(), 4);
+        assertEquals(node.dataArray()[0], pair);
     }
 
 
@@ -83,14 +84,15 @@ public class LeafNodeTest extends TestCase {
         assertEquals(node.getSize(), 0);
         assertNull(node.remove(point));
     }
-    
+
+
     /**
      * Tests remove method with key
      */
     public void testRemovePair() {
         assertEquals(node.remove(pair), pair);
         assertNull(node.remove(pair));
-        
+
         node.insert(pair);
         node.insert(pairDupe);
         node.insert(pair2);
@@ -168,7 +170,10 @@ public class LeafNodeTest extends TestCase {
     }
 
 
-    public void testfindDupe() {
+    /**
+     * Tests findDupe
+     */
+    public void testFindDupe() {
         assertNull(node.findDupe()[0]);
         node.insert(pairDupe);
         assertEquals(node.findDupe()[0], point);

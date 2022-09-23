@@ -63,7 +63,7 @@ public class PRQuadTree {
     /**
      * Removes a point from the tree
      * 
-     * @param poir
+     * @param pair
      *            The pair being removed
      * @return
      *         The KVPair for the point removed
@@ -179,22 +179,22 @@ public class PRQuadTree {
 
             InternalNode intNode = (InternalNode)node;
             indent++;
-            dump = dumpRecursive(str, nodesPrinted, intNode.children[0],
+            dump = dumpRecursive(str, nodesPrinted, intNode.children()[0],
                 indent);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
 
-            dump = dumpRecursive(str, nodesPrinted, intNode.children[1],
+            dump = dumpRecursive(str, nodesPrinted, intNode.children()[1],
                 indent);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
 
-            dump = dumpRecursive(str, nodesPrinted, intNode.children[2],
+            dump = dumpRecursive(str, nodesPrinted, intNode.children()[2],
                 indent);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
 
-            dump = dumpRecursive(str, nodesPrinted, intNode.children[3],
+            dump = dumpRecursive(str, nodesPrinted, intNode.children()[3],
                 indent);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
@@ -234,17 +234,17 @@ public class PRQuadTree {
                 if (parent == null)
                     head = newNode;
                 else {
-                    int nodeDirect = oldNode.dataArray[0].value().findQuadrant(
-                        parent.getCorner(), parent.getLength());
-                    parent.children[nodeDirect] = newNode;
+                    int nodeDirect = oldNode.dataArray()[0].value()
+                        .findQuadrant(parent.getCorner(), parent.getLength());
+                    parent.children()[nodeDirect] = newNode;
                 }
 
                 for (int i = 0; i < oldNode.getSize(); i++) {
-                    insertRecursive(oldNode.dataArray[i], newNode, parent);
+                    insertRecursive(oldNode.dataArray()[i], newNode, parent);
                 }
                 direction = pair.value().findQuadrant(newNode.getCorner(),
                     newNode.getLength());
-                insertRecursive(pair, newNode.children[direction], newNode);
+                insertRecursive(pair, newNode.children()[direction], newNode);
             }
             return true;
         }
@@ -253,7 +253,7 @@ public class PRQuadTree {
             if (parent != null) {
                 int nodeDirect = pair.value().findQuadrant(parent.getCorner(),
                     parent.getLength());
-                parent.children[nodeDirect] = newNode;
+                parent.children()[nodeDirect] = newNode;
             }
             else
                 head = newNode;
@@ -262,7 +262,7 @@ public class PRQuadTree {
             return true;
         }
         InternalNode newNode = (InternalNode)node;
-        insertRecursive(pair, newNode.children[direction], newNode);
+        insertRecursive(pair, newNode.children()[direction], newNode);
         return false;
     }
 
@@ -287,8 +287,7 @@ public class PRQuadTree {
 
         InternalNode newNode = (InternalNode)node;
         int direction = point.findQuadrant(node.getCorner(), node.getLength());
-        removeRecursive(point, newNode.children[direction]);
-        return null;
+        return removeRecursive(point, newNode.children()[direction]);
     }
 
 
@@ -315,8 +314,7 @@ public class PRQuadTree {
         InternalNode newNode = (InternalNode)node;
         int direction = pair.value().findQuadrant(node.getCorner(), node
             .getLength());
-        removeRecursive(pair, newNode.children[direction]);
-        return null;
+        return removeRecursive(pair, newNode.children()[direction]);
     }
 
 
@@ -339,7 +337,7 @@ public class PRQuadTree {
 
         InternalNode newNode = (InternalNode)node;
         int direction = point.findQuadrant(node.getCorner(), node.getLength());
-        removeRecursive(point, newNode.children[direction]);
+        removeRecursive(point, newNode.children()[direction]);
         return null;
     }
 
@@ -375,8 +373,8 @@ public class PRQuadTree {
         if (node.isLeaf()) {
             LeafNode checkNode = (LeafNode)node;
             for (int i = 0; i < checkNode.getSize(); i++) {
-                if (inRect(checkNode.dataArray[i].value(), x, y, w, h)) {
-                    str.append("Point found: (" + checkNode.dataArray[i]
+                if (inRect(checkNode.dataArray()[i].value(), x, y, w, h)) {
+                    str.append("Point found: (" + checkNode.dataArray()[i]
                         .toString() + ")\n");
                     nodesVisited++;
                 }
@@ -393,31 +391,31 @@ public class PRQuadTree {
         }
         InternalNode internal = (InternalNode)node;
         nodesVisited++;
-        if (intersect(internal.children[0].getCorner(), internal.children[0]
+        if (intersect(internal.children()[0].getCorner(), internal.children()[0]
             .getLength(), x, y, w, h)) {
-            String[] child = regionRecursive(str, internal.children[0], x, y, w,
-                h, nodesVisited);
+            String[] child = regionRecursive(str, internal.children()[0], x, y,
+                w, h, nodesVisited);
             str.append(child[0]);
             nodesVisited = Integer.valueOf(child[1]);
         }
-        if (intersect(internal.children[1].getCorner(), internal.children[0]
+        if (intersect(internal.children()[1].getCorner(), internal.children()[0]
             .getLength(), x, y, w, h)) {
-            String[] child = regionRecursive(str, internal.children[1], x, y, w,
-                h, nodesVisited);
+            String[] child = regionRecursive(str, internal.children()[1], x, y,
+                w, h, nodesVisited);
             str.append(child[0]);
             nodesVisited = Integer.valueOf(child[1]);
         }
-        if (intersect(internal.children[2].getCorner(), internal.children[0]
+        if (intersect(internal.children()[2].getCorner(), internal.children()[0]
             .getLength(), x, y, w, h)) {
-            String[] child = regionRecursive(str, internal.children[2], x, y, w,
-                h, nodesVisited);
+            String[] child = regionRecursive(str, internal.children()[2], x, y,
+                w, h, nodesVisited);
             str.append(child[0]);
             nodesVisited = Integer.valueOf(child[1]);
         }
-        if (intersect(internal.children[3].getCorner(), internal.children[0]
+        if (intersect(internal.children()[3].getCorner(), internal.children()[0]
             .getLength(), x, y, w, h)) {
-            String[] child = regionRecursive(str, internal.children[3], x, y, w,
-                h, nodesVisited);
+            String[] child = regionRecursive(str, internal.children()[3], x, y,
+                w, h, nodesVisited);
             str.append(child[0]);
             nodesVisited = Integer.valueOf(child[1]);
         }
@@ -474,10 +472,10 @@ public class PRQuadTree {
             return array;
         }
         InternalNode curr = (InternalNode)node;
-        array = dupeRecursive(array, curr.children[0]);
-        array = dupeRecursive(array, curr.children[1]);
-        array = dupeRecursive(array, curr.children[2]);
-        array = dupeRecursive(array, curr.children[3]);
+        array = dupeRecursive(array, curr.children()[0]);
+        array = dupeRecursive(array, curr.children()[1]);
+        array = dupeRecursive(array, curr.children()[2]);
+        array = dupeRecursive(array, curr.children()[3]);
         return array;
     }
 
@@ -507,7 +505,7 @@ public class PRQuadTree {
         int y,
         int w,
         int h) {
-        return (point1.x < x + w && x < point1.x + length && point1.y < y + h
-            && y < point1.y + length);
+        return (point1.getX() < x + w && x < point1.getX() + length && point1.getY() < y + h
+            && y < point1.getY() + length);
     }
 }

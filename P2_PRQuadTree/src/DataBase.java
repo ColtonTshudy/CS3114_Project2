@@ -35,19 +35,19 @@ public class DataBase {
      */
     public void doCommand(String line) {
         String[] commands = line.split("\\s+");
-        if (commands[0] == "insert")
+        if (commands[0].equals("insert"))
             insert(commands);
-        else if (commands[0] == "remove" && commands[2] == null)
+        else if (commands[0].equals("remove") && commands[2].equals(null))
             removeName(commands[1]);
-        else if (commands[0] == "remove")
+        else if (commands[0].equals("remove"))
             removeCords(commands);
-        else if (commands[0] == "regionsearch")
+        else if (commands[0].equals("regionsearch"))
             regionsearch(commands);
-        else if (commands[0] == "search")
+        else if (commands[0].equals("search"))
             search(commands[1]);
-        else if (commands[0] == "duplicates")
+        else if (commands[0].equals("duplicates"))
             duplicates();
-        else if (commands[0] == "dump")
+        else if (commands[0].equals("dump"))
             dump();
         else {
             System.out.print("Command not recognized \n");
@@ -93,7 +93,7 @@ public class DataBase {
             str.append("Point not found: (" + name + ")\n");
 
         else {
-            quadTree.remove(removed); //remove by pair
+            quadTree.remove(removed); // remove by pair
             str.append("Point removed: " + removed.toString() + "\n");
         }
         System.out.print(str.toString());
@@ -115,7 +115,7 @@ public class DataBase {
             str.append("Point not found: (" + point.toString() + ")\n");
 
         else {
-            skipList.remove(removed); //remove by pair
+            skipList.remove(removed); // remove by pair
             str.append("Point removed: (" + removed.toString() + ")\n");
         }
         System.out.print(str.toString());
@@ -173,7 +173,7 @@ public class DataBase {
             str.append("Point not found: " + name + "\n");
         }
         else {
-                str.append(results);
+            str.append(results);
         }
         System.out.print(str.toString());
     }
