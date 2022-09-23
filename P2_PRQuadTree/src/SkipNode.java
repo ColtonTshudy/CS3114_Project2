@@ -17,7 +17,7 @@ import java.lang.reflect.Array;
  *
  * @param <K>
  *            Comparable object type for the key
- * @param <E>
+ * @param <V>
  *            Object type for the value/element
  */
 public class SkipNode<K extends Comparable<K>, V> {
@@ -25,6 +25,14 @@ public class SkipNode<K extends Comparable<K>, V> {
     private KVPair<K, V> pair;
     private SkipNode<K, V>[] skips;
 
+    /**
+     * Constructor for a SkipNode
+     * 
+     * @param level
+     *            level of the node
+     * @param pair
+     *            KVPair (record) of the node
+     */
     @SuppressWarnings("unchecked")
     public SkipNode(int level, KVPair<K, V> pair) {
         this.pair = pair;

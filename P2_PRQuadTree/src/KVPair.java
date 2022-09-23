@@ -11,8 +11,15 @@
 /**
  * The KVPair class, for holding keys and values together,
  * and comparing them using only the Key
+ * 
+ * @author Colton Tshudy (coltont)
+ * @author Benjamin Gallini (bengallini)
+ * @version 9/23/2022
  *
- * @author CS Staff
+ * @param <K>
+ *            Comparable object type for the key
+ * @param <V>
+ *            Object type for the value/element
  */
 public class KVPair<K extends Comparable<K>, V>
     implements Comparable<KVPair<K, V>> {
