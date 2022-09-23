@@ -76,8 +76,8 @@ public class Point {
      *         MIN_COORD
      */
     public boolean validPoint() {
-        return (x <= MAX_COORD && y <= MAX_COORD) && (x > MIN_COORD
-            && y > MIN_COORD);
+        return (x <= MAX_COORD && y <= MAX_COORD) && (x >= MIN_COORD
+            && y >= MIN_COORD);
     }
 
 
@@ -115,7 +115,7 @@ public class Point {
             return 0;
         if (delX <= 0 && delY < 0) // North West and -y axis
             return 1;
-        if (delX < 0 && delY >= 0) // South West and -x axis
+        if (delX < 0) // && delY >= 0 South West and -x axis 
             return 2;
         // (delX >= 0 && delY > 0 || delX == delY)
         // South East and +y axis and origin
