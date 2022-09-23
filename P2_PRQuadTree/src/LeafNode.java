@@ -175,7 +175,6 @@ public class LeafNode implements BaseNode {
             for (int j = 0; j < indent; j++) {
                 str.append("  ");
             }
-
             str.append("(" + dataArray[i].toString() + ")");
 
         }

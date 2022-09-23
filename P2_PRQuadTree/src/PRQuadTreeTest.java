@@ -18,19 +18,38 @@ import student.TestCase;
  */
 public class PRQuadTreeTest extends TestCase{
     private PRQuadTree tree;
+    private Point point;
+    private Point point1;
+    private Point point2;
+    private Point point3;
+    private Point point4;
+    private KVPair<String, Point> pair;
     
     /**
      * sets up each test method before it runs
      */
     public void setUp() {
         tree = new PRQuadTree();
+        point = new Point(0, 0);
+        point1 = new Point(0, 1);
+        point2 = new Point(1, 0);
+        point3 = new Point(1, 1);
+        point4 = new Point(1000, 1000);
+        pair = new KVPair<String, Point>("A", point);
     }
     
     /**
      * Tests the insert method
      */
     public void testInsert() {
+        tree.insert(pair);
         
+        StringBuilder str = new StringBuilder("Node at 0, 0, 1024:\n");
+        str.append("(A, 0, 0)\n");
+        str.append("1 quadtree nodes printed");
+        assertEquals(tree.toString(), str.toString());
+        
+        tree.insert(new KVPair<String, Point>("B", point));
     }
     
     /**

@@ -116,10 +116,11 @@ public class PRQuadTree {
      */
     public String toString() {
         StringBuilder str = new StringBuilder();
-        String[] dump = dumpRecursive(str, 0, head, 0);
+        String[] dump = dumpRecursive(new StringBuilder(), 0, head, 0);
         str.append(dump[0]);
         str.append(dump[1] + " quadtree nodes printed");
-        return str.toString();
+        String result = str.toString();
+        return result;
     }
 
 
@@ -141,6 +142,7 @@ public class PRQuadTree {
         int nodesPrinted,
         BaseNode node,
         int indent) {
+
         String[] dump = new String[2];
         str.append(node.toString(indent) + "\n");
         nodesPrinted++;
@@ -148,19 +150,24 @@ public class PRQuadTree {
         dump[1] = Integer.toString(nodesPrinted);
 
         if (!node.isLeaf() && !node.isFlyweight()) {
+
             InternalNode intNode = (InternalNode)node;
+
             dump = dumpRecursive(str, nodesPrinted, intNode.children[0],
                 indent++);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
+
             dump = dumpRecursive(str, nodesPrinted, intNode.children[1],
                 indent++);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
+
             dump = dumpRecursive(str, nodesPrinted, intNode.children[2],
                 indent++);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
+
             dump = dumpRecursive(str, nodesPrinted, intNode.children[3],
                 indent++);
             str = new StringBuilder(dump[0]);
@@ -205,8 +212,13 @@ public class PRQuadTree {
         }
         if (node.isFlyweight()) {
             LeafNode newNode = new LeafNode(node.getCorner(), node.getLength());
-            parent.children[direction] = newNode;
+            if (parent != null)
+                parent.children[direction] = newNode;
+            else
+                head = newNode;
+
             newNode.insert(pair);
+            return true;
         }
         InternalNode newNode = (InternalNode)node;
         insertRecursive(pair, newNode.children[direction], newNode);
