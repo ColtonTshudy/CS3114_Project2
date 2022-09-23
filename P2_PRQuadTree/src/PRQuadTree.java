@@ -152,24 +152,24 @@ public class PRQuadTree {
         if (!node.isLeaf() && !node.isFlyweight()) {
 
             InternalNode intNode = (InternalNode)node;
-
+            indent++;
             dump = dumpRecursive(str, nodesPrinted, intNode.children[0],
-                indent++);
+                indent);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
 
             dump = dumpRecursive(str, nodesPrinted, intNode.children[1],
-                indent++);
+                indent);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
 
             dump = dumpRecursive(str, nodesPrinted, intNode.children[2],
-                indent++);
+                indent);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
 
             dump = dumpRecursive(str, nodesPrinted, intNode.children[3],
-                indent++);
+                indent);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
         }
@@ -198,22 +198,37 @@ public class PRQuadTree {
 
         int direction = pair.value().findQuadrant(node.getCorner(), node
             .getLength());
+
         if (node.isLeaf()) {
             if (!node.insert(pair)) {
                 InternalNode newNode = new InternalNode(node.getCorner(), node
                     .getLength());
-                parent.children[direction] = newNode;
                 LeafNode oldNode = (LeafNode)node;
+
+                if (parent == null)
+                    head = newNode;
+                else {
+                    int nodeDirect = oldNode.dataArray[0].value().findQuadrant(
+                        parent.getCorner(), parent.getLength());
+                    parent.children[nodeDirect] = newNode;
+                }
+
                 for (int i = 0; i < oldNode.getSize(); i++) {
                     insertRecursive(oldNode.dataArray[i], newNode, parent);
                 }
+                direction = pair.value().findQuadrant(newNode.getCorner(),
+                    newNode.getLength());
+                insertRecursive(pair, newNode.children[direction], newNode);
             }
             return true;
         }
         if (node.isFlyweight()) {
             LeafNode newNode = new LeafNode(node.getCorner(), node.getLength());
-            if (parent != null)
-                parent.children[direction] = newNode;
+            if (parent != null) {
+                int nodeDirect = pair.value().findQuadrant(
+                    parent.getCorner(), parent.getLength());
+                parent.children[nodeDirect] = newNode;
+            }
             else
                 head = newNode;
 
