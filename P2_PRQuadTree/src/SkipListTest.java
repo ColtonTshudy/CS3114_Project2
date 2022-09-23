@@ -122,6 +122,9 @@ public class SkipListTest extends TestCase {
     }
 
 
+    /**
+     * This method will test the printAllMatching method
+     */
     public void testPrintAllMatching() {
         String node1 = "Node has depth 1, Value (A, object 1)";
 
@@ -207,9 +210,9 @@ public class SkipListTest extends TestCase {
     public void testRemoveByElement() {
         TestableRandom.setNextBooleans(false);
 
-        KVPair<String, String> dupe = new KVPair<String, String>("A",
-            "duplicate key");
-        sl2.insert(dupe);
+        KVPair<String, String> dupeKey;
+        dupeKey = new KVPair<String, String>("A", "duplicate key");
+        sl2.insert(dupeKey); // gets inserted after the existing key A
 
         // Expected string dump segments from skip list 2
         String head = "Node has depth 4, Value (null)";
@@ -220,22 +223,21 @@ public class SkipListTest extends TestCase {
         String size = "SkipList size is: 4";
         String nl = System.lineSeparator();
 
-        // Removing in the middle of the list with duplicate object names
-        assertTrue(sl2.removeByElement("object 1").equals("object 1"));
-        assertTrue(sl2.toString().equals(head + nl + node0 + nl + node2 + nl
-            + node3 + nl + node4 + nl + size));
+        // Removing at the beginning of the list with duplicate keys
+        String expected = head + nl + node0 + nl + node2 + nl + node3 + nl
+            + node4 + nl + size;
+        assertEquals(a, sl2.removeByElement("object 1"));
+        assertEquals(expected, sl2.toString());
 
-        sl2.insert(a);
-
-        // Removing at the beginning of the list with duplicate objects names
-        assertTrue(sl2.removeByElement("object 1").equals("object 1"));
-        assertTrue(sl2.toString().equals(head + nl + node0 + nl + node2 + nl
-            + node3 + nl + node4 + nl + size));
+        // Removing at the end of the list
+        size = "SkipList size is: 3";
+        expected = head + nl + node0 + nl + node2 + nl + node3 + nl + size;
+        assertEquals(e, sl2.removeByElement("object 4"));
+        assertEquals(expected, sl2.toString());
 
         // Invalid removal
         assertNull(sl2.removeByElement("object 5"));
-        assertTrue(sl2.toString().equals(head + nl + node0 + nl + node2 + nl
-            + node3 + nl + node4 + nl + size)); // check that nothing was
+        assertEquals(expected, sl2.toString()); // check that nothing was
                                                 // removed
     }
 }
