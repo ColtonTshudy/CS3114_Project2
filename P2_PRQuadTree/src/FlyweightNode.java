@@ -61,13 +61,16 @@ public class FlyweightNode implements BaseNode {
 
     @Override
     public Boolean isFlyweight() {
-        return false;
+        return true;
     }
 
 
     @Override
-    public String toString() {
+    public String toString(int indent) {
         StringBuilder str = new StringBuilder();
+        for(int i = 0; i < indent; i++) {
+            str.append("  ");
+        }
         str.append("Node at " + corner.toString() + ", " + length
             + ": Empty");
         return str.toString();

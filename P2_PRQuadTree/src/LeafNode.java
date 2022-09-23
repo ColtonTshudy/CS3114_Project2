@@ -30,11 +30,13 @@ public class LeafNode implements BaseNode {
     /**
      * Data array for the leaf node
      */
-    public KVPair<String, Point>[] dataArray;
+    @SuppressWarnings("unchecked")
+    public KVPair<String, Point>[] dataArray = (KVPair<String, Point>[])Array
+        .newInstance(KVPair.class, 100);
 
     @Override
     public boolean insert(KVPair<String, Point> newPoint) {
-        if (isDupe(newPoint.value())) {
+        if (isDupe(newPoint)) {
             dataArray[arrayLength] = newPoint;
             arrayLength++;
             return true;
@@ -59,7 +61,7 @@ public class LeafNode implements BaseNode {
                     dataArray[j] = dataArray[j + 1];
                 }
                 arrayLength--;
-                if (!isDupe(removed.value()))
+                if (!isDupe(removed))
                     uniqueItems--;
                 return removed;
             }
@@ -78,7 +80,7 @@ public class LeafNode implements BaseNode {
                     dataArray[j] = dataArray[j + 1];
                 }
                 arrayLength--;
-                if (!isDupe(removed.value()))
+                if (!isDupe(removed))
                     uniqueItems--;
                 return removed;
             }
@@ -91,7 +93,7 @@ public class LeafNode implements BaseNode {
     public KVPair<String, Point>[] search(String key) {
         @SuppressWarnings("unchecked")
         KVPair<String, Point>[] found = (KVPair<String, Point>[])Array
-            .newInstance(SkipNode.class, arrayLength);
+            .newInstance(KVPair.class, arrayLength);
         int amountFound = 0;
         for (int i = 0; i < arrayLength; i++) {
             if (dataArray[i].key().equals(key)) {
@@ -107,7 +109,7 @@ public class LeafNode implements BaseNode {
     public KVPair<String, Point>[] search(Point point) {
         @SuppressWarnings("unchecked")
         KVPair<String, Point>[] found = (KVPair<String, Point>[])Array
-            .newInstance(SkipNode.class, arrayLength);
+            .newInstance(KVPair.class, arrayLength);
         int amountFound = 0;
         for (int i = 0; i < arrayLength; i++) {
             if (dataArray[i].value().equals(point)) {
@@ -129,30 +131,12 @@ public class LeafNode implements BaseNode {
         int dupeFound = 0;
         Point[] found = (Point[])Array.newInstance(Point.class, arrayLength);
         for (int i = 0; i < arrayLength; i++) {
-            if (isDupe(dataArray[i].value())) {
+            if (isDupe(dataArray[i]) && notInArray(found, dataArray[i].value(), dupeFound)) {
                 found[dupeFound] = dataArray[i].value();
                 dupeFound++;
             }
         }
         return found;
-    }
-
-
-    /**
-     * Checks if the point is a duplicate point
-     * 
-     * @param newPoint
-     *            The point being checked
-     * @return
-     *         true if a duplicate
-     */
-    private boolean isDupe(Point point) {
-        for (int i = 0; i < arrayLength; i++) {
-            if (point != dataArray[i].value() && point.equals(dataArray[i]
-                .value()))
-                return true;
-        }
-        return false;
     }
 
 
@@ -180,14 +164,20 @@ public class LeafNode implements BaseNode {
 
 
     @Override
-    public String toString() {
+    public String toString(int indent) {
         StringBuilder str = new StringBuilder();
-        str.append("Node at " + corner.toString() + ", " + length
-            + ":\n");
-        for(int i = 0; i < arrayLength; i++) {
+        for (int i = 0; i < indent; i++) {
+            str.append("  ");
+        }
+        str.append("Node at " + corner.toString() + ", " + length + ":");
+        for (int i = 0; i < arrayLength; i++) {
+            str.append("\n");
+            for (int j = 0; j < indent; j++) {
+                str.append("  ");
+            }
+
             str.append("(" + dataArray[i].toString() + ")");
-            if(i != arrayLength-1)
-                str.append("\n");
+
         }
         return str.toString();
     }
@@ -204,4 +194,39 @@ public class LeafNode implements BaseNode {
         return length;
     }
 
+
+    /**
+     * Checks if the point is a duplicate point
+     * 
+     * @param newPoint
+     *            The point being checked
+     * @return
+     *         true if a duplicate
+     */
+    private boolean isDupe(KVPair<String, Point> pair) {
+        for (int i = 0; i < arrayLength; i++) {
+            if (pair.value().equals(dataArray[i].value()) && !pair.key().equals(
+                dataArray[i].key()))
+                return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Checks if a point is in the point array
+     * 
+     * @param array
+     *            The array of points
+     * @param point
+     *            The point being checked
+     * @return True if not in array
+     */
+    private boolean notInArray(Point[] array, Point point, int length) {
+        for (int i = 0; i < length; i++) {
+            if (array[i].equals(point))
+                return false;
+        }
+        return true;
+    }
 }

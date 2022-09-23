@@ -99,7 +99,9 @@ public interface BaseNode {
     /**
      * Converts the node to a string format
      * 
+     * @param indent
+     *            The amount of indentation for the string
      * @return the node as a string
      */
-    public String toString();
+    public String toString(int indent);
 }

@@ -5,12 +5,15 @@
  * @author Benjamin Gallini
  * @version 9/21/2022
  */
+
+import java.lang.reflect.Array;
+
 public class InternalNode implements BaseNode {
     /**
      * Leaf nodes of the internal node.
      * Node 0 = NE, 1 = NW, 2 = SW, 3 = SE
      */
-    public BaseNode[] children = new LeafNode[4];
+    public BaseNode[] children = (BaseNode[])Array.newInstance(BaseNode.class, 4);
     private int length;
     private Point corner;
 
@@ -25,14 +28,15 @@ public class InternalNode implements BaseNode {
     public InternalNode(Point corner, int length) {
         this.corner = corner;
         this.length = length;
-        Point child0 = new Point(corner.getX()+length, corner.getY());
-        children[0] = new FlyweightNode(child0, length/2);
+        int newLength = length/2;
+        Point child0 = new Point(corner.getX() + newLength, corner.getY());
+        children[0] = new FlyweightNode(child0, newLength);
         Point child1 = new Point(corner.getX(), corner.getY());
-        children[1] = new FlyweightNode(child1, length/2);
-        Point child2 = new Point(corner.getX()+length, corner.getY()+length);
-        children[2] = new FlyweightNode(child2, length/2);
-        Point child3 = new Point(corner.getX()+length, corner.getY()+length);
-        children[3] = new FlyweightNode(child3, length/2);
+        children[1] = new FlyweightNode(child1, newLength);
+        Point child2 = new Point(corner.getX(), corner.getY()+ newLength);
+        children[2] = new FlyweightNode(child2, newLength);
+        Point child3 = new Point(corner.getX()+ newLength, corner.getY()+ newLength);
+        children[3] = new FlyweightNode(child3, newLength);
     }
 
     @Override
@@ -78,8 +82,11 @@ public class InternalNode implements BaseNode {
 
 
     @Override
-    public String toString() {
+    public String toString(int indent) {
         StringBuilder str = new StringBuilder();
+        for(int i = 0; i < indent; i++) {
+            str.append("  ");
+        }
         str.append("Node at " + corner.toString() + ", " + length
             + ": Internal");
         return str.toString();

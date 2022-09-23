@@ -115,7 +115,58 @@ public class PRQuadTree {
      *         String representation of the tree
      */
     public String toString() {
-        return null;
+        StringBuilder str = new StringBuilder();
+        String[] dump = dumpRecursive(str, 0, head, 0);
+        str.append(dump[0]);
+        str.append(dump[1] + " quadtree nodes printed");
+        return str.toString();
+    }
+
+
+    /**
+     * Recursive method for dump
+     * 
+     * @param str
+     *            The current string
+     * @param nodesPrinted
+     *            The amount of nodes printed
+     * @param node
+     *            The current node
+     * @param indent
+     *            The amount of indent needed
+     * @return The array of strings for dump
+     */
+    private String[] dumpRecursive(
+        StringBuilder str,
+        int nodesPrinted,
+        BaseNode node,
+        int indent) {
+        String[] dump = new String[2];
+        str.append(node.toString(indent) + "\n");
+        nodesPrinted++;
+        dump[0] = str.toString();
+        dump[1] = Integer.toString(nodesPrinted);
+
+        if (!node.isLeaf() && !node.isFlyweight()) {
+            InternalNode intNode = (InternalNode)node;
+            dump = dumpRecursive(str, nodesPrinted, intNode.children[0],
+                indent++);
+            str = new StringBuilder(dump[0]);
+            nodesPrinted = Integer.valueOf(dump[1]);
+            dump = dumpRecursive(str, nodesPrinted, intNode.children[1],
+                indent++);
+            str = new StringBuilder(dump[0]);
+            nodesPrinted = Integer.valueOf(dump[1]);
+            dump = dumpRecursive(str, nodesPrinted, intNode.children[2],
+                indent++);
+            str = new StringBuilder(dump[0]);
+            nodesPrinted = Integer.valueOf(dump[1]);
+            dump = dumpRecursive(str, nodesPrinted, intNode.children[3],
+                indent++);
+            str = new StringBuilder(dump[0]);
+            nodesPrinted = Integer.valueOf(dump[1]);
+        }
+        return dump;
     }
 
 
