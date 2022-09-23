@@ -9,9 +9,16 @@
 import java.lang.reflect.Array;
 
 /**
- * SkipNode for use by the SkipList class
+ * Nodes used to comprise the SkipLists
+ * 
+ * @author Colton Tshudy (coltont)
+ * @author Benjamin Gallini (bengallini)
+ * @version 9/23/2022
  *
- * @author CS Staff
+ * @param <K>
+ *            Comparable object type for the key
+ * @param <E>
+ *            Object type for the value/element
  */
 public class SkipNode<K extends Comparable<K>, V> {
 
@@ -28,31 +35,65 @@ public class SkipNode<K extends Comparable<K>, V> {
     }
 
 
+    /**
+     * Getter for the key of the internal KVPair
+     * 
+     * @return key of the record
+     */
     public K getKey() {
         return pair.key();
     }
 
 
+    /**
+     * Getter for the value of the internal KVPair
+     * 
+     * @return value of the record
+     */
     public V getValue() {
         return pair.value();
     }
 
 
+    /**
+     * Getter for the node's KVPair
+     * 
+     * @return KVPair of the node
+     */
     public KVPair<K, V> getPair() {
         return pair;
     }
 
 
+    /**
+     * Sets the pointer of a given level to a given node
+     * 
+     * @param level
+     *            level to be set
+     * @param nextNode
+     *            node to be linked
+     */
     public void setSkip(int level, SkipNode<K, V> nextNode) {
         skips[level] = nextNode;
     }
 
 
+    /**
+     * 
+     * 
+     * @param level
+     * @return
+     */
     public SkipNode<K, V> getSkip(int level) {
         return skips[level];
     }
 
 
+    /**
+     * Returns the level of the node
+     * 
+     * @return level of the node
+     */
     public int getLevel() {
         return skips.length - 1;
     }
