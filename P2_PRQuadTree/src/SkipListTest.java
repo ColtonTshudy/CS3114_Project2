@@ -14,6 +14,7 @@ import student.TestableRandom;
  * and perform as expected
  *
  * @author Colton Tshudy (coltont)
+ * @author Benjamin Gallini (bengallini)
  * @version 9/3/2022
  */
 

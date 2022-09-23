@@ -1,3 +1,10 @@
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Colton Tshudy (coltont)
+// -- Benjamin Gallini (bengallini)
 
 /**
  * Leaf node for the PRQuadTree structure
@@ -131,7 +138,8 @@ public class LeafNode implements BaseNode {
         int dupeFound = 0;
         Point[] found = (Point[])Array.newInstance(Point.class, arrayLength);
         for (int i = 0; i < arrayLength; i++) {
-            if (isDupe(dataArray[i]) && notInArray(found, dataArray[i].value(), dupeFound)) {
+            if (isDupe(dataArray[i]) && notInArray(found, dataArray[i].value(),
+                dupeFound)) {
                 found[dupeFound] = dataArray[i].value();
                 dupeFound++;
             }

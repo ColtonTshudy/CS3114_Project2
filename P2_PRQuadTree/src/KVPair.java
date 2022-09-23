@@ -1,5 +1,11 @@
 //Be aware: There are always ways to misuse code, never trust anyone's untested code
-//For example, you probably want to modify this to be in the default package.
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Colton Tshudy (coltont)
+// -- Benjamin Gallini (bengallini)
 
 /**
  * The KVPair class, for holding keys and values together,

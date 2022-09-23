@@ -1,9 +1,17 @@
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Colton Tshudy (coltont)
+// -- Benjamin Gallini (bengallini)
 
 /**
  * Represents a rectangle on a positive 2D plane, where 0,0 is the top left
  * corner of the plane.
  * 
- * @author Colton Tshudy (coltont
+ * @author Colton Tshudy (coltont)
+ * @author Benjamin Gallini (bengallini)
  * @version 9/21/2022
  *
  */
@@ -115,7 +123,7 @@ public class Point {
             return 0;
         if (delX <= 0 && delY < 0) // North West and -y axis
             return 1;
-        if (delX < 0) // && delY >= 0 South West and -x axis 
+        if (delX < 0) // && delY >= 0 South West and -x axis
             return 2;
         // (delX >= 0 && delY > 0 || delX == delY)
         // South East and +y axis and origin

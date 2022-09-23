@@ -1,3 +1,11 @@
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Colton Tshudy (coltont)
+// -- Benjamin Gallini (bengallini)
+
 import java.lang.reflect.Array;
 
 /**
@@ -51,6 +59,7 @@ public class PRQuadTree {
         return result;
     }
 
+
     /**
      * Removes a point from the tree
      * 
@@ -67,6 +76,7 @@ public class PRQuadTree {
         }
         return result;
     }
+
 
     /**
      * Finds and returns an array with this point
@@ -241,8 +251,8 @@ public class PRQuadTree {
         if (node.isFlyweight()) {
             LeafNode newNode = new LeafNode(node.getCorner(), node.getLength());
             if (parent != null) {
-                int nodeDirect = pair.value().findQuadrant(
-                    parent.getCorner(), parent.getLength());
+                int nodeDirect = pair.value().findQuadrant(parent.getCorner(),
+                    parent.getLength());
                 parent.children[nodeDirect] = newNode;
             }
             else
@@ -280,7 +290,8 @@ public class PRQuadTree {
         removeRecursive(point, newNode.children[direction]);
         return null;
     }
-    
+
+
     /**
      * Recursive function for remove
      * 
@@ -291,7 +302,9 @@ public class PRQuadTree {
      * @return
      *         The KVPair for the point
      */
-    private KVPair<String, Point> removeRecursive(KVPair<String, Point> pair, BaseNode node) {
+    private KVPair<String, Point> removeRecursive(
+        KVPair<String, Point> pair,
+        BaseNode node) {
         if (node.isLeaf()) {
             return node.remove(pair);
         }
@@ -300,7 +313,8 @@ public class PRQuadTree {
             return null;
 
         InternalNode newNode = (InternalNode)node;
-        int direction = pair.value().findQuadrant(node.getCorner(), node.getLength());
+        int direction = pair.value().findQuadrant(node.getCorner(), node
+            .getLength());
         removeRecursive(pair, newNode.children[direction]);
         return null;
     }

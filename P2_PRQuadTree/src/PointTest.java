@@ -6,7 +6,6 @@
 // -- Benjamin Gallini (bengallini)
 // -- Colton Tshudy
 
-
 import student.TestCase;
 
 /**
@@ -16,31 +15,33 @@ import student.TestCase;
  * @author Colton Tshudy
  * @version 9/23/2022
  */
-public class PointTest extends TestCase{
+public class PointTest extends TestCase {
     private Point point1;
-    
-    
+
     /**
      * Sets up test cases
      */
     public void setUp() {
-        point1 = new Point(0,0);
+        point1 = new Point(0, 0);
     }
-    
+
+
     /**
      * Tests getX method
      */
     public void testGetX() {
         assertEquals(point1.getX(), 0);
     }
-    
+
+
     /**
      * Tests getY method
      */
     public void testGetY() {
         assertEquals(point1.getY(), 0);
     }
-    
+
+
     /**
      * Tests setX method
      */
@@ -48,7 +49,8 @@ public class PointTest extends TestCase{
         point1.setX(1);
         assertEquals(point1.getX(), 1);
     }
-    
+
+
     /**
      * Tests setY method
      */
@@ -56,7 +58,8 @@ public class PointTest extends TestCase{
         point1.setY(1);
         assertEquals(point1.getY(), 1);
     }
-    
+
+
     /**
      * Tests validPoint method
      */
@@ -72,14 +75,16 @@ public class PointTest extends TestCase{
         point1.setY(1024);
         assertFalse(point1.validPoint());
     }
-    
+
+
     /**
      * Tests toString method
      */
     public void testToString() {
         assertEquals(point1.toString(), "0, 0");
     }
-    
+
+
     /**
      * Tests findQuadrant method
      */
@@ -95,7 +100,8 @@ public class PointTest extends TestCase{
         point1.setX(-1);
         assertEquals(point1.findQuadrant(corner, 1024), -1);
     }
-    
+
+
     /**
      * Tests inSquare method
      */
@@ -111,7 +117,8 @@ public class PointTest extends TestCase{
         point1.setY(3);
         assertFalse(point1.inSquare(corner, 2));
     }
-    
+
+
     /**
      * Tests equals method
      */
