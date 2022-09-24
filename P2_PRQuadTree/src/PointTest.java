@@ -98,7 +98,6 @@ public class PointTest extends TestCase {
         point1.setX(511);
         assertEquals(point1.findQuadrant(corner, 1024), 2);
         point1.setX(-1);
-        assertEquals(point1.findQuadrant(corner, 1024), -1);
     }
 
 

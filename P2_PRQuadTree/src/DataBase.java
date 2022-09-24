@@ -67,7 +67,7 @@ public class DataBase {
             commands[3]));
         KVPair<String, Point> pair = new KVPair<String, Point>(commands[1],
             point);
-        if (point.validPoint() && !entryExists(commands[1], point)) {
+        if (point.validPoint() /* && !entryExists(commands[1], point) */) {
             skipList.insert(pair);
             quadTree.insert(pair);
             str.append("Point inserted: (");
@@ -191,19 +191,18 @@ public class DataBase {
         System.out.print(str.toString());
     }
 
-
-    /**
-     * Checks if a point already exits in the skip list
-     * 
-     * @param name
-     *            name of the node
-     * @param point
-     *            point object
-     * @return
-     *         True if point already exists
-     */
-    private boolean entryExists(String name, Point point) {
-        KVPair<String, Point> pair = new KVPair<String, Point>(name, point);
-        return skipList.hasPair(pair);
-    }
+// /**
+// * Checks if a point already exits in the skip list
+// *
+// * @param name
+// * name of the node
+// * @param point
+// * point object
+// * @return
+// * True if point already exists
+// */
+// private boolean entryExists(String name, Point point) {
+// KVPair<String, Point> pair = new KVPair<String, Point>(name, point);
+// return skipList.hasPair(pair);
+// }
 }

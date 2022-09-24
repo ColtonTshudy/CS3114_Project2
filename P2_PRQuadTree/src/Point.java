@@ -115,9 +115,6 @@ public class Point {
      * @return the number index of the point within the quadrant
      */
     public int findQuadrant(Point topLeft, int size) {
-        if (!inSquare(topLeft, size)) // Not within this square
-            return -1;
-
         // Get origin point of square and delta with respect to point
         int centerX = topLeft.getX() + size / 2;
         int centerY = topLeft.getY() + size / 2;

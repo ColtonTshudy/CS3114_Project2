@@ -7,7 +7,8 @@
 // -- Benjamin Gallini (bengallini)
 
 import student.TestCase;
-import student.TestableRandom;
+// import student.TestableRandom;
+import student.testingsupport.PrintStreamWithHistory;
 
 /**
  * SkipListTest will test all public methods in SkipList to ensure that they run
@@ -20,12 +21,20 @@ import student.TestableRandom;
 public class DataBaseTest extends TestCase {
     // Declare any necessary objects or final variables
     private DataBase database;
+    private PrintStreamWithHistory sysout;
+    private String nl;
 
     /**
      * sets up each test method before it runs
      */
     public void setUp() {
         database = new DataBase();
+
+        // Record console history
+        sysout = systemOut();
+
+        // Next line string
+        nl = "\n";
     }
 
 
@@ -33,11 +42,30 @@ public class DataBaseTest extends TestCase {
      * This method will test the insert command
      */
     public void testInsert() {
+        // Check that a valid point was inserted
         database.doCommand("insert A 0 0");
-        database.doCommand("dump");
-        database.doCommand("insert A 0 0");
-        database.doCommand("dump");
-        
+        String expected = "Point inserted: (A, 0, 0)" + nl;
+        assertEquals(expected, sysout.getHistory());
+
+        sysout.clearHistory();
+
+        /*
+         * // Check that a duplicate point was not inserted
+         * database.doCommand("insert A 0 0");
+         * expected = "Point rejected: (A, 0, 0)" + nl;
+         * assertEquals(expected, sysout.getHistory());
+         * 
+         * sysout.clearHistory();
+         */
+
+        // Check that a non-valid point was not inserted
+        database.doCommand("insert A -1 0");
+        expected = "Point rejected: (A, -1, 0)" + nl;
+        assertEquals(expected, sysout.getHistory());
+    }
+
+
+    public void testSampleInsert() {
     }
 
 
@@ -69,7 +97,12 @@ public class DataBaseTest extends TestCase {
      * This method will test the duplicates command
      */
     public void testDuplicates() {
-
+        database.doCommand("insert A 0 0");
+        database.doCommand("insert A 1023 1023");
+        database.doCommand("insert A 1023 0");
+        database.doCommand("insert A 0 1023");
+        
+        database.doCommand("dump");
     }
 
 
