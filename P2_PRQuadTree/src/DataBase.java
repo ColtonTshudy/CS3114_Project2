@@ -6,7 +6,7 @@
 // -- Colton Tshudy (coltont)
 // -- Benjamin Gallini (bengallini)
 
-import java.lang.reflect.Array;
+// import java.lang.reflect.Array;
 
 /**
  * Database class for running file commands
@@ -65,7 +65,7 @@ public class DataBase {
         StringBuilder str = new StringBuilder();
         Point point = new Point(Integer.valueOf(commands[2]), Integer.valueOf(
             commands[3]));
-        if (point.validPoint() && !pointExists(commands[1], point)) {
+        if (point.validPoint() && !entryExists(commands[1], point)) {
             KVPair<String, Point> pair = new KVPair<String, Point>(commands[1],
                 point);
             skipList.insert(pair);
@@ -202,8 +202,8 @@ public class DataBase {
      * @return
      *         True if point already exists
      */
-    private boolean pointExists(String name, Point point) {
+    private boolean entryExists(String name, Point point) {
         KVPair<String, Point> pair = new KVPair<String, Point>(name, point);
-        return skipList.find(name) == pair;
+        return skipList.hasPair(pair);
     }
 }

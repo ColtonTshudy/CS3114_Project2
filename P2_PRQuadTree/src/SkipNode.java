@@ -87,10 +87,11 @@ public class SkipNode<K extends Comparable<K>, V> {
 
 
     /**
-     * 
+     * Getter method for the linked nodes
      * 
      * @param level
-     * @return
+     *            level of the linked node
+     * @return node linked at that level
      */
     public SkipNode<K, V> getSkip(int level) {
         return skips[level];

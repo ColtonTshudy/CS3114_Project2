@@ -91,6 +91,34 @@ public class KVPair<K extends Comparable<K>, V>
 
 
     /**
+     * Returns true if both KVPairs are equal
+     * 
+     * @param other
+     *            The other KVPair to check equality
+     * 
+     * @return true if both pairs have the exact same key and value, false
+     *         otherwise
+     */
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        // Check if other is an instance of a KVPair
+        if (other instanceof KVPair<?, ?>) {
+            KVPair<?, ?> pair = (KVPair<?, ?>)other;
+            // Check if they have the same generic classes
+            if (pair.key().getClass().equals(theKey.getClass()) && pair.value()
+                .getClass().equals(theVal.getClass()))
+                return theKey.equals(pair.key()) && theVal.equals(pair.value());
+        }
+        return false;
+    }
+
+
+    /**
      * Returns a string representation of the KVPair displaying the key and
      * value of the record
      * 

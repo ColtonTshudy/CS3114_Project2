@@ -186,51 +186,66 @@ public class SkipList<K extends Comparable<K>, E> {
         @SuppressWarnings("unchecked") // Generic array allocation
         SkipNode<K, E>[] rearNodes = (SkipNode<K, E>[])Array.newInstance(
             SkipNode.class, deepestLevel + 1);
-        // 'update' gets all the nodes that need to point around the old node
+        // 'rearNodes' gets all the nodes that need to point around the old node
 
-        SkipNode<K, E> curr = head; // Start at header node
+        SkipNode<K, E> cur = head; // one step behind cursor on that level
+        SkipNode<K, E> next = cur.getSkip(0); // cursor to find rear nodes
 
-        for (i = deepestLevel; i >= 0; i--) { // starting from big skips...
-            SkipNode<K, E> ahead = curr.getSkip(i);
-            // find the remove position...
-            while (ahead != null && key.compareTo(ahead.getKey()) >= 0
-                && pair != ahead.getPair()) {
-                curr = ahead;
-                ahead = ahead.getSkip(i); // advance to the next node
+        // search for node with matching key
+        for (i = deepestLevel; i >= 0; i--) {
+            next = cur.getSkip(i);
+            while (next != null && key.compareTo(next.getKey()) >= 0 && !pair
+                .equals(next.getPair())) {
+                cur = next;
+                next = next.getSkip(i);
             }
-            rearNodes[i] = curr; // save node for later, it MIGHT need an update
+            rearNodes[i] = cur; // Track rear nodes at level i
         }
 
-        curr = curr.getSkip(0);
+        cur = cur.getSkip(0); // Move to node to remove
 
-        // finally check if key k is in skipList ...
-        if (curr != null && pair == curr.getPair()) {
-            // start removal process, updating any skips
-            for (i = 0; i <= curr.getLevel(); i++) {
-                rearNodes[i].setSkip(i, curr.getSkip(i));
-            }
-            size--; // don't forget!
-            return curr.getPair(); // return the pair of the now-removed curr
+        if (cur != null && pair.equals(cur.getPair())) {
+            // re-link the nodes behind the removed node
+            for (i = cur.getLevel(); i >= 0; i--)
+                rearNodes[i].setSkip(i, cur.getSkip(i));
+            size--;
+            return cur.getPair(); // Return the removed node
         }
-        return null; // Key k is not in list, so return null;
+        else
+            return null; // Its not there
     }
 
 
     /**
-     * Remove a key, element pair from the skiplist by element
-     *
-     * @param element
-     *            element of KV pair to remove
-     * @return removed key, element pair
+     * Takes a KVPair as an input and returns true if that KVPair already exists
+     * in the SkipList
+     * 
+     * @param pair
+     *            KVPair to check with
+     * @return true if the KVPair is found in the SkipList, false otherwise
      */
-    @SuppressWarnings("unchecked")
-    public KVPair<K, E> removeByElement(E element) {
-        SkipNode<K, E> rem = findNode(element); // find a matching node
-        if (rem == null)
-            return null; // It's not there
+    public boolean hasPair(KVPair<K, E> pair) {
+        if (pair == null)
+            return false;
 
-        // node was found, attempt removal
-        return remove(rem.getPair());
+        int i;
+        K key = pair.key();
+
+        SkipNode<K, E> cur = head; // one step behind cursor on that level
+        SkipNode<K, E> next = cur.getSkip(0); // cursor to find rear nodes
+
+        // search for node with matching key
+        for (i = deepestLevel; i >= 0; i--) {
+            next = cur.getSkip(i);
+            while (next != null && key.compareTo(next.getKey()) >= 0 && !pair
+                .equals(next.getPair())) {
+                cur = next;
+                next = next.getSkip(i);
+            }
+        }
+
+        cur = cur.getSkip(0); // Move to found node
+        return cur != null && pair.equals(cur.getPair());
     }
 
 
@@ -275,24 +290,6 @@ public class SkipList<K extends Comparable<K>, E> {
 
 
     /**
-     * Finds the first node of a given element
-     *
-     * @param element
-     *            element of KV pair to remove
-     * @return matching node, or null if not found
-     */
-    private SkipNode<K, E> findNode(E element) {
-        SkipNode<K, E> cur = head.getSkip(0); // cursor pointer
-        while (cur != null) {
-            if (cur.getValue().equals(element))
-                return cur;
-            cur = cur.getSkip(0);
-        }
-        return null;
-    }
-
-
-    /**
      * Returns a string representation of the SkipList displaying the depth of
      * each node, each node's key and value, and the size of the SkipList
      * 
@@ -327,12 +324,16 @@ public class SkipList<K extends Comparable<K>, E> {
      * @return String containing all matching nodes toString
      */
     public String printAllMatching(K key) {
+        if (key == null)
+            return null;
+
         SkipNode<K, E> curr = findNode(key); // node cursor
-        StringBuilder stb = new StringBuilder(); // builds output
 
         if (curr == null) { // No nodes were found matching k
             return null;
         }
+
+        StringBuilder stb = new StringBuilder(); // builds output
 
         // List out all nodes with key K
         while (curr != null && curr.getKey().equals(key)) {
