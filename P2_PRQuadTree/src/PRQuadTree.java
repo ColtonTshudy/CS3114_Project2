@@ -191,12 +191,12 @@ public class PRQuadTree {
 
             InternalNode intNode = (InternalNode)node;
             indent++;
-            dump = dumpRecursive(str, nodesPrinted, intNode.children()[0],
+            dump = dumpRecursive(str, nodesPrinted, intNode.children()[1],
                 indent);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
 
-            dump = dumpRecursive(str, nodesPrinted, intNode.children()[1],
+            dump = dumpRecursive(str, nodesPrinted, intNode.children()[0],
                 indent);
             str = new StringBuilder(dump[0]);
             nodesPrinted = Integer.valueOf(dump[1]);
@@ -475,21 +475,24 @@ public class PRQuadTree {
 
         if (node.isLeaf()) {
             LeafNode curr = (LeafNode)node;
-            Point[] data = curr.findDupe();
-            int i = 0;
-            while (data[i] != null) {
-                array[dupesFound] = data[i];
+            Point data = curr.findDupe();
+            if (data != null) {
+                array[dupesFound] = data;
                 dupesFound++;
-                i++;
             }
+
             return array;
         }
 
-        if (node.isFlyweight()) {
+        if (node.isFlyweight())
+
+        {
             return array;
         }
         InternalNode curr = (InternalNode)node;
-        array = dupeRecursive(array, curr.children()[0], dupesFound);
+        array =
+
+            dupeRecursive(array, curr.children()[0], dupesFound);
         array = dupeRecursive(array, curr.children()[1], dupesFound);
         array = dupeRecursive(array, curr.children()[2], dupesFound);
         array = dupeRecursive(array, curr.children()[3], dupesFound);

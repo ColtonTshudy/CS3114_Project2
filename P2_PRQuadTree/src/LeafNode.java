@@ -131,20 +131,17 @@ public class LeafNode implements BaseNode {
      * Finds duplicates in the node
      * 
      * @return
-     *         An array of KVPair for duplicates
+     *         The duplicate, null if none
      */
-    public Point[] findDupe() {
-        int dupeFound = 0;
-        Point[] found = (Point[])Array.newInstance(Point.class, arrayLength);
+    public Point findDupe() {
         for (int i = 0; i < arrayLength - 1; i++) {
             for (int j = i + 1; j < arrayLength; j++) {
                 if (dataArray[i].value().equals(dataArray[j].value())) {
-                    found[dupeFound] = dataArray[i].value();
-                    dupeFound++;
+                    return dataArray[i].value();
                 }
             }
         }
-        return found;
+        return null;
     }
 
 
@@ -188,7 +185,7 @@ public class LeafNode implements BaseNode {
             str.append("  ");
         }
         str.append("Node at " + corner.toString() + ", " + length + ":");
-        for (int i = 0; i < arrayLength; i++) {
+        for (int i = arrayLength - 1; i >= 0; i--) {
             str.append("\n");
             for (int j = 0; j < indent; j++) {
                 str.append("  ");

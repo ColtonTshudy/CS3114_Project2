@@ -136,8 +136,8 @@ public class LeafNodeTest extends TestCase {
         node.insert(pair2);
         StringBuilder str2 = new StringBuilder();
         str2.append("    Node at 0, 0, 10:\n");
-        str2.append("    (A, 0, 0)\n");
-        str2.append("    (B, 1, 1)");
+        str2.append("    (B, 1, 1)\n");
+        str2.append("    (A, 0, 0)");
         assertEquals(node.toString(2), str2.toString());
         node.remove(point);
         node.remove(point2);
@@ -165,15 +165,14 @@ public class LeafNodeTest extends TestCase {
      * Tests findDupe
      */
     public void testFindDupe() {
-        assertNull(node.findDupe()[0]);
+        assertNull(node.findDupe());
         node.insert(pairDupe);
-        assertEquals(node.findDupe()[0], point);
-        assertNull(node.findDupe()[1]);
+        assertEquals(node.findDupe(), point);
         KVPair<String, Point> pair2Dupe = new KVPair<String, Point>("BDupe",
             point2);
         node.insert(pair2);
         node.insert(pair2Dupe);
-        assertEquals(node.findDupe()[0], point);
+        assertEquals(node.findDupe(), point);
     }
 
 
