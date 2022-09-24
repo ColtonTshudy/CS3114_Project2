@@ -55,30 +55,25 @@ public class LeafNodeTest extends TestCase {
         assertEquals(node.getSize(), 3);
         assertFalse(node.insert(pair4));
         assertEquals(node.getSize(), 3);
-        assertTrue(node.insert(pairDupe));
-        assertEquals(node.getSize(), 4);
+        assertFalse(node.insert(pairDupe));
+        assertEquals(node.getSize(), 3);
         assertEquals(node.dataArray()[0], pair);
     }
 
 
     /**
-     * Tests remove method with both a key and element
+     * Tests remove method with element
      */
     public void testRemove() {
         assertEquals(node.remove(point), pair);
-        assertNull(node.remove("A"));
+        assertNull(node.remove(point));
 
         node.insert(pair);
         node.insert(pairDupe);
         node.insert(pair2);
-        node.insert(pair3);
         assertEquals(node.remove(point2), pair2);
-        assertEquals(node.remove("C"), pair3);
-        assertEquals(node.remove("A"), pair);
-
-        node.insert(pair);
-        assertEquals(node.remove(point), pairDupe);
         assertEquals(node.remove(point), pair);
+        assertEquals(node.remove(point), pairDupe);
         assertEquals(node.getSize(), 0);
         assertNull(node.remove(point));
     }
@@ -94,9 +89,7 @@ public class LeafNodeTest extends TestCase {
         node.insert(pair);
         node.insert(pairDupe);
         node.insert(pair2);
-        node.insert(pair3);
         assertEquals(node.remove(pair2), pair2);
-        assertEquals(node.remove(pair3), pair3);
         assertEquals(node.remove(pair), pair);
         assertNull(node.remove(pair));
         assertEquals(node.remove(pairDupe), pairDupe);
@@ -146,8 +139,8 @@ public class LeafNodeTest extends TestCase {
         str2.append("    (A, 0, 0)\n");
         str2.append("    (B, 1, 1)");
         assertEquals(node.toString(2), str2.toString());
-        node.remove("A");
-        node.remove("B");
+        node.remove(point);
+        node.remove(point2);
         assertEquals(node.toString(0), "Node at 0, 0, 10:");
     }
 
@@ -181,7 +174,6 @@ public class LeafNodeTest extends TestCase {
         node.insert(pair2);
         node.insert(pair2Dupe);
         assertEquals(node.findDupe()[0], point);
-        assertEquals(node.findDupe()[1], point2);
     }
 
 

@@ -74,12 +74,6 @@ public class InternalNode implements BaseNode {
 
 
     @Override
-    public KVPair<String, Point> remove(String key) {
-        return null;
-    }
-
-
-    @Override
     public KVPair<String, Point> remove(Point point) {
         return null;
     }

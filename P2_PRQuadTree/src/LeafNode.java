@@ -64,37 +64,19 @@ public class LeafNode implements BaseNode {
         if (arrayLength == arrayMax - 1) {
             expandArray();
         }
-        if (isDupe(newPoint)) {
-            dataArray[arrayLength] = newPoint;
-            arrayLength++;
-            return true;
-        }
-        if (uniqueItems < 3) {
+        if (uniqueItems == 1 || arrayLength < 3) {
+            if (isDupe(newPoint)) {
+                dataArray[arrayLength] = newPoint;
+                arrayLength++;
+                return true;
+            }
             dataArray[arrayLength] = newPoint;
             arrayLength++;
             uniqueItems++;
             return true;
         }
         return false;
-    }
 
-
-    @Override
-    public KVPair<String, Point> remove(String key) {
-        KVPair<String, Point> removed;
-        for (int i = 0; i < arrayLength; i++) {
-            if (dataArray[i].key().equals(key)) {
-                removed = dataArray[i];
-                for (int j = i; j < arrayLength; j++) {
-                    dataArray[j] = dataArray[j + 1];
-                }
-                arrayLength--;
-                if (!isDupe(removed))
-                    uniqueItems--;
-                return removed;
-            }
-        }
-        return null;
     }
 
 
@@ -250,26 +232,6 @@ public class LeafNode implements BaseNode {
             i++;
         }
         return dupeFound;
-    }
-
-
-    /**
-     * Checks if a point is in the point array
-     * 
-     * @param array
-     *            The array of points
-     * @param point
-     *            The point being checked
-     * @param len
-     *            The length of the array
-     * @return True if not in array
-     */
-    private boolean notInArray(Point[] array, Point point, int len) {
-        boolean found = false;
-        for (int i = 0; i < len; i++) {
-            found = array[i].equals(point);
-        }
-        return !found;
     }
 
 
