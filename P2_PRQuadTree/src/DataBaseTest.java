@@ -19,12 +19,13 @@ import student.TestableRandom;
  */
 public class DataBaseTest extends TestCase {
     // Declare any necessary objects or final variables
+    private DataBase database;
 
     /**
      * sets up each test method before it runs
      */
     public void setUp() {
-
+        database = new DataBase();
     }
 
 
@@ -32,7 +33,11 @@ public class DataBaseTest extends TestCase {
      * This method will test the insert command
      */
     public void testInsert() {
-
+        database.doCommand("insert A 0 0");
+        database.doCommand("dump");
+        database.doCommand("insert A 0 0");
+        database.doCommand("dump");
+        
     }
 
 

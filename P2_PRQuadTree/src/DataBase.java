@@ -185,7 +185,7 @@ public class DataBase {
     private void dump() {
         StringBuilder str = new StringBuilder();
         str.append("SkipList dump:\n");
-        str.append(skipList.toString());
+        str.append(skipList.toString() + "\n");
         str.append("QuadTree dump:\n");
         str.append(quadTree.toString());
         System.out.print(str.toString());
