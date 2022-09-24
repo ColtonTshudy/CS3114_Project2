@@ -63,4 +63,32 @@ public class KVPairTest extends TestCase {
     public void testToString() {
         assertEquals(pair.toString(), "A, apple");
     }
+
+
+    /**
+     * Tests equals method
+     */
+    public void testEquals() {
+        assertEquals(pair, pair); // same reference
+
+        KVPair<String, String> pair2 = new KVPair<String, String>("A", "apple");
+        assertEquals(pair2, pair); // same values
+
+        assertFalse(pair.equals(null)); // null value
+        assertFalse(pair.equals("Test")); // different object class
+
+        // different values
+        pair2 = new KVPair<String, String>("B", "apple");
+        assertFalse(pair.equals(pair2));
+
+        pair2 = new KVPair<String, String>("A", "banana");
+        assertFalse(pair.equals(pair2));
+
+        // different key and value classes
+        KVPair<Integer, String> pairInt = new KVPair<Integer, String>(1, "A");
+        assertFalse(pair.equals(pairInt));
+
+        KVPair<String, Integer> pairInt2 = new KVPair<String, Integer>("A", 1);
+        assertFalse(pair.equals(pairInt2));
+    }
 }
