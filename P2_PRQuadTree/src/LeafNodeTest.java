@@ -36,7 +36,6 @@ public class LeafNodeTest extends TestCase {
         node = new LeafNode(point, 10);
         pair = new KVPair<String, Point>("A", point);
         node.insert(pair);
-
         point2 = new Point(1, 1);
         pair2 = new KVPair<String, Point>("B", point2);
         point3 = new Point(2, 1);
@@ -184,6 +183,20 @@ public class LeafNodeTest extends TestCase {
         node.insert(pair2Dupe);
         assertEquals(node.findDupe()[0], point);
         assertEquals(node.findDupe()[1], point2);
+    }
+
+
+    /**
+     * Tests the expand array method
+     */
+    public void testExpandArray() {
+        assertEquals(node.getArrayMax(), 10);
+        for (int i = 0; i <= 10; i++) {
+            KVPair<String, Point> pairTest = new KVPair<String, Point>(Integer
+                .toString(i), point);
+            assertTrue(node.insert(pairTest));
+        }
+        assertEquals(node.getArrayMax(), 20);
     }
 
 }

@@ -23,6 +23,7 @@ import java.lang.reflect.Array;
  * @version 9/23/22
  */
 public class LeafNode implements BaseNode {
+    private int arrayMax = 10;
     private int arrayLength = 0;
     private int uniqueItems = 0;
     private Point corner;
@@ -46,7 +47,7 @@ public class LeafNode implements BaseNode {
      */
     @SuppressWarnings("unchecked")
     private KVPair<String, Point>[] dataArray = (KVPair<String, Point>[])Array
-        .newInstance(KVPair.class, 100);
+        .newInstance(KVPair.class, arrayMax);
 
     /**
      * Getter for dataArray
@@ -60,6 +61,9 @@ public class LeafNode implements BaseNode {
 
     @Override
     public boolean insert(KVPair<String, Point> newPoint) {
+        if (arrayLength == arrayMax - 1) {
+            expandArray();
+        }
         if (isDupe(newPoint)) {
             dataArray[arrayLength] = newPoint;
             arrayLength++;
@@ -176,6 +180,16 @@ public class LeafNode implements BaseNode {
     }
 
 
+    /**
+     * Array max getter
+     * 
+     * @return the max size of the array
+     */
+    public int getArrayMax() {
+        return arrayMax;
+    }
+
+
     @Override
     public Boolean isLeaf() {
         return true;
@@ -275,5 +289,20 @@ public class LeafNode implements BaseNode {
             }
         }
         return null;
+    }
+
+
+    /**
+     * Expands data array as needed
+     */
+    private void expandArray() {
+        arrayMax = arrayMax * 2;
+        @SuppressWarnings("unchecked")
+        KVPair<String, Point>[] newArray = (KVPair<String, Point>[])Array
+            .newInstance(KVPair.class, arrayMax);
+        for (int i = 0; i < arrayLength; i++) {
+            newArray[i] = dataArray[i];
+        }
+        dataArray = newArray;
     }
 }
