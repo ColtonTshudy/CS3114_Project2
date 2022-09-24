@@ -90,7 +90,7 @@ public class DataBase {
         StringBuilder str = new StringBuilder();
         KVPair<String, Point> removed = skipList.remove(name);
         if (removed == null)
-            str.append("Point not found: (" + name + ")\n");
+            str.append("Point not removed: " + name + "\n");
 
         else {
             quadTree.remove(removed); // remove by pair
@@ -112,7 +112,7 @@ public class DataBase {
             commands[2]));
         KVPair<String, Point> removed = quadTree.remove(point);
         if (removed == null)
-            str.append("Point not found: (" + point.toString() + ")\n");
+            str.append("Point not removed: " + point.toString() + "\n");
 
         else {
             skipList.remove(removed); // remove by pair

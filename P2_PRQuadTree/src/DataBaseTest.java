@@ -65,6 +65,9 @@ public class DataBaseTest extends TestCase {
     }
 
 
+    /**
+     * Tests sampleInput method
+     */
     public void testSampleInsert() {
     }
 
@@ -101,7 +104,7 @@ public class DataBaseTest extends TestCase {
         database.doCommand("insert A 1023 1023");
         database.doCommand("insert A 1023 0");
         database.doCommand("insert A 0 1023");
-        
+
         database.doCommand("dump");
     }
 
