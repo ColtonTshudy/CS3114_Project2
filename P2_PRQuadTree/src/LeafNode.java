@@ -64,15 +64,11 @@ public class LeafNode implements BaseNode {
         if (arrayLength == arrayMax - 1) {
             expandArray();
         }
+        if (!isDupe(newPoint))
+            uniqueItems++;
         if (uniqueItems == 1 || arrayLength < 3) {
-            if (isDupe(newPoint)) {
-                dataArray[arrayLength] = newPoint;
-                arrayLength++;
-                return true;
-            }
             dataArray[arrayLength] = newPoint;
             arrayLength++;
-            uniqueItems++;
             return true;
         }
         return false;
