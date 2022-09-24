@@ -37,7 +37,7 @@ public class DataBase {
         String[] commands = line.split("\\s+");
         if (commands[0].equals("insert"))
             insert(commands);
-        else if (commands[0].equals("remove") && commands[2].equals(null))
+        else if (commands[0].equals("remove") && commands.length == 2)
             removeName(commands[1]);
         else if (commands[0].equals("remove"))
             removeCords(commands);
