@@ -65,9 +65,9 @@ public class DataBase {
         StringBuilder str = new StringBuilder();
         Point point = new Point(Integer.valueOf(commands[2]), Integer.valueOf(
             commands[3]));
+        KVPair<String, Point> pair = new KVPair<String, Point>(commands[1],
+            point);
         if (point.validPoint() && !entryExists(commands[1], point)) {
-            KVPair<String, Point> pair = new KVPair<String, Point>(commands[1],
-                point);
             skipList.insert(pair);
             quadTree.insert(pair);
             str.append("Point inserted: (");
@@ -75,7 +75,7 @@ public class DataBase {
         else {
             str.append("Point rejected: (");
         }
-        str.append(point.toString() + ")\n");
+        str.append(pair.toString() + ")\n");
         System.out.print(str.toString());
     }
 
@@ -187,7 +187,7 @@ public class DataBase {
         str.append("SkipList dump:\n");
         str.append(skipList.toString() + "\n");
         str.append("QuadTree dump:\n");
-        str.append(quadTree.toString());
+        str.append(quadTree.toString() + "\n");
         System.out.print(str.toString());
     }
 
