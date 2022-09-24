@@ -132,14 +132,15 @@ public class PRQuadTree {
      *         Returns a formatted string of duplicate points
      */
     public String duplicates() {
-        Point[] result = (Point[])Array.newInstance(Point.class, size);
-
-        result = dupeRecursive(result, head);
+        Point[] result = (Point[])Array.newInstance(Point.class, size + 1);
+        result = dupeRecursive(result, head, 0);
         StringBuilder str = new StringBuilder();
         str.append("Duplicate Points:");
-        for (int i = 0; i < result.length; i++) {
+        int i = 0;
+        while (result[i] != null) {
             str.append("\n");
             str.append("(" + result[i].toString() + ")");
+            i++;
         }
         return str.toString();
     }
@@ -467,13 +468,19 @@ public class PRQuadTree {
      * @return
      *         An array of duplicates
      */
-    private Point[] dupeRecursive(Point[] array, BaseNode node) {
+    private Point[] dupeRecursive(
+        Point[] array,
+        BaseNode node,
+        int dupesFound) {
 
         if (node.isLeaf()) {
             LeafNode curr = (LeafNode)node;
             Point[] data = curr.findDupe();
-            for (int i = 0; i < data.length; i++) {
-                array[array.length] = data[i];
+            int i = 0;
+            while (data[i] != null) {
+                array[dupesFound] = data[i];
+                dupesFound++;
+                i++;
             }
             return array;
         }
@@ -482,10 +489,10 @@ public class PRQuadTree {
             return array;
         }
         InternalNode curr = (InternalNode)node;
-        array = dupeRecursive(array, curr.children()[0]);
-        array = dupeRecursive(array, curr.children()[1]);
-        array = dupeRecursive(array, curr.children()[2]);
-        array = dupeRecursive(array, curr.children()[3]);
+        array = dupeRecursive(array, curr.children()[0], dupesFound);
+        array = dupeRecursive(array, curr.children()[1], dupesFound);
+        array = dupeRecursive(array, curr.children()[2], dupesFound);
+        array = dupeRecursive(array, curr.children()[3], dupesFound);
         return array;
     }
 

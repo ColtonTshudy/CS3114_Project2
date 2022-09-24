@@ -155,8 +155,8 @@ public class PRQuadTreeTest extends TestCase {
         tree.insert(pair2);
         tree.insert(pair3);
         tree.insert(new KVPair<String, Point>("G", new Point(257, 0)));
-        str.append("\n (0, 0)");
-        //assertEquals(tree.duplicates(), str.toString());
+        str.append("\n(0, 0)");
+        assertEquals(tree.duplicates(), str.toString());
     }
 
 

@@ -158,11 +158,12 @@ public class LeafNode implements BaseNode {
     public Point[] findDupe() {
         int dupeFound = 0;
         Point[] found = (Point[])Array.newInstance(Point.class, arrayLength);
-        for (int i = 0; i < arrayLength; i++) {
-            if (isDupe(dataArray[i]) && notInArray(found, dataArray[i].value(),
-                dupeFound)) {
-                found[dupeFound] = dataArray[i].value();
-                dupeFound++;
+        for (int i = 0; i < arrayLength - 1; i++) {
+            for (int j = i + 1; j < arrayLength; j++) {
+                if (dataArray[i].value().equals(dataArray[j].value())) {
+                    found[dupeFound] = dataArray[i].value();
+                    dupeFound++;
+                }
             }
         }
         return found;
@@ -245,8 +246,7 @@ public class LeafNode implements BaseNode {
         boolean dupeFound = false;
         int i = 0;
         while (i < arrayLength && !dupeFound) {
-            dupeFound = pair.value().equals(dataArray[i].value()) && !pair.key()
-                .equals(dataArray[i].key());
+            dupeFound = pair.value().equals(dataArray[i].value());
             i++;
         }
         return dupeFound;
@@ -259,7 +259,7 @@ public class LeafNode implements BaseNode {
      * @param array
      *            The array of points
      * @param point
-     *            The point being checkedF
+     *            The point being checked
      * @param len
      *            The length of the array
      * @return True if not in array

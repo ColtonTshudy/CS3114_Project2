@@ -54,7 +54,6 @@ public class LeafNodeTest extends TestCase {
         assertTrue(node.insert(pair3));
         assertEquals(node.getSize(), 3);
         assertFalse(node.insert(pair4));
-        assertFalse(node.insert(pair));
         assertEquals(node.getSize(), 3);
         assertTrue(node.insert(pairDupe));
         assertEquals(node.getSize(), 4);
