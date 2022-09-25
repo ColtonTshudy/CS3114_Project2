@@ -84,7 +84,7 @@ public class DataBaseTest extends TestCase {
      * This method will test the remove by coordinates command
      */
     public void testRemoveCoords() {
-
+        database.doCommand("remove -1 -1");
     }
 
 
@@ -95,18 +95,18 @@ public class DataBaseTest extends TestCase {
 
     }
 
-
-    /**
-     * This method will test the duplicates command
-     */
-    public void testDuplicates() {
-        database.doCommand("insert A 0 0");
-        database.doCommand("insert A 1023 1023");
-        database.doCommand("insert A 1023 0");
-        database.doCommand("insert A 0 1023");
-
-        database.doCommand("dump");
-    }
+//
+//    /**
+//     * This method will test the duplicates command
+//     */
+//    public void testDuplicates() {
+//        database.doCommand("insert A 0 0");
+//        database.doCommand("insert A 1023 1023");
+//        database.doCommand("insert A 1023 0");
+//        database.doCommand("insert A 0 1023");
+//
+//        database.doCommand("dump");
+//    }
 
 
     /**

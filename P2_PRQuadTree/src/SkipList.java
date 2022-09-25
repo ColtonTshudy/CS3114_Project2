@@ -298,6 +298,7 @@ public class SkipList<K extends Comparable<K>, E> {
     public String toString() {
         SkipNode<K, E> curr = head; // node cursor
         StringBuilder stb = new StringBuilder(); // builds output
+        str.append("SkipList dump:\n");
 
         // for each node in the skiplist, minus head
         while (curr != null) {

@@ -89,10 +89,10 @@ public class SkipListTest extends TestCase {
     public void testInsert() {
         // Expected toString (dump)
         String head = "Node has depth 4, Value (null)";
-        String node1 = "Node has depth 1, Value (A, object 1)";
-        String node2 = "Node has depth 2, Value (B, object 2)";
-        String node3 = "Node has depth 1, Value (C, object 3)";
-        String node4 = "Node has depth 4, Value (E, object 4)";
+        String node1 = "Node has depth 1, Value (A, A, object 1)";
+        String node2 = "Node has depth 2, Value (B, B, object 2)";
+        String node3 = "Node has depth 1, Value (C, C, object 3)";
+        String node4 = "Node has depth 4, Value (E, E, object 4)";
         String size = "SkipList size is: 4";
 
         assertEquals(sl2.toString(), head + nl + node1 + nl + node2 + nl + node3
@@ -104,7 +104,7 @@ public class SkipListTest extends TestCase {
         KVPair<String, String> d = new KVPair<String, String>("D", "object 5");
         sl2.insert(d);
 
-        String node5 = "Node has depth 2, Value (D, object 5)";
+        String node5 = "Node has depth 2, Value (D, D, object 5)";
         size = "SkipList size is: 5";
 
         assertEquals(sl2.toString(), head + nl + node1 + nl + node2 + nl + node3
@@ -130,10 +130,10 @@ public class SkipListTest extends TestCase {
      * This method will test the printAllMatching method
      */
     public void testPrintAllMatching() {
-        String node1 = "Node has depth 1, Value (A, object 1)";
-        String node2 = "Node has depth 2, Value (B, object 2)";
-        String node3 = "Node has depth 5, Value (B, new object)";
-        String node4 = "Node has depth 4, Value (E, object 4)";
+        String node1 = "Node has depth 1, Value (A, A, object 1)";
+        String node2 = "Node has depth 2, Value (B, B, object 2)";
+        String node3 = "Node has depth 5, Value (B, B, new object)";
+        String node4 = "Node has depth 4, Value (E, E, object 4)";
 
         // Node matching key at the beginning of list
         assertEquals(node1, sl2.printAllMatching("A"));
@@ -160,9 +160,9 @@ public class SkipListTest extends TestCase {
     public void testRemoveByKey() {
         // Expected string dump segments from skip list 2
         String head = "Node has depth 4, Value (null)";
-        String node1 = "Node has depth 2, Value (B, object 2)";
-        String node2 = "Node has depth 1, Value (C, object 3)";
-        String node3 = "Node has depth 4, Value (E, object 4)";
+        String node1 = "Node has depth 2, Value (B, B, object 2)";
+        String node2 = "Node has depth 1, Value (C, C, object 3)";
+        String node3 = "Node has depth 4, Value (E, E, object 4)";
         String size = "SkipList size is: 3";
 
         // Removing at the beginning of the list
@@ -221,10 +221,10 @@ public class SkipListTest extends TestCase {
 
         // Expected string dump segments from skip list 2
         String head = "Node has depth 4, Value (null)";
-        String node0 = "Node has depth 1, Value (A, duplicate key)";
-        String node2 = "Node has depth 2, Value (B, object 2)";
-        String node3 = "Node has depth 1, Value (C, object 3)";
-        String node4 = "Node has depth 4, Value (E, object 4)";
+        String node0 = "Node has depth 1, Value (A, A, duplicate key)";
+        String node2 = "Node has depth 2, Value (B, B, object 2)";
+        String node3 = "Node has depth 1, Value (C, C, object 3)";
+        String node4 = "Node has depth 4, Value (E, E, object 4)";
         String size = "SkipList size is: 4";
 
         // Removing at the beginning of the list with duplicate keys

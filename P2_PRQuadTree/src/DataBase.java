@@ -94,7 +94,7 @@ public class DataBase {
 
         else {
             quadTree.remove(removed); // remove by pair
-            str.append("Point removed: " + removed.toString() + "\n");
+            str.append("Point removed: (" + removed.toString() + ")\n");
         }
         System.out.print(str.toString());
     }
@@ -110,13 +110,20 @@ public class DataBase {
         StringBuilder str = new StringBuilder();
         Point point = new Point(Integer.valueOf(commands[1]), Integer.valueOf(
             commands[2]));
-        KVPair<String, Point> removed = quadTree.remove(point);
-        if (removed == null)
-            str.append("Point not removed: " + point.toString() + "\n");
 
+        if (!point.validPoint()) {
+            str.append("Point not found: (" + point.toString() + ")\n");
+        }
         else {
-            skipList.remove(removed); // remove by pair
-            str.append("Point removed: (" + removed.toString() + ")\n");
+
+            KVPair<String, Point> removed = quadTree.remove(point);
+            if (removed == null)
+                str.append("Point not found: (" + point.toString() + ")\n");
+
+            else {
+                skipList.remove(removed); // remove by pair
+                str.append("Point removed: (" + removed.toString() + ")\n");
+            }
         }
         System.out.print(str.toString());
     }
@@ -156,6 +163,7 @@ public class DataBase {
         StringBuilder str = new StringBuilder();
         str.append("Duplicate points:\n");
         str.append(quadTree.duplicates());
+        str.append("\n");
         System.out.print(str.toString());
     }
 
@@ -184,7 +192,6 @@ public class DataBase {
      */
     private void dump() {
         StringBuilder str = new StringBuilder();
-        str.append("SkipList dump:\n");
         str.append(skipList.toString() + "\n");
         str.append("QuadTree dump:\n");
         str.append(quadTree.toString() + "\n");
