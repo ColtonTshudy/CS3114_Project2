@@ -141,7 +141,7 @@ public class DataBase {
             commands[4]) <= 0) {
             str.append("Rectangle rejected: (" + commands[1] + ", "
                 + commands[2] + ", " + commands[3] + ", " + commands[4]
-                + "):\n");
+                + ")\n");
         }
         else {
             str.append("Points intersecting region (" + commands[1] + ", "

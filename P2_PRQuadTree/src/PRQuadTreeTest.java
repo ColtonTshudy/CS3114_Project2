@@ -49,6 +49,29 @@ public class PRQuadTreeTest extends TestCase {
 
 
     /**
+     * Tests the collapses method
+     */
+    public void testCollapse() {
+        tree.insert(pair1);
+        tree.insert(pair1);
+        tree.insert(pairC1);
+        tree.insert(pair2);
+        tree.insert(pair4);
+        tree.insert(pair5);
+        tree.insert(pair6);
+        tree.remove(point2);
+        String compare = "Node at 0, 0, 1024: Internal" + "\n"
+            + "  Node at 0, 0, 512:" + "\n" + "  (P1, 4, 4)" + "\n"
+            + "  (p1, 4, 4)" + "\n" + "  (p1, 4, 4)" + "\n"
+            + "  Node at 512, 0, 512:" + "\n" + "  (p5, 700, 4)" + "\n"
+            + "  (p4, 700, 4)" + "\n" + "  Node at 0, 512, 512:" + "\n"
+            + "  (p6, 200, 900)" + "\n" + "  Node at 512, 512, 512: Empty"
+            + "\n" + "9 quadtree nodes printed";
+        assertEquals(tree.toString(), compare);
+    }
+
+
+    /**
      * Tests the insert method
      */
     public void testInsert() {
