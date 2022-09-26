@@ -6,8 +6,6 @@
 // -- Colton Tshudy (coltont)
 // -- Benjamin Gallini (bengallini)
 
-import java.lang.reflect.Array;
-
 /**
  * PR Quad Tree function
  * 
