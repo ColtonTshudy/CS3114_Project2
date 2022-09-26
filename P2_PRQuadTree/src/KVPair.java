@@ -103,16 +103,13 @@ public class KVPair<K extends Comparable<K>, V>
         if (this == other) {
             return true;
         }
-        if (other == null) {
+        if (other != null) {
             return false;
         }
         // Check if other is an instance of a KVPair
         if (other instanceof KVPair<?, ?>) {
             KVPair<?, ?> pair = (KVPair<?, ?>)other;
-            // Check if they have the same generic classes
-            if (pair.key().getClass().equals(theKey.getClass()) && pair.value()
-                .getClass().equals(theVal.getClass()))
-                return theKey.equals(pair.key()) && theVal.equals(pair.value());
+            return theKey.equals(pair.key()) && theVal.equals(pair.value());
         }
         return false;
     }

@@ -42,6 +42,13 @@ public class Point2Test extends TestCase {
         Point2.main(args);
         String out = systemOut().getHistory();
         assertFuzzyEquals("File does not exist: NO_input_file_exists.txt", out);
+        systemOut().clearHistory();
+        String[] args2 = new String[2];
+        args2[0] = "ExampleInput.txt";
+        args2[1] = "ExampleInput.txt";
+        Point2.main(args2);
+        assertEquals(systemOut().getHistory(),
+            "Usage: java Point2 <command-file>\n");
     }
 
 

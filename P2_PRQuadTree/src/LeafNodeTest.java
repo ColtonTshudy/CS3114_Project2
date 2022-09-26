@@ -67,12 +67,16 @@ public class LeafNodeTest extends TestCase {
     public void testRemove() {
         assertEquals(node.remove(point), pair);
         assertNull(node.remove(point));
-
         node.insert(pair);
         node.insert(pairDupe);
         node.insert(pair2);
+        assertEquals(node.getUniqueItems(), 2);
         assertEquals(node.remove(point2), pair2);
+        assertEquals(node.getUniqueItems(), 1);
         assertEquals(node.remove(point), pair);
+        assertEquals(node.getUniqueItems(), 1);
+        assertEquals(node.dataArray()[0], pairDupe);
+        assertEquals(node.dataArray()[1], null);
         assertEquals(node.remove(point), pairDupe);
         assertEquals(node.getSize(), 0);
         assertNull(node.remove(point));
@@ -80,7 +84,7 @@ public class LeafNodeTest extends TestCase {
 
 
     /**
-     * Tests remove method with key
+     * Tests remove method with pair
      */
     public void testRemovePair() {
         assertEquals(node.remove(pair), pair);
@@ -89,8 +93,13 @@ public class LeafNodeTest extends TestCase {
         node.insert(pair);
         node.insert(pairDupe);
         node.insert(pair2);
+        assertEquals(node.getUniqueItems(), 2);
         assertEquals(node.remove(pair2), pair2);
+        assertEquals(node.getUniqueItems(), 1);
         assertEquals(node.remove(pair), pair);
+        assertEquals(node.dataArray()[0], pairDupe);
+        assertEquals(node.dataArray()[1], null);
+        assertEquals(node.getUniqueItems(), 1);
         assertNull(node.remove(pair));
         assertEquals(node.remove(pairDupe), pairDupe);
         assertEquals(node.getSize(), 0);
@@ -99,7 +108,7 @@ public class LeafNodeTest extends TestCase {
 
 
     /**
-     * Tests remove search with both a key and element
+     * Tests search with both a key and element
      */
     public void testSearch() {
         assertEquals(node.search(point)[0], pair);
@@ -182,12 +191,13 @@ public class LeafNodeTest extends TestCase {
      * Tests the expand array method
      */
     public void testExpandArray() {
+        KVPair<String, Point> pairTest = new KVPair<String, Point>("A", point);
         assertEquals(node.getArrayMax(), 10);
-        for (int i = 0; i <= 10; i++) {
-            KVPair<String, Point> pairTest = new KVPair<String, Point>(Integer
-                .toString(i), point);
+        for (int i = 0; i <= 7; i++) {
             assertTrue(node.insert(pairTest));
+            assertEquals(node.getArrayMax(), 10);
         }
+        assertTrue(node.insert(pairTest));
         assertEquals(node.getArrayMax(), 20);
     }
 

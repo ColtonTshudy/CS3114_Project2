@@ -91,13 +91,12 @@ public class PointTest extends TestCase {
     public void testFindQuadrant() {
         Point corner = new Point(0, 0);
         assertEquals(point1.findQuadrant(corner, 1024), 1);
-        point1.setX(513);
+        point1.setX(512);
         assertEquals(point1.findQuadrant(corner, 1024), 0);
-        point1.setY(513);
+        point1.setY(512);
         assertEquals(point1.findQuadrant(corner, 1024), 3);
         point1.setX(511);
         assertEquals(point1.findQuadrant(corner, 1024), 2);
-        point1.setX(-1);
     }
 
 

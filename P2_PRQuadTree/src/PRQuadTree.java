@@ -291,8 +291,8 @@ public class PRQuadTree {
         InternalNode parent2) {
         if (node.isLeaf()) {
             KVPair<String, Point> result = node.remove(point);
-            if (result != null)
-                removeCollapse((LeafNode)node, parent, parent2);
+            // if (result != null)
+            removeCollapse((LeafNode)node, parent, parent2);
             return result;
         }
 
@@ -327,8 +327,8 @@ public class PRQuadTree {
         InternalNode parent2) {
         if (node.isLeaf()) {
             KVPair<String, Point> result = node.remove(pair);
-            if (result != null)
-                removeCollapse((LeafNode)node, parent, parent2);
+            // if (result != null)
+            removeCollapse((LeafNode)node, parent, parent2);
             return result;
         }
 
@@ -591,8 +591,7 @@ public class PRQuadTree {
                 if (parent.children()[i].isLeaf()) {
                     LeafNode childLeaf = (LeafNode)parent.children()[i];
                     for (int j = 0; j < childLeaf.getSize(); j++) {
-                        if (collapse)
-                            collapse = newLeaf.insert(childLeaf.dataArray()[j]);
+                        collapse = newLeaf.insert(childLeaf.dataArray()[j]);
                     }
                 }
             }

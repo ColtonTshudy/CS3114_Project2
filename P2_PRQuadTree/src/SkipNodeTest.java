@@ -37,6 +37,15 @@ public class SkipNodeTest extends TestCase {
 
 
     /**
+     * Tests constructor
+     */
+    public void testSkipNode() {
+        assertNull(node.getSkip(1));
+        assertNull(node.getSkip(0));
+    }
+
+
+    /**
      * Tests key function
      */
     public void testGetKey() {
@@ -84,7 +93,7 @@ public class SkipNodeTest extends TestCase {
      */
     public void testToString() {
         assertEquals(node.toString(), "Node has depth 2, Value (A, A, 1, 1)");
-        SkipNode<String, Point> node2 = new SkipNode<String, Point>(1, null);
-        assertEquals(node2.toString(), "Node has depth 2, Value (null)");
+        SkipNode<String, Point> nodeNull = new SkipNode<String, Point>(1, null);
+        assertEquals(nodeNull.toString(), "Node has depth 2, Value (null)");
     }
 }

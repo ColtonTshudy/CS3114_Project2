@@ -26,7 +26,7 @@ public class InternalNodeTest extends TestCase {
      * sets up each test method before it runs
      */
     public void setUp() {
-        corner = new Point(0, 0);
+        corner = new Point(1, 2);
         node = new InternalNode(corner, 10);
         pair = new KVPair<String, Point>("A", corner);
     }
@@ -37,16 +37,20 @@ public class InternalNodeTest extends TestCase {
      */
     public void testInternalNode() {
         BaseNode[] children = node.children();
-        Point corner0 = new Point(5, 0);
+
+        Point corner0 = new Point(6, 2);
         assertEquals(children[0].getCorner(), corner0);
         assertEquals(children[0].getLength(), 5);
-        Point corner1 = new Point(0, 0);
+
+        Point corner1 = new Point(1, 2);
         assertEquals(children[1].getCorner(), corner1);
         assertEquals(children[1].getLength(), 5);
-        Point corner2 = new Point(0, 5);
+
+        Point corner2 = new Point(1, 7);
         assertEquals(children[2].getCorner(), corner2);
         assertEquals(children[2].getLength(), 5);
-        Point corner3 = new Point(5, 5);
+
+        Point corner3 = new Point(6, 7);
         assertEquals(children[3].getCorner(), corner3);
         assertEquals(children[3].getLength(), 5);
     }
@@ -98,8 +102,8 @@ public class InternalNodeTest extends TestCase {
      * Tests toString method
      */
     public void testToString() {
-        assertEquals(node.toString(0), "Node at 0, 0, 10: Internal");
-        assertEquals(node.toString(1), "  Node at 0, 0, 10: Internal");
+        assertEquals(node.toString(0), "Node at 1, 2, 10: Internal");
+        assertEquals(node.toString(1), "  Node at 1, 2, 10: Internal");
     }
 
 

@@ -91,11 +91,13 @@ public class DataBaseTest extends TestCase {
         database.doCommand("remove -1 -1");
         String expected = "Point not found: (-1, -1)\n";
         assertEquals(expected, sysout.getHistory());
+        
         database.doCommand("insert A 1 1");
         sysout.clearHistory();
         database.doCommand("remove 1 1");
         expected = "Point removed: (A, 1, 1)\n";
         assertEquals(expected, sysout.getHistory());
+        
         sysout.clearHistory();
         database.doCommand("remove 1 1");
         expected = "Point not found: (1, 1)\n";

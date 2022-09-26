@@ -210,6 +210,17 @@ public class LeafNode implements BaseNode {
 
 
     /**
+     * Getter method for unique items
+     * 
+     * @return
+     *         Unique items in the array
+     */
+    public int getUniqueItems() {
+        return uniqueItems;
+    }
+
+
+    /**
      * Checks if the point is a duplicate point
      * 
      * @param newPoint
