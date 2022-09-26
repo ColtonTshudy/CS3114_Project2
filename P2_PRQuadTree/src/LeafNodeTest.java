@@ -165,6 +165,7 @@ public class LeafNodeTest extends TestCase {
      * Tests findDupe
      */
     public void testFindDupe() {
+        node.insert(pair2);
         assertNull(node.findDupe());
         node.insert(pairDupe);
         assertEquals(node.findDupe(), point);
@@ -173,6 +174,7 @@ public class LeafNodeTest extends TestCase {
         node.insert(pair2);
         node.insert(pair2Dupe);
         assertEquals(node.findDupe(), point);
+
     }
 
 

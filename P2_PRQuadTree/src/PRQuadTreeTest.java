@@ -49,37 +49,6 @@ public class PRQuadTreeTest extends TestCase {
 
 
     /**
-     * Tests the collapses method
-     */
-    public void testCollapse() {
-        tree.insert(pair1);
-        tree.insert(pair1);
-        tree.insert(pairC1);
-        tree.insert(pair2);
-        tree.insert(pair4);
-        tree.insert(pair5);
-        tree.insert(pair6);
-        tree.remove(point2);
-        String compare = "Node at 0, 0, 1024: Internal" + "\n"
-            + "  Node at 0, 0, 512:" + "\n" + "  (P1, 4, 4)" + "\n"
-            + "  (p1, 4, 4)" + "\n" + "  (p1, 4, 4)" + "\n"
-            + "  Node at 512, 0, 512:" + "\n" + "  (p5, 700, 4)" + "\n"
-            + "  (p4, 700, 4)" + "\n" + "  Node at 0, 512, 512:" + "\n"
-            + "  (p6, 200, 900)" + "\n" + "  Node at 512, 512, 512: Empty"
-            + "\n" + "5 quadtree nodes printed";
-        assertEquals(tree.toString(), compare);
-        tree.remove(pair6);
-        String compare2 = "Node at 0, 0, 1024: Internal\r\n"
-            + "  Node at 0, 0, 512:\r\n" + "  (P1, 4, 4)\r\n"
-            + "  (p1, 4, 4)\r\n" + "  (p1, 4, 4)\r\n"
-            + "  Node at 512, 0, 512:\r\n" + "  (p5, 700, 4)\r\n"
-            + "  (p4, 700, 4)\r\n" + "  Node at 0, 512, 512: Empty\r\n"
-            + "  Node at 512, 512, 512: Empty\r\n" + "5 quadtree nodes printed";
-        assertEquals(tree.toString(), compare2);
-    }
-
-
-    /**
      * Tests the insert method
      */
     public void testInsert() {
@@ -116,6 +85,7 @@ public class PRQuadTreeTest extends TestCase {
      * Tests the remove method with a point
      */
     public void testRemove() {
+        assertNull(tree.remove(point));
         tree.insert(pairC1);
         tree.insert(pair1);
         tree.insert(pair2);
@@ -132,6 +102,7 @@ public class PRQuadTreeTest extends TestCase {
      * Tests the remove method with a pair
      */
     public void testRemovePair() {
+        assertNull(tree.remove(pair1));
         tree.insert(pairC1);
         tree.insert(pair1);
         tree.insert(pair2);
@@ -142,6 +113,53 @@ public class PRQuadTreeTest extends TestCase {
         assertNull(tree.remove(pair4));
         assertNull(tree.remove(new KVPair<String, Point>("G", new Point(0,
             1023))));
+    }
+
+
+    /**
+     * Tests the collapses method
+     */
+    public void testCollapse() {
+        tree.insert(pair1);
+        tree.remove(pair1);
+        String compare0 = "Node at 0, 0, 1024: Empty\n"
+            + "1 quadtree nodes printed";
+        assertEquals(tree.toString(), compare0);
+
+        tree.insert(pair1);
+        tree.insert(pair1);
+        tree.insert(pairC1);
+        tree.insert(pair2);
+        tree.insert(pair4);
+        tree.insert(pair5);
+        tree.insert(pair6);
+        tree.remove(point2);
+        String compare = "Node at 0, 0, 1024: Internal" + "\n"
+            + "  Node at 0, 0, 512:" + "\n" + "  (P1, 4, 4)" + "\n"
+            + "  (p1, 4, 4)" + "\n" + "  (p1, 4, 4)" + "\n"
+            + "  Node at 512, 0, 512:" + "\n" + "  (p5, 700, 4)" + "\n"
+            + "  (p4, 700, 4)" + "\n" + "  Node at 0, 512, 512:" + "\n"
+            + "  (p6, 200, 900)" + "\n" + "  Node at 512, 512, 512: Empty"
+            + "\n" + "5 quadtree nodes printed";
+        assertEquals(tree.toString(), compare);
+
+        tree.remove(pair6);
+        String compare2 = "Node at 0, 0, 1024: Internal\r\n"
+            + "  Node at 0, 0, 512:\r\n" + "  (P1, 4, 4)\r\n"
+            + "  (p1, 4, 4)\r\n" + "  (p1, 4, 4)\r\n"
+            + "  Node at 512, 0, 512:\r\n" + "  (p5, 700, 4)\r\n"
+            + "  (p4, 700, 4)\r\n" + "  Node at 0, 512, 512: Empty\r\n"
+            + "  Node at 512, 512, 512: Empty\r\n" + "5 quadtree nodes printed";
+        assertEquals(tree.toString(), compare2);
+
+        tree.remove(pair1);
+        String compare3 = "Node at 0, 0, 1024: Internal\r\n"
+            + "  Node at 0, 0, 512:\r\n" + "  (P1, 4, 4)\r\n"
+            + "  (p1, 4, 4)\r\n" + "  Node at 512, 0, 512:\r\n"
+            + "  (p5, 700, 4)\r\n" + "  (p4, 700, 4)\r\n"
+            + "  Node at 0, 512, 512: Empty\r\n"
+            + "  Node at 512, 512, 512: Empty\r\n" + "5 quadtree nodes printed";
+        assertEquals(tree.toString(), compare3);
     }
 
 
@@ -165,7 +183,17 @@ public class PRQuadTreeTest extends TestCase {
      * Tests the regionSearch method
      */
     public void testRegionSearch() {
-
+        tree.insert(pair1);
+        tree.insert(pair1);
+        tree.insert(pairC1);
+        tree.insert(pair2);
+        tree.insert(pair4);
+        tree.insert(pair5);
+        String compare1 = "6 quadtree nodes visited\n";
+        assertEquals(tree.regionSearch(500, 500, 20, 20), compare1);
+        String compare2 = "Point found: (p5, 700, 4)\r\n"
+            + "Point found: (p4, 700, 4)\r\n" + "2 quadtree nodes visited\n";
+        assertEquals(tree.regionSearch(600, 0, 200, 200), compare2);
     }
 
 
@@ -173,7 +201,7 @@ public class PRQuadTreeTest extends TestCase {
      * Tests the duplicates method
      */
     public void testDuplicates() {
-        StringBuilder str = new StringBuilder("Duplicate Points:");
+        StringBuilder str = new StringBuilder("Duplicate points:");
         assertEquals(tree.duplicates(), str.toString());
         tree.insert(pair1);
         tree.insert(pairC1);
@@ -216,5 +244,29 @@ public class PRQuadTreeTest extends TestCase {
             + "9 quadtree nodes printed");
 
         assertEquals(tree.toString(), str.toString());
+    }
+
+
+    /**
+     * Tests inRect method
+     */
+    public void testInRect() {
+        assertTrue(tree.inRect(point, 3, 3, 2, 2));
+        assertFalse(tree.inRect(point, 5, 3, 2, 2));
+        assertFalse(tree.inRect(point, 0, 3, 2, 2));
+        assertFalse(tree.inRect(point, 3, 5, 2, 2));
+        assertFalse(tree.inRect(point, 3, 0, 2, 2));
+    }
+
+
+    /**
+     * Tests intersect method
+     */
+    public void testIntersect() {
+        assertTrue(tree.intersect(point, 2, 5, 5, 2, 2));
+        assertFalse(tree.intersect(point, 2, 7, 4, 2, 2));
+        assertFalse(tree.intersect(point, 2, 0, 4, 2, 2));
+        assertFalse(tree.intersect(point, 2, 4, 7, 2, 2));
+        assertFalse(tree.intersect(point, 2, 4, 0, 2, 2));
     }
 }

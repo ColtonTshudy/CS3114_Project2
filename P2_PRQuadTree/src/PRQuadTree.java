@@ -475,7 +475,7 @@ public class PRQuadTree {
      * @return
      *         True if in the rectangle
      */
-    private boolean inRect(Point point, int x, int y, int w, int h) {
+    public boolean inRect(Point point, int x, int y, int w, int h) {
         return point.getX() >= x && point.getX() <= x + w && point.getY() >= y
             && point.getY() <= y + h;
     }
@@ -536,7 +536,7 @@ public class PRQuadTree {
      * @return
      *         True if intersecting
      */
-    private boolean intersect(
+    public boolean intersect(
         Point point1,
         int length,
         int x,
@@ -577,26 +577,28 @@ public class PRQuadTree {
                 parent.children()[nodeDirect] = newNode;
             }
         }
-
-        boolean collapse = true;
-        LeafNode newLeaf = new LeafNode(parent.getCorner(), parent.getLength());
-        for (int i = 0; i < 4; i++) {
-            if (parent.children()[i].isLeaf()) {
-                LeafNode childLeaf = (LeafNode)parent.children()[i];
-                for (int j = 0; j < childLeaf.getSize(); j++) {
-                    if (collapse)
-                        collapse = newLeaf.insert(childLeaf.dataArray()[j]);
+        if (parent != null) {
+            boolean collapse = true;
+            LeafNode newLeaf = new LeafNode(parent.getCorner(), parent
+                .getLength());
+            for (int i = 0; i < 4; i++) {
+                if (parent.children()[i].isLeaf()) {
+                    LeafNode childLeaf = (LeafNode)parent.children()[i];
+                    for (int j = 0; j < childLeaf.getSize(); j++) {
+                        if (collapse)
+                            collapse = newLeaf.insert(childLeaf.dataArray()[j]);
+                    }
                 }
             }
-        }
-        if (collapse) {
-            if (parent2 == null) { // parent is head
-                head = newLeaf;
-            }
-            else {
-                int nodeDirect = parent.getCorner().findQuadrant(parent2
-                    .getCorner(), parent2.getLength());
-                parent2.children()[nodeDirect] = newLeaf;
+            if (collapse) {
+                if (parent2 == null) { // parent is head
+                    head = newLeaf;
+                }
+                else {
+                    int nodeDirect = parent.getCorner().findQuadrant(parent2
+                        .getCorner(), parent2.getLength());
+                    parent2.children()[nodeDirect] = newLeaf;
+                }
             }
         }
     }
