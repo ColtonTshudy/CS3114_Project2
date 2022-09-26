@@ -121,7 +121,8 @@ public class SkipNode<K extends Comparable<K>, V> {
             pairString = pairString + ", " + pair.toString();
         }
 
-        return "Node has depth " + skips.length + ", Value (" + pairString
+        return "Node has depth " + skips.length
+            + ", Value (" + pairString
             + ")";
     }
 
