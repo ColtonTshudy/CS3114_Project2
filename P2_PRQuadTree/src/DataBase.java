@@ -112,7 +112,7 @@ public class DataBase {
             commands[2]));
 
         if (!point.validPoint()) {
-            str.append("Point not found: (" + point.toString() + ")\n");
+            str.append("Point rejected: (" + point.toString() + ")\n");
         }
         else {
 

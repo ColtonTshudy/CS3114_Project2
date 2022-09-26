@@ -92,7 +92,7 @@ public class Point2Test extends TestCase {
             + nl + "  (p5, 700, 4)" + nl + "  (p4, 700, 4)" + nl
             + "  Node at 0, 512, 512:" + nl + "  (pointy, 200, 900)" + nl
             + "  Node at 512, 512, 512: Empty" + nl + "9 quadtree nodes printed"
-            + nl + "Point not found: (1552, 2)" + nl + "Point not found: (8, 8)"
+            + nl + "Point rejected: (1552, 2)" + nl + "Point not found: (8, 8)"
             + nl + "Point removed: (p2, 300, 15)" + nl
             + "Point not found: (300, 15)" + nl + "Point not removed: pOINTy"
             + nl + "Point removed: (pointy, 200, 900)" + nl + "SkipList dump:"

@@ -103,7 +103,7 @@ public class KVPair<K extends Comparable<K>, V>
         if (this == other) {
             return true;
         }
-        if (other != null) {
+        if (other == null) {
             return false;
         }
         // Check if other is an instance of a KVPair
