@@ -161,7 +161,6 @@ public class DataBase {
      */
     private void duplicates() {
         StringBuilder str = new StringBuilder();
-        str.append("Duplicate points:\n");
         str.append(quadTree.duplicates());
         str.append("\n");
         System.out.print(str.toString());
@@ -181,7 +180,7 @@ public class DataBase {
             str.append("Point not found: " + name + "\n");
         }
         else {
-            str.append(results);
+            str.append(results + "\n");
         }
         System.out.print(str.toString());
     }

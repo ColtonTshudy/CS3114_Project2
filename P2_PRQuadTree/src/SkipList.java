@@ -338,7 +338,8 @@ public class SkipList<K extends Comparable<K>, E> {
 
         // List out all nodes with key K
         while (curr != null && curr.getKey().equals(key)) {
-            stb.append(curr.toString());
+            stb.append("Found (" + curr.getKey().toString() + ", " + curr
+                .getValue().toString() + ")");
             curr = curr.getSkip(0);
 
             // Check if we need to add a line separator

@@ -134,7 +134,7 @@ public class LeafNode implements BaseNode {
      *         The duplicate, null if none
      */
     public Point findDupe() {
-        for (int i = 0; i < arrayLength - 1; i++) {
+        for (int i = 0; i < arrayLength; i++) {
             for (int j = i + 1; j < arrayLength; j++) {
                 if (dataArray[i].value().equals(dataArray[j].value())) {
                     return dataArray[i].value();

@@ -66,8 +66,16 @@ public class PRQuadTreeTest extends TestCase {
             + "  Node at 512, 0, 512:" + "\n" + "  (p5, 700, 4)" + "\n"
             + "  (p4, 700, 4)" + "\n" + "  Node at 0, 512, 512:" + "\n"
             + "  (p6, 200, 900)" + "\n" + "  Node at 512, 512, 512: Empty"
-            + "\n" + "9 quadtree nodes printed";
+            + "\n" + "5 quadtree nodes printed";
         assertEquals(tree.toString(), compare);
+        tree.remove(pair6);
+        String compare2 = "Node at 0, 0, 1024: Internal\r\n"
+            + "  Node at 0, 0, 512:\r\n" + "  (P1, 4, 4)\r\n"
+            + "  (p1, 4, 4)\r\n" + "  (p1, 4, 4)\r\n"
+            + "  Node at 512, 0, 512:\r\n" + "  (p5, 700, 4)\r\n"
+            + "  (p4, 700, 4)\r\n" + "  Node at 0, 512, 512: Empty\r\n"
+            + "  Node at 512, 512, 512: Empty\r\n" + "5 quadtree nodes printed";
+        assertEquals(tree.toString(), compare2);
     }
 
 

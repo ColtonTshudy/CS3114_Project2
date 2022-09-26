@@ -121,9 +121,9 @@ public class Point {
         int delX = x - centerX;
         int delY = y - centerY;
 
-        if (delX > 0 && delY <= 0) // North East and +x axis
+        if (delX >= 0 && delY < 0) // North East and +x axis
             return 0;
-        if (delX <= 0 && delY < 0) // North West and -y axis
+        if (delX < 0 && delY < 0) // North West and -y axis
             return 1;
         if (delX < 0) // && delY >= 0 South West and -x axis
             return 2;
