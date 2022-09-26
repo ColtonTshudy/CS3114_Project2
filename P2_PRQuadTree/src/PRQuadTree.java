@@ -217,8 +217,6 @@ public class PRQuadTree {
      *            The current node
      * @param parent
      *            The parent node of the current node
-     * @param shift
-     *            The amount to shift a new center point by
      * @return
      *         True if successful
      */
@@ -279,6 +277,10 @@ public class PRQuadTree {
      *            The point being removed
      * @param node
      *            The current node to find the point
+     * @param parent
+     *            The parent of the node
+     * @param parent2
+     *            The parent's parent
      * @return
      *         The KVPair for the point
      */
@@ -311,6 +313,10 @@ public class PRQuadTree {
      *            The point being removed
      * @param node
      *            The current node to find the point
+     * @param parent
+     *            The parent of the node
+     * @param parent2
+     *            The parent's parent
      * @return
      *         The KVPair for the point
      */
