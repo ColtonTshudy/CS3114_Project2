@@ -160,6 +160,13 @@ public class PRQuadTreeTest extends TestCase {
             + "  Node at 0, 512, 512: Empty\r\n"
             + "  Node at 512, 512, 512: Empty\r\n" + "5 quadtree nodes printed";
         assertEquals(tree.toString(), compare3);
+
+        tree.remove(point4);
+        tree.remove(point4);
+
+        String compare4 = "Node at 0, 0, 1024:\r\n" + "(P1, 4, 4)\r\n"
+            + "(p1, 4, 4)\r\n" + "1 quadtree nodes printed";
+        assertEquals(tree.toString(), compare4);
     }
 
 

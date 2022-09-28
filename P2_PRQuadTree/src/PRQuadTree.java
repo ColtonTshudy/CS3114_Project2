@@ -60,7 +60,7 @@ public class PRQuadTree {
      */
     public KVPair<String, Point> remove(Point point) {
         BaseNode node = head;
-        KVPair<String, Point> result = removeRecursive(point, node, null, null);
+        KVPair<String, Point> result = removeRecursive(point, node, null);
         if (result != null) {
             size--;
         }
@@ -78,7 +78,7 @@ public class PRQuadTree {
      */
     public KVPair<String, Point> remove(KVPair<String, Point> pair) {
         BaseNode node = head;
-        KVPair<String, Point> result = removeRecursive(pair, node, null, null);
+        KVPair<String, Point> result = removeRecursive(pair, node, null);
         if (result != null) {
             size--;
         }
@@ -277,20 +277,16 @@ public class PRQuadTree {
      *            The current node to find the point
      * @param parent
      *            The parent of the node
-     * @param parent2
-     *            The parent's parent
      * @return
      *         The KVPair for the point
      */
     private KVPair<String, Point> removeRecursive(
         Point point,
         BaseNode node,
-        InternalNode parent,
-        InternalNode parent2) {
+        InternalNode parent) {
         if (node.isLeaf()) {
             KVPair<String, Point> result = node.remove(point);
-            // if (result != null)
-            removeCollapse((LeafNode)node, parent, parent2);
+            toFlyweight((LeafNode)node, parent);
             return result;
         }
 
@@ -299,8 +295,11 @@ public class PRQuadTree {
 
         InternalNode newNode = (InternalNode)node;
         int direction = point.findQuadrant(node.getCorner(), node.getLength());
-        return removeRecursive(point, newNode.children()[direction],
-            (InternalNode)node, parent);
+        KVPair<String, Point> result = removeRecursive(point, newNode
+            .children()[direction], (InternalNode)node);
+
+        removeCollapse((InternalNode)node, parent);
+        return result;
     }
 
 
@@ -313,20 +312,16 @@ public class PRQuadTree {
      *            The current node to find the point
      * @param parent
      *            The parent of the node
-     * @param parent2
-     *            The parent's parent
      * @return
      *         The KVPair for the point
      */
     private KVPair<String, Point> removeRecursive(
         KVPair<String, Point> pair,
         BaseNode node,
-        InternalNode parent,
-        InternalNode parent2) {
+        InternalNode parent) {
         if (node.isLeaf()) {
             KVPair<String, Point> result = node.remove(pair);
-            // if (result != null)
-            removeCollapse((LeafNode)node, parent, parent2);
+            toFlyweight((LeafNode)node, parent);
             return result;
         }
 
@@ -336,8 +331,12 @@ public class PRQuadTree {
         InternalNode newNode = (InternalNode)node;
         int direction = pair.value().findQuadrant(node.getCorner(), node
             .getLength());
-        return removeRecursive(pair, newNode.children()[direction],
-            (InternalNode)node, parent);
+
+        KVPair<String, Point> result = removeRecursive(pair, newNode
+            .children()[direction], (InternalNode)node);
+
+        removeCollapse((InternalNode)node, parent);
+        return result;
     }
 
 
@@ -557,20 +556,51 @@ public class PRQuadTree {
     /**
      * Checks for and collapses the tree after a remove
      * 
-     * @param child
+     * @param node
      *            The leaf node child
      * @param parent
      *            The internal node parent
-     * @param parent2
-     *            parent's parent
      */
-    private void removeCollapse(
-        LeafNode child,
-        InternalNode parent,
-        InternalNode parent2) {
+    private void removeCollapse(InternalNode node, InternalNode parent) {
 
+        boolean collapse = true;
+        LeafNode newLeaf = new LeafNode(node.getCorner(), node.getLength());
+        for (int i = 0; i < 4; i++) {
+            if (node.children()[i].isLeaf()) {
+                LeafNode childLeaf = (LeafNode)node.children()[i];
+                for (int j = 0; j < childLeaf.getSize(); j++) {
+                    collapse = newLeaf.insert(childLeaf.dataArray()[j]);
+                }
+            }
+            else if (!node.children()[i].isFlyweight()) { // Is an internal node
+                i = 4; // end loop
+                collapse = false;
+            }
+        }
+        if (collapse) {
+            if (parent == null) {
+                head = newLeaf;
+            }
+            else {
+                int nodeDirect = node.getCorner().findQuadrant(parent
+                    .getCorner(), parent.getLength());
+                parent.children()[nodeDirect] = newLeaf;
+            }
+        }
+    }
+
+
+    /**
+     * Checks if a leafNode is empty, if so turns into a flyweight
+     * 
+     * @param child
+     *            The child leaf node
+     * @param parent
+     *            The parent of the leaf node
+     */
+    private void toFlyweight(LeafNode child, InternalNode parent) {
         if (child.getSize() == 0) { // Makes an empty child node a flyweight
-                                    // node
+            // node
             FlyweightNode newNode = new FlyweightNode(child.getCorner(), child
                 .getLength());
             if (parent == null)
@@ -579,29 +609,6 @@ public class PRQuadTree {
                 int nodeDirect = child.getCorner().findQuadrant(parent
                     .getCorner(), parent.getLength());
                 parent.children()[nodeDirect] = newNode;
-            }
-        }
-        if (parent != null) {
-            boolean collapse = true;
-            LeafNode newLeaf = new LeafNode(parent.getCorner(), parent
-                .getLength());
-            for (int i = 0; i < 4; i++) {
-                if (parent.children()[i].isLeaf()) {
-                    LeafNode childLeaf = (LeafNode)parent.children()[i];
-                    for (int j = 0; j < childLeaf.getSize(); j++) {
-                        collapse = newLeaf.insert(childLeaf.dataArray()[j]);
-                    }
-                }
-            }
-            if (collapse) {
-                if (parent2 == null) { // parent is head
-                    head = newLeaf;
-                }
-                else {
-                    int nodeDirect = parent.getCorner().findQuadrant(parent2
-                        .getCorner(), parent2.getLength());
-                    parent2.children()[nodeDirect] = newLeaf;
-                }
             }
         }
     }
